@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="controllers.Ajoutertrajetcontroller"
+            prefHeight="600.0" prefWidth="400.0"
+            styleClass="root">
+
+    <VBox alignment="CENTER" spacing="15" AnchorPane.topAnchor="50.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0">
+        <Label text="Ajouter un Trajet" style="-fx-font-size: 24px; -fx-text-fill: white;" />
+
+        <TextField fx:id="departField" promptText="Ville de départ" />
+        <TextField fx:id="destinationField" promptText="Ville d’arrivée" />
+        <DatePicker fx:id="dateField" />
+        <TextField fx:id="heureField" promptText="Heure (ex: 14:30)" />
+
+        <Button text="Ajouter" onAction="#ajouterTrajet" fx:id="ajouterButton"/>
+    </VBox>
+
+</AnchorPane>
