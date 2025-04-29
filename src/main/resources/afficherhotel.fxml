@@ -1,8 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
+<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.AnchorPane?>
-
-
-<AnchorPane prefHeight="408.0" prefWidth="606.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.afficherhotelcontroller">
-
+<?import javafx.scene.layout.VBox?>
+<AnchorPane prefHeight="450.0" prefWidth="700.0"
+            xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="controllers.AfficherHotelController"
+            stylesheets="@style.css">
+    <children>
+        <VBox spacing="10.0" layoutX="20.0" layoutY="20.0">
+            <children>
+                <!-- Bouton Ajouter -->
+                <Button text="Ajouter Hôtel" fx:id="btnAjouter" onAction="#ajouterHotel"/>
+                <!-- Table des hôtels -->
+                <TableView fx:id="tableView" prefWidth="650.0" prefHeight="350.0">
+                    <columns>
+                        <TableColumn fx:id="nomCol" text="Nom" prefWidth="120.0"/>
+                        <TableColumn fx:id="prixParNuitCol" text="Prix/Nuit" prefWidth="80.0"/>
+                        <TableColumn fx:id="nombreNuitsCol" text="Nb Nuits" prefWidth="80.0"/>
+                        <TableColumn fx:id="standingCol" text="Standing" prefWidth="100.0"/>
+                        <TableColumn fx:id="adresseCol" text="Adresse" prefWidth="120.0"/>
+                        <TableColumn fx:id="actionCol" text="Actions" prefWidth="150.0"/>
+                    </columns>
+                </TableView>
+            </children>
+        </VBox>
+    </children>
 </AnchorPane>

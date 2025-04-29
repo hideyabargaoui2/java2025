@@ -3,7 +3,7 @@ package projet.java;
 
 import models.hotel;
 import models.reshotel;
-import service.hotelservice;
+
 import service.reshotelservice;
 import utils.Maconnection;
 
