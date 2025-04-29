@@ -1,17 +1,32 @@
 package org.example;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+import javafx.scene.control.Menu;
+import models.Restaurant;
+import services.MenuService;
+import services.RestaurantServices;
+
+import java.sql.SQLException;
+
 public class Main {
     public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
+        // Création des objets nécessaires
+        RestaurantServices restaurantServices = new RestaurantServices();
+        Restaurant restaurant = new Restaurant();
+        MenuService menuService = new MenuService();
+        Menu menu = new Menu();
 
-        for (int i = 1; i <= 5; i++) {
-            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-            System.out.println("i = " + i);
+        // Bloc try-catch pour récupérer et afficher les restaurants
+        try {
+            System.out.println(restaurantServices.getAll());
+            System.out.println(menuService.getAll());
+        } catch (SQLException e) {
+            System.err.println("Erreur lors de la récupération des restaurants : " + e.getMessage());
+            System.err.println("Erreur lors de la récupération du menu : " + e.getMessage());
         }
+        /*try {
+            System.out.println(menuService.getAll());
+        } catch (SQLException e) {
+            System.err.println("Erreur lors de la récupération des menus : " + e.getMessage());
+        }*/
     }
 }

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="550.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AjouterMenu">
+    <children>
+        <TextField fx:id="TFname" layoutX="200.0" layoutY="40.0" prefHeight="30.0" prefWidth="300.0" promptText="Nom du plat" />
+        <Label layoutX="50.0" layoutY="44.0" text="Nom du plat" />
+
+        <TextField fx:id="TFprix" layoutX="200.0" layoutY="90.0" prefHeight="30.0" prefWidth="300.0" promptText="Prix" />
+        <Label layoutX="50.0" layoutY="95.0" text="Prix" />
+
+        <TextArea fx:id="TFdesc" layoutX="200.0" layoutY="140.0" prefHeight="100.0" prefWidth="300.0" promptText="Description" />
+        <Label layoutX="50.0" layoutY="170.0" text="Description" />
+
+        <ComboBox fx:id="TFnomresto" layoutX="200.0" layoutY="260.0" prefHeight="30.0" prefWidth="300.0" promptText="Choisir un Restaurant" />
+        <Label layoutX="50.0" layoutY="265.0" text="Restaurant" />
+
+        <Button fx:id="addrmenu" layoutX="420.0" layoutY="310.0" mnemonicParsing="false" onAction="#ajouter" text="Ajouter Menu" />
+
+        <Separator layoutX="20.0" layoutY="360.0" prefWidth="650.0" />
+
+        <ComboBox fx:id="comboMenus" layoutX="200.0" layoutY="390.0" prefHeight="30.0" prefWidth="300.0" promptText="Choisir un Menu à supprimer" />
+        <Label layoutX="50.0" layoutY="395.0" text="Menu à Supprimer" />
+
+        <Button fx:id="deletemenu" layoutX="420.0" layoutY="440.0" mnemonicParsing="false" onAction="#supprimer" text="Supprimer Menu" />
+
+        <!-- Nouveau bouton pour aller vers Afficher Menu -->
+        <Button fx:id="afficherMenus" layoutX="200.0" layoutY="500.0" mnemonicParsing="false" onAction="#afficherMenus" text="Afficher Menus" />
+    </children>
+</AnchorPane>
