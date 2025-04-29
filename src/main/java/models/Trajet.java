@@ -1,9 +1,12 @@
 package models;
 
+import java.time.LocalDateTime;
+import java.util.Date;
+
 public class Trajet {
     private int id;
-    private String date;
-    private String heure;
+    private LocalDateTime date;
+    private int heure;
     private String destination;
     private  String transport;
     private int duree ;
@@ -11,7 +14,7 @@ public class Trajet {
     public Trajet() {
     }
 
-    public Trajet(int id, String date, String heure, String destination, String transport, int duree) {
+    public Trajet(int id, LocalDateTime date, int heure, String destination, String transport, int duree) {
         this.id = id;
         this.date = date;
         this.heure = heure;
@@ -20,7 +23,7 @@ public class Trajet {
         this.duree = duree;
     }
 
-    public Trajet(String date, String heure, String destination, String transport, int duree) {
+    public Trajet(LocalDateTime date, int heure, String destination, String transport, int duree) {
         this.date = date;
         this.heure = heure;
         this.destination = destination;
@@ -36,19 +39,19 @@ public class Trajet {
         this.id = id;
     }
 
-    public String getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 
-    public String getHeure() {
+    public int getHeure() {
         return heure;
     }
 
-    public void setHeure(String heure) {
+    public void setHeure(int heure) {
         this.heure = heure;
     }
 

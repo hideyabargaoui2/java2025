@@ -1,17 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
 
+<AnchorPane prefHeight="450.0" prefWidth="700.0"
+            xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="controllers.AfficherTrajetController"
+            stylesheets="@style.css">
 
-<AnchorPane prefHeight="471.0" prefWidth="693.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.Affichertrajetcontroller">
    <children>
-      <AnchorPane layoutX="-1.0" prefHeight="474.0" prefWidth="693.0" style="-fx-background-size: cover; -fx-background-color: #D6F1FF;" />
-      <ImageView fitHeight="70.0" fitWidth="66.0" layoutX="21.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../../../../Downloads/d901435b-f02b-4249-baf3-28e1f8b3950c.jpg" />
-         </image>
-      </ImageView>
+      <VBox spacing="10.0" layoutX="20.0" layoutY="20.0">
+         <children>
+
+            <!-- Bouton Ajouter -->
+            <Button text="Ajouter Trajet" fx:id="btnAjouter" onAction="#ajouterTrajet"/>
+
+            <!-- Table des trajets -->
+            <TableView fx:id="tableView" prefWidth="650.0" prefHeight="350.0">
+               <columns>
+                  <TableColumn fx:id="dateCol" text="Date" prefWidth="120.0"/>
+                  <TableColumn fx:id="heureCol" text="Heure" prefWidth="60.0"/>
+                  <TableColumn fx:id="destinationCol" text="Destination" prefWidth="120.0"/>
+                  <TableColumn fx:id="transportCol" text="Transport" prefWidth="120.0"/>
+                  <TableColumn fx:id="dureeCol" text="Durée" prefWidth="60.0"/>
+                  <TableColumn fx:id="actionCol" text="Actions" prefWidth="170.0"/>
+               </columns>
+            </TableView>
+
+         </children>
+      </VBox>
    </children>
 </AnchorPane>

@@ -17,7 +17,7 @@ public class Transportservice implements Iservice<Transport>{
         connection = Maconnexion.getInstance().getConnection();
     }
     @Override
-    public void ajouter(Transport transport) {
+    public boolean ajouter(Transport transport) {
         String sql = "INSERT INTO `transport`(`type`, `compagnie`, `prix`) " +
                 "VALUES ('" + transport.getType() + "','" + transport.getCompagnie() + "','" + transport.getPrix() + "')";
 
@@ -29,6 +29,7 @@ public class Transportservice implements Iservice<Transport>{
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
+        return false;
     }
     @Override
     public void modifier(Transport transport) {

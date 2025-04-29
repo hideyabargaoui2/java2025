@@ -12,7 +12,7 @@ public class MainFX extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-
+/*
     @Override
     public void start(Stage primaryStage) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/ajoutertrajet.fxml"));
@@ -26,6 +26,20 @@ public class MainFX extends Application {
             throw new RuntimeException(e);
         }
 
+    }*/
+@Override
+public void start(Stage primaryStage) {
+    try {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/AfficherTrajet.fxml"));
+        Parent root = loader.load();
+        Scene scene = new Scene(root);
+        primaryStage.setScene(scene);
+        primaryStage.setTitle("Liste des trajets");
+        primaryStage.show();
+    } catch (IOException e) {
+        e.printStackTrace();
     }
+}
+
 
 }

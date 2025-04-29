@@ -1,36 +1,90 @@
+/* Styles pour la gestion des trajets */
+
+/* Style général pour le fond */
 .root {
-    -fx-background-color: red;
-    -fx-background-image: url("images/scenevalid.webp");
-    -fx-background-size: cover;
-    -fx-background-repeat: no-repeat;
-    -fx-background-position: center center;
+    -fx-background-color: #90bae6;
     -fx-font-family: "Arial";
 }
 
-.label {
-    -fx-text-fill: white;
-    -fx-font-size: 18px;
-    -fx-font-weight: bold;
-}
-
-.text-field, .date-picker {
-    -fx-background-color: rgba(255, 255, 255, 0.6);
-    -fx-border-color: #D6F1FF;
-    -fx-border-radius: 8;
-    -fx-background-radius: 8;
-    -fx-padding: 8px;
-}
-
+/* Style pour les boutons */
 .button {
-    -fx-background-color: rgba(214, 241, 255, 0.8);
-    -fx-text-fill: #003344;
+    -fx-background-color: #2d698e;
+    -fx-text-fill: white;
     -fx-font-weight: bold;
-    -fx-background-radius: 8;
-    -fx-border-radius: 8;
     -fx-cursor: hand;
-    -fx-padding: 8px 16px;
+    -fx-padding: 8px 15px;
+    -fx-background-radius: 5px;
 }
 
 .button:hover {
-    -fx-background-color: rgba(179, 232, 245, 0.9);
+    -fx-background-color: #b5d1ed;
+}
+
+/* Style pour le bouton ajouter */
+#btnAjouter {
+    -fx-background-color: #0f65cf;
+    -fx-font-size: 14px;
+}
+
+#btnAjouter:hover {
+    -fx-background-color: #0c6732;
+}
+
+/* Styles pour les boutons d'action */
+.btn-edit {
+    -fx-background-color: #ac6a1e;
+    -fx-text-fill: white;
+    -fx-font-size: 11px;
+    -fx-padding: 4px 8px;
+}
+
+.btn-delete {
+    -fx-background-color: #dc3545;
+    -fx-text-fill: white;
+    -fx-font-size: 11px;
+    -fx-padding: 4px 8px;
+}
+
+.btn-edit:hover {
+    -fx-background-color: #ffb732;
+}
+
+.btn-delete:hover {
+    -fx-background-color: #e45c6b;
+}
+
+/* Style pour le tableau */
+.table-view {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #dcdcdc;
+    -fx-border-width: 1px;
+}
+
+.table-view .column-header {
+    -fx-background-color: #4682b4;
+    -fx-text-fill: white;
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+/* Style pour les lignes du tableau */
+.table-row-cell {
+    -fx-background-color: #ffffff;
+}
+
+.table-row-cell:odd {
+    -fx-background-color: #f5f5f5;
+}
+
+.table-row-cell:hover {
+    -fx-background-color: #dae8f5;
+}
+
+/* Message affiché quand le tableau est vide */
+.table-view .placeholder .label {
+    -fx-text-fill: #555555;
+    -fx-font-style: italic;
 }

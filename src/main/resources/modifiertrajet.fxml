@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
+
+<AnchorPane prefHeight="400.0" prefWidth="500.0"
+            xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="controllers.Modifiertrajetcontroller"
+            stylesheets="@style.css">
+    <children>
+        <VBox spacing="15.0" alignment="CENTER" layoutX="20.0" layoutY="20.0" prefWidth="460.0">
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20"/>
+            </padding>
+            <children>
+                <Label text="Modifier un Trajet" styleClass="titre"/>
+
+                <HBox spacing="10.0">
+                    <Label text="Date:" prefWidth="100.0" alignment="CENTER_RIGHT"/>
+                    <DatePicker fx:id="datePicker" prefWidth="250.0"/>
+                </HBox>
+
+                <HBox spacing="10.0">
+                    <Label text="Heure:" prefWidth="100.0" alignment="CENTER_RIGHT"/>
+                    <TextField fx:id="heureField" prefWidth="250.0" promptText="Entrez l'heure (en nombre)"/>
+                </HBox>
+
+                <HBox spacing="10.0">
+                    <Label text="Destination:" prefWidth="100.0" alignment="CENTER_RIGHT"/>
+                    <TextField fx:id="destinationField" prefWidth="250.0" promptText="Entrez la destination"/>
+                </HBox>
+
+                <HBox spacing="10.0">
+                    <Label text="Transport:" prefWidth="100.0" alignment="CENTER_RIGHT"/>
+                    <ComboBox fx:id="transportComboBox" prefWidth="250.0" promptText="Sélectionnez le mode de transport">
+                        <items>
+                            <FXCollections fx:factory="observableArrayList">
+                                <String fx:value="Voiture"/>
+                                <String fx:value="Train"/>
+                                <String fx:value="Bus"/>
+                                <String fx:value="Avion"/>
+                                <String fx:value="Bateau"/>
+                                <String fx:value="Autre"/>
+                            </FXCollections>
+                        </items>
+                    </ComboBox>
+                </HBox>
+
+                <HBox spacing="10.0">
+                    <Label text="Durée:" prefWidth="100.0" alignment="CENTER_RIGHT"/>
+                    <TextField fx:id="dureeField" prefWidth="250.0" promptText="Entrez la durée (en minutes)"/>
+                </HBox>
+
+                <HBox spacing="20.0" alignment="CENTER">
+                    <padding>
+                        <Insets top="10" right="10" bottom="10" left="10"/>
+                    </padding>
+                    <Button fx:id="btnConfirmer" text="Confirmer" onAction="#confirmerModification"/>
+                    <Button fx:id="btnAnnuler" text="Annuler" onAction="#annulerModification"/>
+                </HBox>
+            </children>
+        </VBox>
+    </children>
+</AnchorPane>
