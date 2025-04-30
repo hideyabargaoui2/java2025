@@ -218,6 +218,32 @@ public class AfficherTrajetController {
     @FXML
     private void ajouterTrajet() {
         System.out.println("Ajouter un trajet cliqué !");
-        // Ici tu peux ouvrir un nouveau formulaire pour ajouter
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ajoutertrajet.fxml"));
+            Parent root = loader.load();
+
+            // Si tu veux passer des infos au contrôleur, tu peux les obtenir ici :
+            // AjouterTrajetController controller = loader.getController();
+
+            Stage stage = new Stage();
+            stage.setTitle("Ajouter un nouveau trajet");
+            stage.setScene(new Scene(root));
+            stage.initModality(Modality.APPLICATION_MODAL); // Pour bloquer la fenêtre principale
+            stage.showAndWait(); // Attend la fermeture de la fenêtre
+
+            // Recharger la table après l'ajout éventuel
+            loadData();
+
+        } catch (IOException e) {
+            System.out.println("Erreur lors de l'ouverture de la fenêtre d'ajout : " + e.getMessage());
+            e.printStackTrace();
+
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erreur");
+            alert.setHeaderText("Impossible d'ouvrir le formulaire");
+            alert.setContentText("Erreur : " + e.getMessage());
+            alert.showAndWait();
+        }
     }
+
 }
