@@ -1,73 +1,55 @@
-<?xml version="1.0" encoding="UTF-8"?> <?import javafx.scene.control.*?> <?import javafx.scene.layout.*?> <?import javafx.geometry.*?> <?import javafx.scene.text.*?> <?import javafx.scene.effect.*?>
-<AnchorPane xmlns="http://javafx.com/javafx"
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<AnchorPane prefHeight="400.0" prefWidth="500.0"
+            xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="controllers.AjouterHotelController"
-            prefHeight="500.0" prefWidth="700.0"
-            style="-fx-background-color:
-#d4f1ff;"
             stylesheets="@style.css">
-   <VBox alignment="CENTER" spacing="30"
-         AnchorPane.topAnchor="20.0"
-         AnchorPane.leftAnchor="50.0"
-         AnchorPane.rightAnchor="50.0"
-         AnchorPane.bottomAnchor="20.0">
-      <!-- Titre -->
-      <Label text="Ajouter un Hôtel"
-             style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill:
-#0066a4;">
-      </Label>
-      <!-- Formulaire -->
-      <VBox spacing="15" alignment="CENTER">
-         <!-- Nom -->
-         <HBox spacing="10" alignment="CENTER">
-            <Label text="Nom:" style="-fx-font-size: 14px; -fx-min-width: 120;" alignment="CENTER_RIGHT" />
-            <TextField fx:id="nomField" promptText="Nom de l'hôtel"
-                       style="-fx-background-radius: 5;"
-                       HBox.hgrow="ALWAYS" />
-         </HBox>
-         <!-- Prix par nuit -->
-         <HBox spacing="10" alignment="CENTER">
-            <Label text="Prix par nuit:" style="-fx-font-size: 14px; -fx-min-width: 120;" alignment="CENTER_RIGHT" />
-            <TextField fx:id="prixParNuitField" promptText="Prix par nuit"
-                       style="-fx-background-radius: 5;"
-                       HBox.hgrow="ALWAYS" />
-         </HBox>
-         <!-- Nombre de nuits -->
-         <HBox spacing="10" alignment="CENTER">
-            <Label text="Nombre de nuits:" style="-fx-font-size: 14px; -fx-min-width: 120;" alignment="CENTER_RIGHT" />
-            <TextField fx:id="nombreNuitsField" promptText="Nombre de nuits"
-                       style="-fx-background-radius: 5;"
-                       HBox.hgrow="ALWAYS" />
-         </HBox>
-         <!-- Standing -->
-         <HBox spacing="10" alignment="CENTER">
-            <Label text="Standing:" style="-fx-font-size: 14px; -fx-min-width: 120;" alignment="CENTER_RIGHT" />
-            <TextField fx:id="standingField" promptText="Standing (ex: 5 étoiles)"
-                       style="-fx-background-radius: 5;"
-                       HBox.hgrow="ALWAYS" />
-         </HBox>
-         <!-- Adresse -->
-         <HBox spacing="10" alignment="CENTER">
-            <Label text="Adresse:" style="-fx-font-size: 14px; -fx-min-width: 120;" alignment="CENTER_RIGHT" />
-            <TextField fx:id="adresseField" promptText="Adresse complète"
-                       style="-fx-background-radius: 5;"
-                       HBox.hgrow="ALWAYS" />
-         </HBox>
-         <!-- Bouton -->
-         <HBox alignment="CENTER" spacing="15">
-            <padding>
-               <Insets top="20" right="0" bottom="0" left="0" />
-            </padding>
-            <Button text="Ajouter" fx:id="ajouterButton" onAction="#ajouterHotel"
-                    style="-fx-background-color:
-#d4d4d4; -fx-text-fill: black; -fx-background-radius: 5;"
-                    prefWidth="100">
-               <padding>
-                  <Insets top="5" right="10" bottom="5" left="10" />
-               </padding>
-            </Button>
-         </HBox>
-      </VBox>
-   </VBox>
-</AnchorPane>
+   <children>
+      <VBox spacing="15.0" alignment="CENTER" layoutX="20.0" layoutY="20.0" prefWidth="460.0">
+         <padding>
+            <Insets top="20" right="20" bottom="20" left="20"/>
+         </padding>
+         <children>
+            <Label text="Ajouter un Hôtel" styleClass="titre"/>
 
+            <HBox spacing="10.0">
+               <Label text="Nom:" prefWidth="100.0" alignment="CENTER_RIGHT"/>
+               <TextField fx:id="nomField" prefWidth="250.0" promptText="Entrez le nom"/>
+            </HBox>
+
+            <HBox spacing="10.0">
+               <Label text="Prix/Nuit:" prefWidth="100.0" alignment="CENTER_RIGHT"/>
+               <TextField fx:id="prixNuitField" prefWidth="250.0" promptText="Entrez le prix par nuit"/>
+            </HBox>
+
+            <HBox spacing="10.0">
+               <Label text="Nombre de Nuits:" prefWidth="100.0" alignment="CENTER_RIGHT"/>
+               <TextField fx:id="nombreNuitField" prefWidth="250.0" promptText="Entrez le nombre de nuits"/>
+            </HBox>
+
+            <HBox spacing="10.0">
+               <Label text="Standing:" prefWidth="100.0" alignment="CENTER_RIGHT"/>
+               <TextField fx:id="standingField" prefWidth="250.0" promptText="Entrez le standing"/>
+            </HBox>
+
+            <HBox spacing="10.0">
+               <Label text="Adresse:" prefWidth="100.0" alignment="CENTER_RIGHT"/>
+               <TextField fx:id="adresseField" prefWidth="250.0" promptText="Entrez l'adresse"/>
+            </HBox>
+
+            <HBox spacing="20.0" alignment="CENTER">
+               <padding>
+                  <Insets top="10" right="10" bottom="10" left="10"/>
+               </padding>
+               <Button fx:id="btnConfirmer" text="Confirmer" onAction="#confirmerAjout"/>
+               <Button fx:id="btnAnnuler" text="Annuler" onAction="#annulerAjout"/>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

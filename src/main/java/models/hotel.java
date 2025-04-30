@@ -3,31 +3,19 @@ package models;
 public class hotel {
     private int id;
     private String nom;
-    private double prixParNuit;
-    private int nombreNuits;
+    private double prixnuit;
+    private int nombrenuit;
     private String standing;
     private String adresse;
-
-
 
     public hotel() {
     }
 
-
-    public hotel(int id, String nom, double prixParNuit, int nombreNuits, String standing, String adresse) {
+    public hotel(int id, String nom, double prixnuit, int nombrenuit, String standing, String adresse) {
         this.id = id;
         this.nom = nom;
-        this.prixParNuit = prixParNuit;
-        this.nombreNuits = nombreNuits;
-        this.standing = standing;
-        this.adresse = adresse;
-    }
-
-
-    public hotel(String nom, double prixParNuit, int nombreNuits, String standing, String adresse) {
-        this.nom = nom;
-        this.prixParNuit = prixParNuit;
-        this.nombreNuits = nombreNuits;
+        this.prixnuit = prixnuit;
+        this.nombrenuit = nombrenuit;
         this.standing = standing;
         this.adresse = adresse;
     }
@@ -48,20 +36,20 @@ public class hotel {
         this.nom = nom;
     }
 
-    public double getPrixParNuit() {
-        return prixParNuit;
+    public double getPrixnuit() {
+        return prixnuit;
     }
 
-    public void setPrixParNuit(double prixParNuit) {
-        this.prixParNuit = prixParNuit;
+    public void setPrixnuit(double prixnuit) {
+        this.prixnuit = prixnuit;
     }
 
-    public int getNombreNuits() {
-        return nombreNuits;
+    public int getNombrenuit() {
+        return nombrenuit;
     }
 
-    public void setNombreNuits(int nombreNuits) {
-        this.nombreNuits = nombreNuits;
+    public void setNombrenuit(int nombrenuit) {
+        this.nombrenuit = nombrenuit;
     }
 
     public String getStanding() {
@@ -85,11 +73,10 @@ public class hotel {
         return "hotel{" +
                 "id=" + id +
                 ", nom='" + nom + '\'' +
-                ", prixParNuit=" + prixParNuit +
-                ", nombreNuits=" + nombreNuits +
+                ", prixnuit=" + prixnuit +
+                ", nombrenuit=" + nombrenuit +
                 ", standing='" + standing + '\'' +
                 ", adresse='" + adresse + '\'' +
                 '}';
     }
 }
-

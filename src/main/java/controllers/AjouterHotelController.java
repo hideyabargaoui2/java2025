@@ -1,126 +1,137 @@
 package controllers;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.TextField;
-import javafx.scene.control.Button;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 import models.hotel;
+import service.HotelService;
 
 public class AjouterHotelController {
 
-    @FXML
-    private TextField nomField;
+    @FXML private TextField nomField;
+    @FXML private TextField prixNuitField;
+    @FXML private TextField nombreNuitField;
+    @FXML private TextField standingField;
+    @FXML private TextField adresseField;
+    @FXML private Button btnConfirmer;
+    @FXML private Button btnAnnuler;
+
+    private final HotelService hotelService = new HotelService();
+    private AfficherHotelController parentController;
 
     @FXML
-    private TextField prixParNuitField;
+    public void initialize() {
+        System.out.println("Initialisation du AjouterHotelController");
+        // Vérification que les champs et boutons sont correctement injectés
+        if (nomField == null || prixNuitField == null || nombreNuitField == null ||
+                standingField == null || adresseField == null || btnConfirmer == null || btnAnnuler == null) {
+            System.err.println("Erreur: un ou plusieurs éléments FXML n'ont pas été injectés correctement");
+        }
 
-    @FXML
-    private TextField nombreNuitsField;
+        // Configuration explicite des événements boutons
+        if (btnConfirmer != null) {
+            btnConfirmer.setOnAction(event -> confirmerAjout());
+        }
 
-    @FXML
-    private TextField standingField;
+        if (btnAnnuler != null) {
+            btnAnnuler.setOnAction(event -> annulerAjout());
+        }
+    }
 
-    @FXML
-    private TextField adresseField;
-
-    @FXML
-    private Button ajouterButton;
-
-    @FXML
-    private void initialize() {
-        // Initialisation si nécessaire
+    public void setParentController(AfficherHotelController controller) {
+        this.parentController = controller;
     }
 
     @FXML
-    private void ajouterHotel() {
-        if (!validateFields()) return;  // Validation des champs
-
+    public void confirmerAjout() {
         try {
-            // Création de l'hôtel
-            hotel h = new hotel(
-                    nomField.getText().trim(),
-                    Double.parseDouble(prixParNuitField.getText().trim()),
-                    Integer.parseInt(nombreNuitsField.getText().trim()),
-                    standingField.getText().trim(),
-                    adresseField.getText().trim()
-            );
+            System.out.println("Confirmation de l'ajout d'un hôtel");
+            // Récupérer les valeurs des champs
+            String nom = nomField.getText();
 
-            // Ajout de l'hôtel
-            service.hotelservice hs = new service.hotelservice();
-            hs.ajouter(h);
-            showSuccessAlert("Hôtel ajouté avec succès!");
+            // Validation des valeurs numériques avec messages d'erreur spécifiques
+            double prixNuit;
+            try {
+                prixNuit = Double.parseDouble(prixNuitField.getText());
+                if (prixNuit <= 0) {
+                    afficherAlerte("Le prix par nuit doit être supérieur à zéro.");
+                    return;
+                }
+            } catch (NumberFormatException e) {
+                afficherAlerte("Veuillez entrer un nombre valide pour le prix par nuit.");
+                return;
+            }
 
-            // Fermer la fenêtre
-            ((Stage) ajouterButton.getScene().getWindow()).close();
+            int nombreNuit;
+            try {
+                nombreNuit = Integer.parseInt(nombreNuitField.getText());
+                if (nombreNuit <= 0) {
+                    afficherAlerte("Le nombre de nuits doit être supérieur à zéro.");
+                    return;
+                }
+            } catch (NumberFormatException e) {
+                afficherAlerte("Veuillez entrer un nombre entier valide pour le nombre de nuits.");
+                return;
+            }
+
+            String standing = standingField.getText();
+            String adresse = adresseField.getText();
+
+            // Validation des champs
+            if (nom.isEmpty() || standing.isEmpty() || adresse.isEmpty()) {
+                afficherAlerte("Veuillez remplir tous les champs.");
+                return;
+            }
+
+            // Créer un nouvel objet hôtel
+            hotel nouveauHotel = new hotel(0, nom, prixNuit, nombreNuit, standing, adresse);
+            System.out.println("Nouvel hôtel à ajouter: " + nouveauHotel);
+
+            // Ajouter l'hôtel à la base de données
+            boolean success = hotelService.ajouter(nouveauHotel);
+            System.out.println("Résultat de l'ajout: " + success);
+
+            if (success) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Succès");
+                alert.setHeaderText(null);
+                alert.setContentText("Hôtel ajouté avec succès.");
+                alert.showAndWait();
+
+                // Mettre à jour l'affichage dans le contrôleur parent
+                if (parentController != null) {
+                    parentController.loadData();
+                } else {
+                    System.err.println("Erreur: parentController est null");
+                }
+
+                // Fermer la fenêtre
+                fermerFenetre();
+            } else {
+                afficherAlerte("Erreur lors de l'ajout de l'hôtel.");
+            }
 
         } catch (Exception e) {
-            showAlert("Erreur SQL", e.getMessage());
+            e.printStackTrace();
+            afficherAlerte("Erreur inattendue lors de l'ajout : " + e.getMessage());
         }
     }
 
-    private void showAlert(String title, String message) {
+    @FXML
+    public void annulerAjout() {
+        fermerFenetre();
+    }
+
+    private void fermerFenetre() {
+        Stage stage = (Stage) btnAnnuler.getScene().getWindow();
+        stage.close();
+    }
+
+    private void afficherAlerte(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle(title);
+        alert.setTitle("Erreur");
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
-    }
-
-    private void showSuccessAlert(String message) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Succès");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
-
-    private boolean validateFields() {
-        StringBuilder errors = new StringBuilder();
-
-        if (nomField.getText().trim().isEmpty()) {
-            errors.append("- Le nom de l'hôtel est requis.\n");
-        }
-
-        if (prixParNuitField.getText().trim().isEmpty()) {
-            errors.append("- Le prix par nuit est requis.\n");
-        } else {
-            try {
-                double prix = Double.parseDouble(prixParNuitField.getText().trim());
-                if (prix <= 0) {
-                    errors.append("- Le prix par nuit doit être un nombre positif.\n");
-                }
-            } catch (NumberFormatException e) {
-                errors.append("- Prix par nuit invalide (doit être un nombre).\n");
-            }
-        }
-
-        if (nombreNuitsField.getText().trim().isEmpty()) {
-            errors.append("- Le nombre de nuits est requis.\n");
-        } else {
-            try {
-                int nuits = Integer.parseInt(nombreNuitsField.getText().trim());
-                if (nuits <= 0) {
-                    errors.append("- Le nombre de nuits doit être un nombre positif.\n");
-                }
-            } catch (NumberFormatException e) {
-                errors.append("- Nombre de nuits invalide (doit être un nombre entier).\n");
-            }
-        }
-
-        if (standingField.getText().trim().isEmpty()) {
-            errors.append("- Le standing est requis.\n");
-        }
-
-        if (adresseField.getText().trim().isEmpty()) {
-            errors.append("- L'adresse est requise.\n");
-        }
-
-        if (errors.length() > 0) {
-            showAlert("Erreur de validation", errors.toString());
-            return false;
-        }
-
-        return true;
     }
 }
