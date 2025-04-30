@@ -1,14 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
+<AnchorPane prefHeight="400.0" prefWidth="500.0"
+            xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="controllers.Modifiertransportcontroller"
-            prefHeight="400.0" prefWidth="600.0">
+            fx:controller="controllers.ModifierTransportController"
+            stylesheets="@style.css">
+    <children>
+        <VBox spacing="15.0" alignment="CENTER" layoutX="20.0" layoutY="20.0" prefWidth="460.0">
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20"/>
+            </padding>
+            <children>
+                <Label text="Modifier un Transport" styleClass="titre"/>
 
+                <HBox spacing="10.0">
+                    <Label text="Type:" prefWidth="100.0" alignment="CENTER_RIGHT"/>
+                    <ComboBox fx:id="typeComboBox" prefWidth="250.0" promptText="Sélectionnez le type de transport">
+                        <items>
+                            <FXCollections fx:factory="observableArrayList">
+                                <String fx:value="Voiture"/>
+                                <String fx:value="Train"/>
+                                <String fx:value="Bus"/>
+                                <String fx:value="Avion"/>
+                                <String fx:value="Bateau"/>
+                                <String fx:value="Autre"/>
+                            </FXCollections>
+                        </items>
+                    </ComboBox>
+                </HBox>
+
+                <HBox spacing="10.0">
+                    <Label text="Compagnie:" prefWidth="100.0" alignment="CENTER_RIGHT"/>
+                    <TextField fx:id="compagnieField" prefWidth="250.0" promptText="Entrez le nom de la compagnie"/>
+                </HBox>
+
+                <HBox spacing="10.0">
+                    <Label text="Prix:" prefWidth="100.0" alignment="CENTER_RIGHT"/>
+                    <TextField fx:id="prixField" prefWidth="250.0" promptText="Entrez le prix"/>
+                </HBox>
+
+                <HBox spacing="20.0" alignment="CENTER">
+                    <padding>
+                        <Insets top="10" right="10" bottom="10" left="10"/>
+                    </padding>
+                    <Button fx:id="btnConfirmer" text="Confirmer" onAction="#confirmerModification"/>
+                    <Button fx:id="btnAnnuler" text="Annuler" onAction="#annulerModification"/>
+                </HBox>
+            </children>
+        </VBox>
+    </children>
 </AnchorPane>
