@@ -27,11 +27,11 @@ public class MainFX extends Application {
         }
 
     }*/
-    /*
+
 @Override
 public void start(Stage primaryStage) {
     try {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/AfficherTrajet.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Affichertransport.fxml"));
         Parent root = loader.load();
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
@@ -40,8 +40,8 @@ public void start(Stage primaryStage) {
     } catch (IOException e) {
         e.printStackTrace();
     }
-}*/
 
+}/*
     @Override
     public void start(Stage primaryStage) {
         try {
@@ -54,5 +54,5 @@ public void start(Stage primaryStage) {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
+    }*/
 }

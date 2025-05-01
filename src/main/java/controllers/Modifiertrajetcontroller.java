@@ -12,13 +12,20 @@ import java.time.LocalTime;
 
 public class Modifiertrajetcontroller {
 
-    @FXML private DatePicker datePicker;
-    @FXML private TextField heureField;
-    @FXML private TextField destinationField;
-    @FXML private ComboBox<String> transportComboBox;
-    @FXML private TextField dureeField;
-    @FXML private Button btnConfirmer;
-    @FXML private Button btnAnnuler;
+    @FXML
+    private DatePicker datePicker;
+    @FXML
+    private TextField heureField;
+    @FXML
+    private TextField destinationField;
+    @FXML
+    private ComboBox<String> transportComboBox;
+    @FXML
+    private TextField dureeField;
+    @FXML
+    private Button btnConfirmer;
+    @FXML
+    private Button btnAnnuler;
 
     private Trajet trajet;
     private final Trajetservice trajetService = new Trajetservice();
@@ -30,10 +37,26 @@ public class Modifiertrajetcontroller {
     @FXML
     public void initialize() {
         System.out.println("Initialisation du ModifierTrajetController");
+
+        // Empêcher les dates passées
+        datePicker.setDayCellFactory(picker -> new DateCell() {
+            @Override
+            public void updateItem(LocalDate date, boolean empty) {
+                super.updateItem(date, empty);
+                setDisable(empty || date.isBefore(LocalDate.now()));
+                if (date.isBefore(LocalDate.now())) {
+                    setStyle("-fx-background-color: #ffc0cb;"); // Couleur rouge pâle pour les dates interdites
+                }
+            }
+        });
+
+        // Initialiser les options de transport (exemple)
+        transportComboBox.getItems().addAll("Voiture", "Train", "Avion", "Bus", "Métro", "Vélo", "Marche");
     }
 
     /**
      * Définit le trajet à modifier et pré-remplit les champs
+     *
      * @param trajet Le trajet à modifier
      */
     public void setTrajet(Trajet trajet) {
@@ -57,6 +80,7 @@ public class Modifiertrajetcontroller {
 
     /**
      * Définit le contrôleur parent pour rafraîchir la liste après modification
+     *
      * @param controller Le contrôleur parent
      */
     public void setParentController(AfficherTrajetController controller) {
@@ -71,6 +95,13 @@ public class Modifiertrajetcontroller {
         try {
             // Récupérer les valeurs des champs
             LocalDate date = datePicker.getValue();
+
+            // Vérifier que la date n'est pas dans le passé
+            if (date.isBefore(LocalDate.now())) {
+                afficherAlerte("La date ne peut pas être dans le passé");
+                return;
+            }
+
             int heure = Integer.parseInt(heureField.getText());
             String destination = destinationField.getText();
             String transport = transportComboBox.getValue();
@@ -126,6 +157,7 @@ public class Modifiertrajetcontroller {
 
     /**
      * Affiche une alerte avec le message spécifié
+     *
      * @param message Le message à afficher
      */
     private void afficherAlerte(String message) {

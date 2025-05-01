@@ -1,5 +1,7 @@
 package controllers;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -8,6 +10,9 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import models.Transport;
 import services.TransportService;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class AjouterTransportController {
 
@@ -23,9 +28,19 @@ public class AjouterTransportController {
     @FXML
     private Button ajouterButton;
 
+    // Liste des types de transport autorisés
+    private final List<String> typesDeTransportValides = Arrays.asList(
+            "Voiture", "Train", "Bus", "Avion", "Bateau", "Autre", "Métro", "Vélo", "Marche"
+    );
+
     @FXML
     private void initialize() {
-        // Initialisation si nécessaire
+        // Initialisation du ComboBox avec les valeurs autorisées
+        ObservableList<String> typesList = FXCollections.observableArrayList(typesDeTransportValides);
+        typeComboBox.setItems(typesList);
+
+        // Optionnel: Empêcher la saisie libre dans le ComboBox
+        typeComboBox.setEditable(false);
     }
 
     @FXML
@@ -62,14 +77,20 @@ public class AjouterTransportController {
     private boolean validateFields() {
         StringBuilder errors = new StringBuilder();
 
-        if (typeComboBox.getValue() == null || typeComboBox.getValue().isEmpty()) {
+        // Validation du type de transport
+        String typeSelectionne = typeComboBox.getValue();
+        if (typeSelectionne == null || typeSelectionne.isEmpty()) {
             errors.append("- Le type de transport est requis.\n");
+        } else if (!typesDeTransportValides.contains(typeSelectionne)) {
+            errors.append("- Type de transport non valide. Veuillez sélectionner un type dans la liste.\n");
         }
 
+        // Validation de la compagnie
         if (compagnieField.getText().trim().isEmpty()) {
             errors.append("- Le nom de la compagnie est requis.\n");
         }
 
+        // Validation du prix
         if (prixField.getText().trim().isEmpty()) {
             errors.append("- Le prix est requis.\n");
         } else {
@@ -83,6 +104,7 @@ public class AjouterTransportController {
             }
         }
 
+        // Affichage des erreurs s'il y en a
         if (errors.length() > 0) {
             showAlert("Erreur de validation", errors.toString());
             return false;

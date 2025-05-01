@@ -1,90 +1,335 @@
-/* Styles pour la gestion des trajets */
-
-/* Style général pour le fond */
+/* Base styles */
 .root {
-    -fx-background-color: #90bae6;
-    -fx-font-family: "Arial";
-}
-
-/* Style pour les boutons */
-.button {
-    -fx-background-color: #2d698e;
-    -fx-text-fill: white;
-    -fx-font-weight: bold;
-    -fx-cursor: hand;
-    -fx-padding: 8px 15px;
-    -fx-background-radius: 5px;
-}
-
-.button:hover {
-    -fx-background-color: #b5d1ed;
-}
-
-/* Style pour le bouton ajouter */
-#btnAjouter {
-    -fx-background-color: #0f65cf;
+    -fx-font-family: 'Segoe UI', Arial, sans-serif;
     -fx-font-size: 14px;
 }
 
-#btnAjouter:hover {
-    -fx-background-color: #0c6732;
+/* Background */
+.main-background {
+    -fx-background-color: linear-gradient(to bottom right, #859aef, #1773ac, #fdbb2d);
 }
 
-/* Styles pour les boutons d'action */
-.btn-edit {
-    -fx-background-color: #ac6a1e;
+/* Transparent container - More transparent to allow background image to show through */
+.transparent-container {
+    -fx-background-color: rgba(255, 255, 255, 0.08);
+    -fx-background-radius: 10;
+}
+
+/* Header styles */
+.header-transparent {
+    -fx-background-color: rgba(0, 0, 0, 0.4);
+    -fx-background-radius: 10 10 0 0;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 10, 0, 0, 2);
+}
+
+.logo-container {
+    -fx-background-color: rgba(255, 255, 255, 0.15);
+    -fx-background-radius: 50%;
+    -fx-padding: 5px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 10, 0, 0, 2);
+}
+
+.title-container {
+    -fx-padding: 0 0 0 10;
+}
+
+.app-title {
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+    -fx-fill: white;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 3, 0, 0, 1);
+}
+
+.app-subtitle {
+    -fx-font-size: 12px;
+    -fx-fill: #cccccc;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 1, 0, 0, 1);
+}
+
+/* Navigation buttons - More transparent against airplane background */
+.nav-button {
+    -fx-background-color: rgba(255, 255, 255, 0.15);
+    -fx-background-radius: 20;
     -fx-text-fill: white;
-    -fx-font-size: 11px;
-    -fx-padding: 4px 8px;
+    -fx-padding: 8 15;
+    -fx-cursor: hand;
+    -fx-graphic-text-gap: 8;
 }
 
-.btn-delete {
-    -fx-background-color: #dc3545;
+.nav-button:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.3);
+    -fx-effect: dropshadow(gaussian, rgba(255, 255, 255, 0.4), 5, 0, 0, 1);
+}
+
+/* Content area with increased transparency */
+.content-area-transparent {
+    -fx-background-color: rgba(0, 0, 0, 0.4);
+    -fx-background-radius: 10;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 10, 0, 0, 2);
+}
+
+/* Section header - less opacity */
+.section-header-transparent {
+    -fx-padding: 10;
+    -fx-background-color: rgba(255, 255, 255, 0.08);
+    -fx-background-radius: 10;
+}
+
+.section-title-light {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-fill: white;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 3, 0, 0, 1);
+}
+
+/* Search box with less opacity */
+.search-box-transparent {
+    -fx-background-color: rgba(255, 255, 255, 0.08);
+    -fx-background-radius: 20;
+    -fx-padding: 5 10;
+    -fx-spacing: 5;
+}
+
+.search-field-transparent {
+    -fx-background-color: transparent;
     -fx-text-fill: white;
-    -fx-font-size: 11px;
-    -fx-padding: 4px 8px;
+    -fx-prompt-text-fill: #aaaaaa;
+    -fx-min-width: 200;
 }
 
-.btn-edit:hover {
-    -fx-background-color: #ffb732;
-}
-
-.btn-delete:hover {
-    -fx-background-color: #e45c6b;
-}
-
-/* Style pour le tableau */
-.table-view {
-    -fx-background-color: #ffffff;
-    -fx-border-color: #dcdcdc;
-    -fx-border-width: 1px;
-}
-
-.table-view .column-header {
-    -fx-background-color: #4682b4;
-    -fx-text-fill: white;
-}
-
-.table-view .column-header .label {
+/* Action button with enhanced design */
+.action-button {
+    -fx-background-color: #4CAF50;
     -fx-text-fill: white;
     -fx-font-weight: bold;
+    -fx-background-radius: 20;
+    -fx-padding: 8 15;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 5, 0, 0, 1);
 }
 
-/* Style pour les lignes du tableau */
-.table-row-cell {
-    -fx-background-color: #ffffff;
+.action-button:hover {
+    -fx-background-color: #5BBF5F;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 8, 0, 0, 2);
 }
 
-.table-row-cell:odd {
-    -fx-background-color: #f5f5f5;
+.action-button:pressed {
+    -fx-background-color: #3E8E41;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 3, 0, 0, 1);
 }
 
-.table-row-cell:hover {
-    -fx-background-color: #dae8f5;
+/* Table styles - More transparent table against airplane background */
+.transparent-table {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
 }
 
-/* Message affiché quand le tableau est vide */
-.table-view .placeholder .label {
-    -fx-text-fill: #555555;
-    -fx-font-style: italic;
+.transparent-table .column-header-background {
+    -fx-background-color: rgba(148, 185, 227, 0.2);
+}
+
+.transparent-table .column-header {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 10 5;
+}
+
+.transparent-table .table-row-cell {
+    -fx-background-color: rgba(255, 255, 255, 0.03);
+    -fx-table-cell-border-color: rgba(255, 255, 255, 0.05);
+    -fx-text-fill: white;
+}
+
+.transparent-table .table-row-cell:odd {
+    -fx-background-color: rgba(255, 255, 255, 0.05);
+}
+
+.transparent-table .table-row-cell:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.1);
+}
+
+.transparent-table .table-row-cell:selected {
+    -fx-background-color: rgba(100, 150, 255, 0.3);
+}
+
+.transparent-table .table-cell {
+    -fx-padding: 10 5;
+    -fx-text-fill: white;
+    -fx-alignment: center-left;
+    -fx-border-color: transparent;
+}
+
+/* Empty table placeholder */
+.empty-placeholder {
+    -fx-background-color: transparent;
+}
+
+.empty-table-title-light {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+}
+
+.empty-table-message-light {
+    -fx-font-size: 14px;
+    -fx-text-fill: #cccccc;
+}
+
+/* Pagination styles - More subtle */
+.pagination-container-transparent {
+    -fx-padding: 10 0;
+}
+
+.pagination-btn-transparent {
+    -fx-background-color: rgba(255, 255, 255, 0.1);
+    -fx-background-radius: 20;
+    -fx-text-fill: white;
+    -fx-min-width: 30;
+    -fx-min-height: 30;
+    -fx-cursor: hand;
+}
+
+.pagination-btn-transparent:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.2);
+}
+
+.transparent-pagination {
+    -fx-background-color: transparent;
+    -fx-page-information-visible: false;
+}
+
+.transparent-pagination .pagination-control .button {
+    -fx-background-color: rgba(255, 255, 255, 0.05);
+    -fx-background-radius: 20;
+    -fx-text-fill: white;
+}
+
+.transparent-pagination .pagination-control .button:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.2);
+}
+
+.transparent-pagination .pagination-control .page-number {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+}
+
+.transparent-pagination .pagination-control .page-number:selected {
+    -fx-background-color: rgba(100, 150, 255, 0.3);
+}
+/* Navigation buttons - Completely transparent background */
+.nav-button {
+    -fx-background-color: transparent;
+    -fx-background-radius: 20;
+    -fx-text-fill: white;
+    -fx-padding: 8 15;
+    -fx-cursor: hand;
+    -fx-graphic-text-gap: 8;
+    -fx-border-color: rgba(255, 255, 255, 0.3);
+    -fx-border-radius: 20;
+    -fx-border-width: 1;
+}
+
+.nav-button:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.15);
+    -fx-border-color: rgba(255, 255, 255, 0.5);
+    -fx-effect: dropshadow(gaussian, rgba(255, 255, 255, 0.4), 5, 0, 0, 1);
+}
+
+/* Search box - Completely transparent */
+.search-box-transparent {
+    -fx-background-color: transparent;
+    -fx-background-radius: 20;
+    -fx-padding: 5 10;
+    -fx-spacing: 5;
+    -fx-border-color: rgba(255, 255, 255, 0.3);
+    -fx-border-radius: 20;
+    -fx-border-width: 1;
+}
+
+.search-field-transparent {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-prompt-text-fill: #aaaaaa;
+    -fx-min-width: 200;
+}
+
+/* Action buttons with transparent backgrounds */
+.action-button {
+    -fx-background-color: rgba(76, 175, 80, 0.7);
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 20;
+    -fx-padding: 8 15;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 5, 0, 0, 1);
+}
+
+.action-button:hover {
+    -fx-background-color: rgba(91, 191, 95, 0.8);
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 8, 0, 0, 2);
+}
+
+.action-button:pressed {
+    -fx-background-color: rgba(62, 142, 65, 0.9);
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 3, 0, 0, 1);
+}
+
+/* Modify button */
+.modify-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-background-radius: 20;
+    -fx-border-color: rgba(138, 43, 226, 0.5);
+    -fx-border-radius: 20;
+    -fx-border-width: 1;
+}
+
+.modify-button:hover {
+    -fx-background-color: rgba(138, 43, 226, 0.2);
+}
+
+/* Delete button */
+.delete-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-background-radius: 20;
+    -fx-border-color: rgba(255, 69, 0, 0.5);
+    -fx-border-radius: 20;
+    -fx-border-width: 1;
+}
+
+.delete-button:hover {
+    -fx-background-color: rgba(255, 69, 0, 0.2);
+}
+
+/* Pagination buttons - Make completely transparent */
+.pagination-btn-transparent {
+    -fx-background-color: transparent;
+    -fx-background-radius: 20;
+    -fx-text-fill: white;
+    -fx-min-width: 30;
+    -fx-min-height: 30;
+    -fx-cursor: hand;
+    -fx-border-color: rgba(255, 255, 255, 0.3);
+    -fx-border-radius: 20;
+    -fx-border-width: 1;
+}
+
+.pagination-btn-transparent:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.15);
+    -fx-border-color: rgba(255, 255, 255, 0.5);
+}
+
+.transparent-pagination .pagination-control .button {
+    -fx-background-color: transparent;
+    -fx-background-radius: 20;
+    -fx-text-fill: white;
+    -fx-border-color: rgba(255, 255, 255, 0.3);
+    -fx-border-radius: 20;
+    -fx-border-width: 1;
+}
+
+.transparent-pagination .pagination-control .button:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.15);
 }

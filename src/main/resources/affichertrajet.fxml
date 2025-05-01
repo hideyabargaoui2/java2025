@@ -1,35 +1,162 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="450.0" prefWidth="700.0"
-            xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="controllers.AfficherTrajetController"
-            stylesheets="@style.css">
+<StackPane prefHeight="700.0" prefWidth="1000.0"
+           xmlns="http://javafx.com/javafx"
+           xmlns:fx="http://javafx.com/fxml"
+           fx:controller="controllers.AfficherTrajetController"
+           stylesheets="@style.css">
 
-   <children>
-      <VBox spacing="10.0" layoutX="20.0" layoutY="20.0">
-         <children>
+   <!-- Background with solid color as fallback -->
+   <VBox styleClass="main-background"/>
 
-            <!-- Bouton Ajouter -->
-            <Button text="Ajouter Trajet" fx:id="btnAjouter" onAction="#ajouterTrajet"/>
+   <!-- Background image with error handling -->
+   <ImageView fitWidth="1000.0" fitHeight="700.0" preserveRatio="false">
+      <image>
+         <Image url="@/images/airplane_view.png"/>
+      </image>
+   </ImageView>
 
-            <!-- Table des trajets -->
-            <TableView fx:id="tableView" prefWidth="650.0" prefHeight="350.0">
+   <!-- Main container with transparent background -->
+   <BorderPane styleClass="transparent-container" fx:id="mainContainer">
+      <!-- Header -->
+      <top>
+         <HBox alignment="CENTER_LEFT" spacing="20.0" styleClass="header-transparent">
+            <padding>
+               <Insets top="15.0" right="20.0" bottom="15.0" left="20.0"/>
+            </padding>
+
+            <!-- Logo -->
+            <StackPane fx:id="logoContainer" styleClass="logo-container">
+               <ImageView fitHeight="80.0" fitWidth="80.0" preserveRatio="true">
+                  <image>
+                     <Image url="@/images/travelpro_logo.png"/>
+                  </image>
+               </ImageView>
+            </StackPane>
+
+            <!-- Title -->
+            <VBox alignment="CENTER_LEFT" styleClass="title-container">
+               <Text text="TRAVELPRO" styleClass="app-title"/>
+               <Text text="ELEVATE YOUR BUSINESS TRIP" styleClass="app-subtitle"/>
+            </VBox>
+
+            <HBox HBox.hgrow="ALWAYS" alignment="CENTER_RIGHT" spacing="15">
+               <!-- Navigation buttons with transparent backgrounds -->
+               <Button text="Home" styleClass="nav-button">
+                  <graphic>
+                     <ImageView fitHeight="16.0" fitWidth="16.0" preserveRatio="true">
+                        <image>
+                           <Image url="@/icons/home.png"/>
+                        </image>
+                     </ImageView>
+                  </graphic>
+               </Button>
+               <Button text="Profil" styleClass="nav-button">
+                  <graphic>
+                     <ImageView fitHeight="16.0" fitWidth="16.0" preserveRatio="true">
+                        <image>
+                           <Image url="@/icons/profile.png"/>
+                        </image>
+                     </ImageView>
+                  </graphic>
+               </Button>
+               <Button text="Paramètres" styleClass="nav-button">
+                  <graphic>
+                     <ImageView fitHeight="16.0" fitWidth="16.0" preserveRatio="true">
+                        <image>
+                           <Image url="@/icons/settings.png"/>
+                        </image>
+                     </ImageView>
+                  </graphic>
+               </Button>
+            </HBox>
+         </HBox>
+      </top>
+
+      <!-- Main content -->
+      <center>
+         <VBox spacing="20.0" styleClass="content-area-transparent" fx:id="contentArea">
+            <padding>
+               <Insets top="20.0" right="20.0" bottom="20.0" left="20.0"/>
+            </padding>
+
+            <!-- Section header -->
+            <HBox alignment="CENTER_LEFT" spacing="15.0" styleClass="section-header-transparent">
+               <Text text="Gestion des Trajets" styleClass="section-title-light"/>
+               <Pane HBox.hgrow="ALWAYS"/>
+
+               <!-- Search box -->
+               <HBox alignment="CENTER" styleClass="search-box-transparent">
+                  <ImageView fitHeight="16.0" fitWidth="16.0" preserveRatio="true">
+                     <image>
+                        <Image url="@/icons/search.png"/>
+                     </image>
+                  </ImageView>
+                  <TextField promptText="Rechercher..." styleClass="search-field-transparent"/>
+               </HBox>
+               <Button text="Transports" styleClass="nav-button" onAction="#naviguerVersTransport">
+                  <graphic>
+                     <ImageView fitHeight="16.0" fitWidth="16.0" preserveRatio="true">
+                        <image>
+                           <Image url="@/icons/transport.png"/>
+                        </image>
+                     </ImageView>
+                  </graphic>
+               </Button>
+
+               <!-- Add button -->
+               <Button text="+ Ajouter Trajet" fx:id="btnAjouter" onAction="#ajouterTrajet" styleClass="action-button"/>
+            </HBox>
+
+            <!-- Table with transparent background -->
+            <TableView fx:id="tableView" VBox.vgrow="ALWAYS" styleClass="transparent-table">
                <columns>
                   <TableColumn fx:id="dateCol" text="Date" prefWidth="120.0"/>
-                  <TableColumn fx:id="heureCol" text="Heure" prefWidth="60.0"/>
-                  <TableColumn fx:id="destinationCol" text="Destination" prefWidth="120.0"/>
-                  <TableColumn fx:id="transportCol" text="Transport" prefWidth="120.0"/>
-                  <TableColumn fx:id="dureeCol" text="Durée" prefWidth="60.0"/>
-                  <TableColumn fx:id="actionCol" text="Actions" prefWidth="170.0"/>
+                  <TableColumn fx:id="heureCol" text="Heure" prefWidth="80.0"/>
+                  <TableColumn fx:id="destinationCol" text="Destination" prefWidth="210.0"/>
+                  <TableColumn fx:id="transportCol" text="Transport" prefWidth="100.0"/>
+                  <TableColumn fx:id="dureeCol" text="Durée" prefWidth="130.0"/>
+                  <TableColumn fx:id="actionCol" text="Actions" prefWidth="260.0"/>
                </columns>
+               <placeholder>
+                  <VBox alignment="CENTER" spacing="15" styleClass="empty-placeholder">
+                     <ImageView fitHeight="64.0" fitWidth="64.0" preserveRatio="true">
+                        <image>
+                           <Image url="@/icons/empty_list.png"/>
+                        </image>
+                     </ImageView>
+                     <Label text="Aucun trajet disponible" styleClass="empty-table-title-light"/>
+                     <Label text="Cliquez sur '+ Ajouter Trajet' pour commencer." styleClass="empty-table-message-light"/>
+                  </VBox>
+               </placeholder>
             </TableView>
 
-         </children>
-      </VBox>
-   </children>
-</AnchorPane>
+            <!-- Simple pagination -->
+            <HBox alignment="CENTER" spacing="10" styleClass="pagination-container-transparent">
+               <Button styleClass="pagination-btn-transparent" text="&lt;"/>
+               <Pagination maxPageIndicatorCount="5" pageCount="10" styleClass="transparent-pagination" />
+               <Button styleClass="pagination-btn-transparent" text="&gt;"/>
+
+            </HBox>
+         </VBox>
+      </center>
+
+      <!-- Footer -->
+      <bottom>
+         <HBox alignment="CENTER" styleClass="footer-transparent">
+            <padding>
+               <Insets top="15.0" right="20.0" bottom="15.0" left="20.0"/>
+            </padding>
+            <Text text="© 2025 TRAVELPRO - Tous droits réservés" styleClass="footer-text-light"/>
+         </HBox>
+      </bottom>
+   </BorderPane>
+</StackPane>
