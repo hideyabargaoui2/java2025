@@ -13,7 +13,7 @@ public class MainFX extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-/*
+
     @Override
     public void start(Stage primaryStage) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/afficherhotel.fxml"));
@@ -28,9 +28,9 @@ public class MainFX extends Application {
         }
 
     }
-    */
 
-    @Override
+
+    /*@Override
     public void start(Stage primaryStage) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/afficherreshotel.fxml"));
         try {
@@ -43,7 +43,7 @@ public class MainFX extends Application {
             throw new RuntimeException(e);
         }
 
-    }
+    }*/
 
 
 }

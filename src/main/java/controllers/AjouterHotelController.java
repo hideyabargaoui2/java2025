@@ -5,6 +5,9 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 import models.hotel;
 import service.HotelService;
+import javafx.scene.input.KeyEvent;
+import java.util.function.UnaryOperator;
+import javafx.util.converter.DoubleStringConverter;
 
 public class AjouterHotelController {
 
@@ -36,6 +39,31 @@ public class AjouterHotelController {
         if (btnAnnuler != null) {
             btnAnnuler.setOnAction(event -> annulerAjout());
         }
+
+        // Ajouter le contrôle de saisie pour le champ de prix nuit (accepte uniquement les chiffres)
+        configurerChampNumerique(prixNuitField);
+
+        // Également configurer le champ de nombre de nuits pour cohérence
+        configurerChampNumerique(nombreNuitField);
+    }
+
+    /**
+     * Configure un champ de texte pour n'accepter que des valeurs numériques
+     * @param textField Le champ de texte à configurer
+     */
+    private void configurerChampNumerique(TextField textField) {
+        // Définir un filtre qui n'accepte que les chiffres et un point décimal
+        UnaryOperator<TextFormatter.Change> filter = change -> {
+            String newText = change.getControlNewText();
+            // Permet les chiffres, un point décimal et champ vide
+            if (newText.matches("^\\d*\\.?\\d*$")) {
+                return change;
+            }
+            return null; // Rejette tous les autres caractères
+        };
+
+        // Appliquer le TextFormatter avec notre filtre au champ
+        textField.setTextFormatter(new TextFormatter<>(filter));
     }
 
     public void setParentController(AfficherHotelController controller) {
@@ -133,5 +161,5 @@ public class AjouterHotelController {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
-    }
+}
 }

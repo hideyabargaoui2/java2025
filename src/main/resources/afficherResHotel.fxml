@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="500.0" prefWidth="650.0"
+            xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="controllers.AfficherResHotelController"
+            stylesheets="@style.css">
+
+    <children>
+        <VBox spacing="10.0" layoutX="20.0" layoutY="20.0">
+            <children>
+
+                <!-- Bouton Ajouter -->
+                <Button text="Ajouter Réservation" fx:id="btnAjouter" onAction="#ajouterResHotel"/>
+
+                <!-- Table des réservations -->
+                <TableView fx:id="tableView" prefWidth="600.0" prefHeight="400.0">
+                    <columns>
+                        <TableColumn fx:id="hotelCol" text="Hôtel" prefWidth="150.0"/>
+                        <TableColumn fx:id="startresCol" text="Statut Réservation" prefWidth="150.0"/>
+                        <TableColumn fx:id="dateresCol" text="Date Réservation" prefWidth="150.0"/>
+                        <TableColumn fx:id="actionCol" text="Actions" prefWidth="150.0"/>
+                    </columns>
+                </TableView>
+
+            </children>
+        </VBox>
+    </children>
+</AnchorPane>

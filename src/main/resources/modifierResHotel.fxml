@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<AnchorPane prefHeight="400.0" prefWidth="500.0"
+            xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="controllers.ModifierResHotelController"
+            stylesheets="@style.css">
+    <children>
+        <VBox spacing="15.0" alignment="CENTER" layoutX="20.0" layoutY="20.0" prefWidth="460.0">
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20"/>
+            </padding>
+            <children>
+                <Label text="Modifier une Réservation d'Hôtel" styleClass="titre"/>
+
+                <HBox spacing="10.0">
+                    <Label text="Hôtel:" prefWidth="100.0" alignment="CENTER_RIGHT"/>
+                    <ComboBox fx:id="hotelCombo" prefWidth="250.0" promptText="Sélectionnez un hôtel"/>
+                </HBox>
+
+                <HBox spacing="10.0">
+                    <Label text="Statut:" prefWidth="100.0" alignment="CENTER_RIGHT"/>
+                    <TextField fx:id="startresField" prefWidth="250.0" promptText="Entrez le statut de la réservation"/>
+                </HBox>
+
+                <HBox spacing="10.0">
+                    <Label text="Date:" prefWidth="100.0" alignment="CENTER_RIGHT"/>
+                    <DatePicker fx:id="dateResPicker" prefWidth="250.0" promptText="Sélectionnez la date"/>
+                </HBox>
+
+                <HBox spacing="20.0" alignment="CENTER">
+                    <padding>
+                        <Insets top="10" right="10" bottom="10" left="10"/>
+                    </padding>
+                    <Button fx:id="btnConfirmer" text="Confirmer" onAction="#confirmerModification"/>
+                    <Button fx:id="btnAnnuler" text="Annuler" onAction="#annulerModification"/>
+                </HBox>
+            </children>
+        </VBox>
+    </children>
+</AnchorPane>

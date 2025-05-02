@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<AnchorPane prefHeight="400.0" prefWidth="500.0"
+            xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="controllers.ModifierHotelController"
+            stylesheets="@style.css">
+    <children>
+        <VBox spacing="15.0" alignment="CENTER" layoutX="20.0" layoutY="20.0" prefWidth="460.0">
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20"/>
+            </padding>
+            <children>
+                <Label text="Modifier un Hôtel" styleClass="titre"/>
+
+                <HBox spacing="10.0">
+                    <Label text="Nom:" prefWidth="100.0" alignment="CENTER_RIGHT"/>
+                    <TextField fx:id="nomField" prefWidth="250.0" promptText="Entrez le nom"/>
+                </HBox>
+
+                <HBox spacing="10.0">
+                    <Label text="Prix/Nuit:" prefWidth="100.0" alignment="CENTER_RIGHT"/>
+                    <TextField fx:id="prixNuitField" prefWidth="250.0" promptText="Entrez le prix par nuit"/>
+                </HBox>
+
+                <HBox spacing="10.0">
+                    <Label text="Nombre de Nuits:" prefWidth="100.0" alignment="CENTER_RIGHT"/>
+                    <TextField fx:id="nombreNuitField" prefWidth="250.0" promptText="Entrez le nombre de nuits"/>
+                </HBox>
+
+                <HBox spacing="10.0">
+                    <Label text="Standing:" prefWidth="100.0" alignment="CENTER_RIGHT"/>
+                    <TextField fx:id="standingField" prefWidth="250.0" promptText="Entrez le standing"/>
+                </HBox>
+
+                <HBox spacing="10.0">
+                    <Label text="Adresse:" prefWidth="100.0" alignment="CENTER_RIGHT"/>
+                    <TextField fx:id="adresseField" prefWidth="250.0" promptText="Entrez l'adresse"/>
+                </HBox>
+
+                <HBox spacing="20.0" alignment="CENTER">
+                    <padding>
+                        <Insets top="10" right="10" bottom="10" left="10"/>
+                    </padding>
+                    <Button fx:id="btnConfirmer" text="Confirmer" onAction="#confirmerModification"/>
+                    <Button fx:id="btnAnnuler" text="Annuler" onAction="#annulerModification"/>
+                </HBox>
+            </children>
+        </VBox>
+    </children>
+</AnchorPane>
