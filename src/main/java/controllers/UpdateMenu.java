@@ -1,121 +1,78 @@
 package controllers;
 
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 import models.Menu;
 import models.Restaurant;
 import services.MenuService;
 import services.RestaurantServices;
-
-import java.sql.SQLException;
-import java.util.List;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextField;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 
 public class UpdateMenu {
 
-    @FXML
-    private TextArea TFupdesc;
+    @FXML private TextField TFupname;
+    @FXML private TextField TFupdesc;
+    @FXML private TextField TFupprix;
+    @FXML private ComboBox<Restaurant> TFupnomresto;
 
-    @FXML
-    private TextField TFupname;
-
-    @FXML
-    private ComboBox<Restaurant> TFupnomresto;
-
-    @FXML
-    private TextField TFupprix;
-
-    @FXML
-    private ComboBox<Menu> comboupMenus;
-
-    @FXML
-    private Button updateMenu;
-
+    private Menu menu;
     private final MenuService menuService = new MenuService();
-    private final RestaurantServices restaurantServices = new RestaurantServices();
+    private final RestaurantServices restaurantService = new RestaurantServices();
 
     @FXML
-    void initialize() {
-        chargerMenus();
-        chargerRestaurants();
-
-        comboupMenus.setOnAction(event -> remplirChampsDepuisSelection());
+    public void initialize() {
+        ObservableList<Restaurant> restaurants = FXCollections.observableArrayList(restaurantService.afficher());
+        TFupnomresto.setItems(restaurants);
     }
 
-    private void chargerMenus() {
-        try {
-            List<Menu> menus = menuService.getAll();
-            comboupMenus.getItems().setAll(menus);
-        } catch (SQLException e) {
-            showAlert(Alert.AlertType.ERROR, "Erreur", null, "Impossible de charger les menus : " + e.getMessage());
-        }
-    }
+    public void setMenu(Menu menu) {
+        this.menu = menu;
 
-    private void chargerRestaurants() {
-        try {
-            List<Restaurant> restaurants = restaurantServices.getAll();
-            TFupnomresto.getItems().setAll(restaurants);
-        } catch (SQLException e) {
-            showAlert(Alert.AlertType.ERROR, "Erreur", null, "Impossible de charger les restaurants : " + e.getMessage());
-        }
-    }
-
-    private void remplirChampsDepuisSelection() {
-        Menu selected = comboupMenus.getSelectionModel().getSelectedItem();
-        if (selected != null) {
-            TFupname.setText(selected.getName());
-            TFupdesc.setText(selected.getDescription());
-            TFupprix.setText(String.valueOf(selected.getPrix()));
-            TFupnomresto.getSelectionModel().select(selected.getRestaurant());
+        if (menu != null) {
+            TFupname.setText(menu.getName());
+            TFupdesc.setText(menu.getDescription());
+            TFupprix.setText(String.valueOf(menu.getPrix()));
+            TFupnomresto.setValue(menu.getRestaurant());
+        } else {
+            showAlert(AlertType.ERROR, "Erreur", "Aucun menu sélectionné pour la modification.");
         }
     }
 
     @FXML
-    void UpdateMenu(ActionEvent event) {
-        Menu selectedMenu = comboupMenus.getSelectionModel().getSelectedItem();
-        Restaurant selectedResto = TFupnomresto.getSelectionModel().getSelectedItem();
-
-        if (selectedMenu == null || selectedResto == null) {
-            showAlert(Alert.AlertType.WARNING, "Champ manquant", null, "Veuillez sélectionner un menu et un restaurant.");
+    private void modifierMenu() {
+        if (menu == null) {
+            showAlert(AlertType.ERROR, "Erreur", "Aucun menu à modifier.");
             return;
         }
 
         try {
-            String nom = TFupname.getText().trim();
-            String desc = TFupdesc.getText().trim();
-            String prixText = TFupprix.getText().replace(',', '.').trim();
-            double prix = Double.parseDouble(prixText);
+            String name = TFupname.getText();
+            String desc = TFupdesc.getText();
+            double prix = Double.parseDouble(TFupprix.getText());
+            Restaurant selectedRestaurant = TFupnomresto.getValue();
 
-            if (nom.isEmpty() || desc.isEmpty()) {
-                showAlert(Alert.AlertType.WARNING, "Champs requis", null, "Tous les champs doivent être remplis.");
-                return;
-            }
+            menu.setName(name);
+            menu.setDescription(desc);
+            menu.setPrix((int) prix);
+            menu.setRestaurant(selectedRestaurant);
 
-            selectedMenu.setName(nom);
-            selectedMenu.setDescription(desc);
-            selectedMenu.setPrix(String.valueOf(prix));
-            selectedMenu.setRestaurant(selectedResto);
-
-            menuService.update(selectedMenu);
-
-            showAlert(Alert.AlertType.INFORMATION, "Succès", null, "Menu mis à jour avec succès !");
-            chargerMenus(); // Recharge pour refléter les modifications
-
+            menuService.update(menu);
+            showAlert(AlertType.INFORMATION, "Succès", "Menu modifié avec succès !");
         } catch (NumberFormatException e) {
-            showAlert(Alert.AlertType.ERROR, "Erreur de format", null, "Le prix doit être un nombre valide (ex: 12.5)");
+            showAlert(AlertType.ERROR, "Erreur de format", "Le prix doit être un nombre valide.");
         } catch (Exception e) {
-            showAlert(Alert.AlertType.ERROR, "Erreur SQL", null, "Erreur lors de la mise à jour : " + e.getMessage());
+            showAlert(AlertType.ERROR, "Erreur", "Échec de la mise à jour du menu : " + e.getMessage());
         }
     }
 
-    private void showAlert(Alert.AlertType type, String title, String header, String content) {
+    private void showAlert(AlertType type, String title, String content) {
         Alert alert = new Alert(type);
         alert.setTitle(title);
-        alert.setHeaderText(header);
+        alert.setHeaderText(null);
         alert.setContentText(content);
         alert.showAndWait();
     }

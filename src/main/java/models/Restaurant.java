@@ -1,101 +1,52 @@
 package models;
-
 import java.sql.Time;
 
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 public class Restaurant {
-    private int id,classement;
+    private int id;
     private String nom;
-    private String adresse,type;
-    private Time heure_ouv,heure_ferm;
+    private String adresse;
+    private String type;
+    private Time heure_ouv;
+    private Time heure_ferm;
+    private int classement;
 
-    public Restaurant() {}
+    public Restaurant() {
+        // Constructeur vide nécessaire pour certains cas
+    }
 
-    public Restaurant(int id, String nom, String adresse, String type, int classement, Time heure_ouv, Time heure_ferm) {
+    public Restaurant(int id, String nom, String adresse, String type, Time heure_ouv, Time heure_ferm, int classement) {
         this.id = id;
         this.nom = nom;
         this.adresse = adresse;
         this.type = type;
-        this.classement = classement;
         this.heure_ouv = heure_ouv;
         this.heure_ferm = heure_ferm;
-    }
-
-
-    @Override
-    public String toString() {
-        return "Restaurant{" +
-                "id=" + id +
-                ", nom='" + nom + '\'' +
-                ", adresse='" + adresse + '\'' +
-                ", type='" + type + '\'' +
-                ", classement=" + classement +
-                ", heure_ouv=" + heure_ouv +
-                ", heure_ferm=" + heure_ferm +
-                '}';
-    }
-
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getNom() {
-        return nom;
-    }
-
-    public void setNom(String nom) {
-        this.nom = nom;
-    }
-
-    public String getAdresse() {
-        return adresse;
-    }
-
-    public void setAdresse(String adresse) {
-        this.adresse = adresse;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public int getClassement() {
-        return classement;
-    }
-
-    public void setClassement(int classement) {
         this.classement = classement;
     }
 
-    public Time getHeure_ouv() {
-        return heure_ouv;
+    // Getters et setters
+    public int getId() { return id; }
+    public String getNom() { return nom; }
+    public String getAdresse() { return adresse; }
+    public String getType() { return type; }
+    public Time getHeureOuv() { return heure_ouv; }
+    public Time getHeureFerm() { return heure_ferm; }
+    public int getClassement() { return classement; }
+
+    public void setId(int id) { this.id = id; }
+    public void setNom(String nom) { this.nom = nom; }
+    public void setAdresse(String adresse) { this.adresse = adresse; }
+    public void setType(String type) { this.type = type; }
+    public void setHeure_ouv(Time heure_ouv) { this.heure_ouv = heure_ouv; }
+    public void setHeure_ferm(Time heure_ferm) { this.heure_ferm = heure_ferm; }
+    public void setClassement(int classement) { this.classement = classement; }
+
+    // Méthodes pour obtenir l'heure au format String
+    public String getHoraireOuvert() {
+        return heure_ouv != null ? heure_ouv.toString() : null;
     }
 
-    public void setHeure_ouv(Time heure_ouv) {
-        this.heure_ouv = heure_ouv;
+    public String getHoraireFerme() {
+        return heure_ferm != null ? heure_ferm.toString() : null;
     }
-
-    public Time getHeure_ferm() {
-        return heure_ferm;
-    }
-
-    public void setHeure_ferm(Time heure_ferm) {
-        this.heure_ferm = heure_ferm;
-    }
-
-
-
 }
-
-

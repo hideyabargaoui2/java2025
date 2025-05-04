@@ -1,4 +1,5 @@
 package controllers;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -10,70 +11,53 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import models.Restaurant;
 import services.RestaurantServices;
+
 import java.io.IOException;
+import java.sql.Time;
 
 public class AjouterRestaurant {
 
-    @FXML
-    private TextField TFid, TFadresse, TFclass, TFferme, TFnom, TFouvert, TFtype;
+    @FXML private TextField TFadresse, TFclass, TFferme, TFnom, TFouvert, TFtype;
+    @FXML private Button addresto, displayresto, ajoutermenu, modifierresto;
 
-    @FXML
-    private Button addresto, displayresto, ajoutermenu, modifierresto;
+    private final RestaurantServices service = new RestaurantServices();
 
     @FXML
     void ajouter(ActionEvent event) {
         try {
-            int id = Integer.parseInt(TFid.getText());
-            int classement = Integer.parseInt(TFclass.getText());
-            String nom = TFnom.getText();
-            String adresse = TFadresse.getText();
-            String type = TFtype.getText();
-            String horaireOuvert = TFouvert.getText();
-            String horaireFerme = TFferme.getText();
+            int classement = Integer.parseInt(TFclass.getText().trim());
+            String nom = TFnom.getText().trim();
+            String adresse = TFadresse.getText().trim();
+            String type = TFtype.getText().trim();
+            String horaireOuvert = TFouvert.getText().trim();
+            String horaireFerme = TFferme.getText().trim();
 
             if (nom.isEmpty() || adresse.isEmpty() || type.isEmpty() || horaireOuvert.isEmpty() || horaireFerme.isEmpty()) {
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("Champ manquant");
-                alert.setContentText("Tous les champs doivent être remplis !");
-                alert.showAndWait();
+                showAlert(Alert.AlertType.WARNING, "Champs manquants", "Veuillez remplir tous les champs.");
+                return;
+            }
+
+            if (!horaireOuvert.matches("\\d{2}:\\d{2}") || !horaireFerme.matches("\\d{2}:\\d{2}")) {
+                showAlert(Alert.AlertType.ERROR, "Format horaire invalide", "Utilisez le format hh:mm pour les horaires.");
                 return;
             }
 
             Restaurant r = new Restaurant();
-            r.setId(id);
             r.setNom(nom);
             r.setAdresse(adresse);
             r.setType(type);
-            r.setHeure_ouv(java.sql.Time.valueOf(horaireOuvert + ":00"));
-            r.setHeure_ferm(java.sql.Time.valueOf(horaireFerme + ":00"));
+            r.setHeure_ouv(Time.valueOf(horaireOuvert + ":00"));
+            r.setHeure_ferm(Time.valueOf(horaireFerme + ":00"));
             r.setClassement(classement);
 
-            RestaurantServices service = new RestaurantServices();
             service.add(r);
-
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Succès");
-            alert.setContentText("Restaurant ajouté avec succès !");
-            alert.showAndWait();
-
-            TFid.clear();
-            TFadresse.clear();
-            TFclass.clear();
-            TFnom.clear();
-            TFtype.clear();
-            TFouvert.clear();
-            TFferme.clear();
+            showAlert(Alert.AlertType.INFORMATION, "Succès", "Restaurant ajouté avec succès.");
+            clearFields();
 
         } catch (NumberFormatException e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Erreur de saisie");
-            alert.setContentText("Erreur de saisie ! Vérifiez les champs numériques.");
-            alert.showAndWait();
+            showAlert(Alert.AlertType.ERROR, "Erreur de saisie", "Le classement doit être un entier.");
         } catch (Exception e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Erreur");
-            alert.setContentText("Une erreur est survenue : " + e.getMessage());
-            alert.showAndWait();
+            showAlert(Alert.AlertType.ERROR, "Erreur", "Une erreur est survenue : " + e.getMessage());
         }
     }
 
@@ -81,7 +65,7 @@ public class AjouterRestaurant {
     void afficherresto(ActionEvent event) {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/AfficherRestaurant.fxml"));
-            TFid.getScene().setRoot(root);
+            TFnom.getScene().setRoot(root);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -115,4 +99,20 @@ public class AjouterRestaurant {
         }
     }
 
+    private void clearFields() {
+        TFnom.clear();
+        TFadresse.clear();
+        TFtype.clear();
+        TFouvert.clear();
+        TFferme.clear();
+        TFclass.clear();
+    }
+
+    private void showAlert(Alert.AlertType type, String title, String content) {
+        Alert alert = new Alert(type);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
 }

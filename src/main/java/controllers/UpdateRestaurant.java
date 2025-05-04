@@ -2,70 +2,41 @@ package controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 import models.Restaurant;
 import services.RestaurantServices;
 
 public class UpdateRestaurant {
 
-    @FXML
-    private TextField idField, nomField, adresseField, typeField, heureOuvField, heureFermField, classementField;
+    @FXML private TextField nomField;
+    @FXML private TextField adresseField;
+    @FXML private TextField typeField;
+    @FXML private TextField TFclass;
+
+    private Restaurant restaurant;
+    private final RestaurantServices service = new RestaurantServices();
+
+    public void setRestaurant(Restaurant r) {
+        this.restaurant = r;
+        nomField.setText(r.getNom());
+        adresseField.setText(r.getAdresse());
+        typeField.setText(r.getType());
+        TFclass.setText(String.valueOf(r.getClassement()));
+    }
 
     @FXML
-    void updateRestaurant(ActionEvent event) {
+    private void handleUpdate(ActionEvent event) {
+        restaurant.setNom(nomField.getText());
+        restaurant.setAdresse(adresseField.getText());
+        restaurant.setType(typeField.getText());
         try {
-            int id = Integer.parseInt(idField.getText());
-            String nom = nomField.getText();
-            String adresse = adresseField.getText();
-            String type = typeField.getText();
-            String heureOuv = heureOuvField.getText();
-            String heureFerm = heureFermField.getText();
-            int classement = Integer.parseInt(classementField.getText());
-
-            if (nom.isEmpty() || adresse.isEmpty() || type.isEmpty() || heureOuv.isEmpty() || heureFerm.isEmpty()) {
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("Champs vides");
-                alert.setContentText("Veuillez remplir tous les champs !");
-                alert.showAndWait();
-                return;
-            }
-
-            Restaurant r = new Restaurant();
-            r.setId(id);
-            r.setNom(nom);
-            r.setAdresse(adresse);
-            r.setType(type);
-            r.setHeure_ouv(java.sql.Time.valueOf(heureOuv + ":00"));
-            r.setHeure_ferm(java.sql.Time.valueOf(heureFerm + ":00"));
-            r.setClassement(classement);
-
-            RestaurantServices service = new RestaurantServices();
-            service.update(r);
-
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Succès");
-            alert.setContentText("Restaurant mis à jour avec succès !");
-            alert.showAndWait();
-
-            idField.clear();
-            nomField.clear();
-            adresseField.clear();
-            typeField.clear();
-            heureOuvField.clear();
-            heureFermField.clear();
-            classementField.clear();
-
+            restaurant.setClassement(Integer.parseInt(TFclass.getText()));
         } catch (NumberFormatException e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Erreur de saisie");
-            alert.setContentText("Veuillez entrer des nombres valides pour l'ID et le classement.");
-            alert.showAndWait();
-        } catch (Exception e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Erreur");
-            alert.setContentText("Erreur lors de la mise à jour : " + e.getMessage());
-            alert.showAndWait();
+            restaurant.setClassement(0);
         }
+
+        service.modifier(restaurant);
+        ((Stage) nomField.getScene().getWindow()).close();
     }
 }

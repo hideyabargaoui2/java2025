@@ -35,6 +35,8 @@ public class AjouterMenu {
     private Button addrmenu;
     @FXML
     private Button deletemenu;
+    @FXML
+    private TextField TFadresse;
 
     private final MenuService menuService = new MenuService();
     private final RestaurantServices restaurantServices = new RestaurantServices();
@@ -43,42 +45,67 @@ public class AjouterMenu {
     public void initialize() {
         try {
             List<Restaurant> restaurants = restaurantServices.getAll();
+            System.out.println("Restaurants loaded: " + restaurants.size());  // Vérification du nombre de restaurants
             TFnomresto.getItems().addAll(restaurants);
-
-            List<Menu> menus = menuService.getAll();
-            comboMenus.getItems().addAll(menus);
-
-        } catch (SQLException e) {
-            System.out.println("Erreur lors du chargement des données : " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("Erreur lors du chargement des restaurants : " + e.getMessage());
         }
     }
+
 
     @FXML
     private void ajouter() {
+        // Validation des champs de texte
+        if (TFname.getText().trim().isEmpty()) {
+            showAlert(Alert.AlertType.WARNING, "Attention", "Nom du plat est obligatoire !");
+            return;
+        }
+        if (TFprix.getText().trim().isEmpty()) {
+            showAlert(Alert.AlertType.WARNING, "Attention", "Prix du plat est obligatoire !");
+            return;
+        }
+        if (TFdesc.getText().trim().isEmpty()) {
+            showAlert(Alert.AlertType.WARNING, "Attention", "Description du plat est obligatoire !");
+            return;
+        }
+
+        // Vérifier si un restaurant a été sélectionné dans le ComboBox
+        Restaurant selectedRestaurant = TFnomresto.getSelectionModel().getSelectedItem();
+        if (selectedRestaurant == null) {
+            showAlert(Alert.AlertType.WARNING, "Attention", "Veuillez sélectionner un restaurant !");
+            return;
+        }
+
+        // Créer un objet Menu à partir des informations fournies
+        Menu menu = new Menu();
+        menu.setName(TFname.getText());
         try {
-            Restaurant selectedRestaurant = TFnomresto.getSelectionModel().getSelectedItem();
-            if (selectedRestaurant == null) {
-                showAlert(Alert.AlertType.WARNING, "Attention", "Veuillez sélectionner un restaurant !");
-                return;
-            }
+            int prix = Integer.parseInt(TFprix.getText()); // Convertir le texte en entier
+            menu.setPrix(prix);
+        } catch (NumberFormatException e) {
+            showAlert(Alert.AlertType.WARNING, "Attention", "Prix doit être un nombre valide !");
+            return;
+        }
+        menu.setDescription(TFdesc.getText());
+        menu.setRestaurant(selectedRestaurant);  // Assigner le restaurant sélectionné
 
-            Menu menu = new Menu();
-            menu.setName(TFname.getText());
-            menu.setPrix(TFprix.getText());
-            menu.setDescription(TFdesc.getText());
-            menu.setRestaurant(selectedRestaurant);
-
-            menuService.add(menu);
+        try {
+            menuService.add(menu);  // Ajouter le menu dans la base de données
             showAlert(Alert.AlertType.INFORMATION, "Succès", "Menu ajouté avec succès !");
 
-            // Rafraîchir la liste des menus
-            comboMenus.getItems().clear();
-            comboMenus.getItems().addAll(menuService.getAll());
+            // Rafraîchir la liste des menus affichés
+            List<Menu> updatedMenus = menuService.getAll();  // Récupérer tous les menus
+            comboMenus.getItems().clear();  // Vider la liste actuelle
+            comboMenus.getItems().addAll(updatedMenus);  // Ajouter la liste mise à jour des menus
 
-        } catch (SQLException e) {
+        } catch (Exception e) {
             showAlert(Alert.AlertType.ERROR, "Erreur", "Erreur lors de l'ajout du menu : " + e.getMessage());
         }
     }
+
+
+
+
 
     private void showAlert(Alert.AlertType alertType, String title, String message) {
         Alert alert = new Alert(alertType);
@@ -102,7 +129,7 @@ public class AjouterMenu {
             comboMenus.getItems().clear();
             comboMenus.getItems().addAll(menuService.getAll());
 
-        } catch (SQLException e) {
+        } catch (Exception e) {
             showAlert(Alert.AlertType.ERROR, "Erreur", "Erreur lors de la suppression : " + e.getMessage());
         }
     }

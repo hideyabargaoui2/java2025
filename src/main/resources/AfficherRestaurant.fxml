@@ -2,27 +2,20 @@
 
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
-<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AfficherRestaurant">
-    <children>
+<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.AfficherRestaurant">
+    <TableView fx:id="table">
+        <columns>
+            <TableColumn fx:id="colNom" text="Nom" />
+            <TableColumn fx:id="colAdresse" text="Adresse" />
+            <TableColumn fx:id="colType" text="Type" />
+            <TableColumn fx:id="colModifier" text="Modifier" />
+            <TableColumn fx:id="colSupprimer" text="Supprimer" />
+            <TableColumn fx:id="colClassement" text="Classement"/>
+            <TableColumn fx:id="colHoraireOuvert" text="Horaire Ouverture" />
+            <TableColumn fx:id="colHoraireFerme" text="Horaire Fermeture" />
 
-        <!-- TableView Restaurants -->
-        <TableView fx:id="tableRestaurants" layoutX="14.0" layoutY="14.0" prefHeight="250.0" prefWidth="760.0">
-            <columns>
-                <TableColumn fx:id="colIdRest" prefWidth="50" text="ID" />
-                <TableColumn fx:id="colNomRest" prefWidth="150" text="Nom" />
-                <TableColumn fx:id="colAdresseRest" prefWidth="150" text="Adresse" />
-                <TableColumn fx:id="colTypeRest" prefWidth="100" text="Type" />
-                <TableColumn fx:id="colOuvRest" prefWidth="150" text="Heure Ouverture" />
-                <TableColumn fx:id="colFermRest" onEditStart="#initialize" prefWidth="150" text="Heure Fermeture" />
-                <TableColumn fx:id="colClassRest" prefWidth="60" text="Classement" />
-            </columns>
-        </TableView>
-        <ComboBox fx:id="comboRestaurants" layoutX="86.0" layoutY="433.0" prefHeight="25.0" prefWidth="287.0" promptText="Sélectionner un restaurant a supprimer" />
-        <Button layoutX="420.0" layoutY="433.0" mnemonicParsing="false" onAction="#supprimerRestaurant" text="Supprimer" />
-
-    </children>
-</AnchorPane>
+        </columns>
+    </TableView>
+</VBox>
