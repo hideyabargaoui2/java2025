@@ -3,92 +3,110 @@ package controllers;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import models.Menu;
 import models.Restaurant;
 import services.MenuService;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.List;
 
 public class AfficherMenu {
 
-    @FXML
-    private TableView<Menu> tableMenus;
-    @FXML
-    private TableColumn<Menu, String> colRestaurant;
-    @FXML
-    private TableColumn<Menu, String> colPlat;
-    @FXML
-    private TableColumn<Menu, String> colPrix;
-    @FXML
-    private TableColumn<Menu, String> colDescription;
+    @FXML private TableView<Menu> tableMenus;
+    @FXML private TableColumn<Menu, String> colRestaurant;
+    @FXML private TableColumn<Menu, String> colPlat;
+    @FXML private TableColumn<Menu, String> colPrix;
+    @FXML private TableColumn<Menu, String> colDescription;
+    @FXML private TableColumn<Menu, Void> colActions;
 
     private final MenuService menuService = new MenuService();
 
     @FXML
     public void initialize() {
+        setupTableColumns();
+        loadMenus();
+        addActionButtonsToTable();
+    }
+
+    private void setupTableColumns() {
+        colRestaurant.setCellValueFactory(cellData -> {
+            Restaurant restaurant = cellData.getValue().getRestaurant();
+            return new SimpleStringProperty(restaurant != null ? restaurant.getNom() : "Inconnu");
+        });
+        colPlat.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getName()));
+        colPrix.setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(cellData.getValue().getPrix())));
+        colDescription.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDescription()));
+    }
+
+    private void loadMenus() {
         try {
-            // Récupérer tous les menus à partir du service
             List<Menu> menus = menuService.getAll();
-
-            // Lier les colonnes à leurs propriétés respectives
-            colRestaurant.setCellValueFactory(cellData -> {
-                Menu menu = cellData.getValue();
-                Restaurant restaurant = menu.getRestaurant(); // Obtenez le restaurant
-                if (restaurant != null) {
-                    return new SimpleStringProperty(restaurant.getNom()); // Si le restaurant est non nul, renvoyer son nom
-                } else {
-                    return new SimpleStringProperty("Inconnu"); // Sinon, afficher "Inconnu" ou une autre valeur par défaut
-                }
-            });
-            colPlat.setCellValueFactory(cellData ->
-                    new SimpleStringProperty(cellData.getValue().getName()));
-            colPrix.setCellValueFactory(cellData ->
-                    new SimpleStringProperty(String.valueOf(cellData.getValue().getPrix())));
-            colDescription.setCellValueFactory(cellData ->
-                    new SimpleStringProperty(cellData.getValue().getDescription()));
-
-            // Ajouter les menus à la TableView
             ObservableList<Menu> observableMenus = FXCollections.observableArrayList(menus);
             tableMenus.setItems(observableMenus);
-
         } catch (Exception e) {
-            showAlert(Alert.AlertType.ERROR, "Erreur", "Erreur de chargement des menus : " + e.getMessage(), null);
+            showAlert(Alert.AlertType.ERROR, "Erreur", "Impossible de charger les menus.", e.getMessage());
         }
     }
 
-    // Méthode pour ouvrir la fenêtre de mise à jour du menu
-    @FXML
-    private void goToUpdateMenu(ActionEvent event) {
-        // Code pour naviguer vers la page de mise à jour du menu
-        System.out.println("Naviguer vers la page de mise à jour du menu.");
+    private void addActionButtonsToTable() {
+        colActions.setCellFactory(param -> new TableCell<>() {
+            private final Button btnModifier = new Button("Modifier");
+            private final Button btnSupprimer = new Button("Supprimer");
+
+            {
+                btnModifier.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white;");
+                btnSupprimer.setStyle("-fx-background-color: #f44336; -fx-text-fill: white;");
+
+                btnModifier.setOnAction(event -> {
+                    Menu selectedMenu = getTableView().getItems().get(getIndex());
+                    openUpdateWindow(selectedMenu);  // Méthode pour ouvrir la fenêtre de modification
+                });
+
+                btnSupprimer.setOnAction(event -> {
+                    Menu selectedMenu = getTableView().getItems().get(getIndex());
+                    menuService.delete(selectedMenu);  // Méthode pour supprimer le menu
+                    loadMenus();  // Recharger la table
+                });
+            }
+
+            @Override
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setGraphic(null);
+                } else {
+                    HBox container = new HBox(10, btnModifier, btnSupprimer);
+                    setGraphic(container);  // Afficher les boutons Modifier et Supprimer dans chaque ligne
+                }
+            }
+        });
     }
 
-    // Méthode pour supprimer un menu sélectionné
-    @FXML
-    private void deleteMenu(ActionEvent event) {
-        Menu selectedMenu = tableMenus.getSelectionModel().getSelectedItem();
-        if (selectedMenu != null) {
-            // Supprimer le menu de la base de données
-            menuService.delete(selectedMenu);
-            System.out.println("Menu supprimé !");
+    private void openUpdateWindow(Menu selectedMenu) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/UpdateMenu.fxml"));
+            Parent root = loader.load();
 
-            // Supprimer le menu de la TableView
-            tableMenus.getItems().remove(selectedMenu);
-        } else {
-            showAlert(Alert.AlertType.WARNING, "Aucun menu sélectionné", null, "Veuillez sélectionner un menu à supprimer.");
+            UpdateMenu updateMenuController = loader.getController();
+            updateMenuController.setMenu(selectedMenu);
+
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+
+            // Recharger les menus après la fermeture de la fenêtre de modification
+            stage.setOnHidden(e -> loadMenus());  // Recharge les menus après la mise à jour
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Erreur", null, "Impossible d'ouvrir la fenêtre de modification.");
         }
     }
 
@@ -99,33 +117,4 @@ public class AfficherMenu {
         alert.setContentText(content);
         alert.showAndWait();
     }
-      // Votre TableView qui affiche les menus
-    @FXML private Button modifierMenuButton;  // Bouton Modifier
-
-    @FXML
-    private void modifierMenu() {
-        Menu selectedMenu = tableMenus.getSelectionModel().getSelectedItem();
-
-        if (selectedMenu != null) {
-            try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/UpdateMenu.fxml")); // vérifie bien le chemin ici
-                Parent root = loader.load();
-
-                UpdateMenu updateMenuController = loader.getController();
-                updateMenuController.setMenu(selectedMenu);
-
-                Stage stage = new Stage();
-                stage.setScene(new Scene(root));
-                stage.show();
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } else {
-            showAlert(Alert.AlertType.WARNING, "Alerte", null, "Veuillez sélectionner un menu à modifier.");
-        }
-    }
-
-
-
 }

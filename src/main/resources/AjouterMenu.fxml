@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
@@ -25,11 +24,6 @@
         <Button fx:id="addrmenu" layoutX="420.0" layoutY="310.0" mnemonicParsing="false" onAction="#ajouter" text="Ajouter Menu" />
 
         <Separator layoutX="20.0" layoutY="360.0" prefWidth="650.0" />
-
-        <ComboBox fx:id="comboMenus" layoutX="200.0" layoutY="390.0" prefHeight="30.0" prefWidth="300.0" promptText="Choisir un Menu à supprimer" />
-        <Label layoutX="50.0" layoutY="395.0" text="Menu à Supprimer" />
-
-        <Button fx:id="deletemenu" layoutX="420.0" layoutY="440.0" mnemonicParsing="false" onAction="#supprimer" text="Supprimer Menu" />
 
         <!-- Nouveau bouton pour aller vers Afficher Menu -->
         <Button fx:id="afficherMenus" layoutX="200.0" layoutY="500.0" mnemonicParsing="false" onAction="#afficherMenus" text="Afficher Menus" />

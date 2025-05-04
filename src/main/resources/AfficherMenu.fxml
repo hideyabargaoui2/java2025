@@ -15,13 +15,8 @@
                 <TableColumn fx:id="colPlat" text="Nom Plat" prefWidth="140.0" />
                 <TableColumn fx:id="colPrix" text="Prix" prefWidth="100.0" />
                 <TableColumn fx:id="colDescription" text="Description" prefWidth="180.0" />
+                <TableColumn fx:id="colActions" text="Actions" prefWidth="200" />
             </columns>
         </TableView>
-        <Button fx:id="modifierMenuButton" text="Modifier" layoutX="200" layoutY="390" onAction="#modifierMenu"/>
-
-
-        <Button fx:id="btnDeleteMenu" text="Supprimer un menu"
-                layoutX="350.0" layoutY="390.0"
-                onAction="#deleteMenu" />
     </children>
 </AnchorPane>

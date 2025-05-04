@@ -14,7 +14,6 @@ import services.MenuService;
 import services.RestaurantServices;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -30,11 +29,7 @@ public class AjouterMenu {
     @FXML
     private ComboBox<Restaurant> TFnomresto;
     @FXML
-    private ComboBox<Menu> comboMenus;
-    @FXML
     private Button addrmenu;
-    @FXML
-    private Button deletemenu;
     @FXML
     private TextField TFadresse;
 
@@ -47,6 +42,33 @@ public class AjouterMenu {
             List<Restaurant> restaurants = restaurantServices.getAll();
             System.out.println("Restaurants loaded: " + restaurants.size());  // Vérification du nombre de restaurants
             TFnomresto.getItems().addAll(restaurants);
+
+            // Définir un StringConverter pour afficher le nom du restaurant dans le ComboBox
+            TFnomresto.setCellFactory(param -> new ListCell<Restaurant>() {
+                @Override
+                protected void updateItem(Restaurant item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (item == null || empty) {
+                        setText(null);
+                    } else {
+                        setText(item.getNom());  // Afficher seulement le nom du restaurant
+                    }
+                }
+            });
+
+            // Assurez-vous que le ComboBox affiche correctement le nom du restaurant dans la sélection
+            TFnomresto.setButtonCell(new ListCell<Restaurant>() {
+                @Override
+                protected void updateItem(Restaurant item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (item == null || empty) {
+                        setText(null);
+                    } else {
+                        setText(item.getNom());  // Afficher le nom sélectionné
+                    }
+                }
+            });
+
         } catch (Exception e) {
             System.out.println("Erreur lors du chargement des restaurants : " + e.getMessage());
         }
@@ -92,20 +114,10 @@ public class AjouterMenu {
         try {
             menuService.add(menu);  // Ajouter le menu dans la base de données
             showAlert(Alert.AlertType.INFORMATION, "Succès", "Menu ajouté avec succès !");
-
-            // Rafraîchir la liste des menus affichés
-            List<Menu> updatedMenus = menuService.getAll();  // Récupérer tous les menus
-            comboMenus.getItems().clear();  // Vider la liste actuelle
-            comboMenus.getItems().addAll(updatedMenus);  // Ajouter la liste mise à jour des menus
-
         } catch (Exception e) {
             showAlert(Alert.AlertType.ERROR, "Erreur", "Erreur lors de l'ajout du menu : " + e.getMessage());
         }
     }
-
-
-
-
 
     private void showAlert(Alert.AlertType alertType, String title, String message) {
         Alert alert = new Alert(alertType);
@@ -115,47 +127,7 @@ public class AjouterMenu {
     }
 
     @FXML
-    private void supprimer(ActionEvent event) {
-        Menu selectedMenu = comboMenus.getSelectionModel().getSelectedItem();
-        if (selectedMenu == null) {
-            showAlert(Alert.AlertType.WARNING, "Attention", "Veuillez sélectionner un menu à supprimer !");
-            return;
-        }
-        try {
-            menuService.delete(selectedMenu);
-            showAlert(Alert.AlertType.INFORMATION, "Succès", "Menu supprimé avec succès !");
-
-            // Rafraîchir la liste
-            comboMenus.getItems().clear();
-            comboMenus.getItems().addAll(menuService.getAll());
-
-        } catch (Exception e) {
-            showAlert(Alert.AlertType.ERROR, "Erreur", "Erreur lors de la suppression : " + e.getMessage());
-        }
-    }
-    @FXML
-    public void initialize2() {
-        List<String> menus = Arrays.asList("Pizza", "Burger", "Salade", "Pâtes", "Sushi", "Tacos");
-
-        int columns = 3; // Nombre de colonnes
-        int row = 0;
-        int col = 0;
-
-        for (String menu : menus) {
-            Button btn = new Button(menu);
-            btn.setPrefSize(150, 100);
-
-            gridMenu.add(btn, col, row);
-
-            col++;
-            if (col == columns) {
-                col = 0;
-                row++;
-            }
-        }
-    }
-    @FXML
-    private void afficherMenus() {
+    public void afficherMenus() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/AfficherMenu.fxml"));
             Parent root = loader.load();
@@ -167,5 +139,4 @@ public class AjouterMenu {
             System.out.println("Erreur lors de l'ouverture d'AfficherMenu : " + e.getMessage());
         }
     }
-
 }
