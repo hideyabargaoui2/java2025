@@ -1,102 +1,107 @@
 package controllers;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import javafx.collections.*;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.fxml.*;
+import javafx.scene.*;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 import models.Restaurant;
 import services.RestaurantServices;
 
-import java.sql.SQLException;
-import java.util.List;
+import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class AfficherRestaurant {
-    private final RestaurantServices r = new RestaurantServices();
+public class AfficherRestaurant implements Initializable {
 
-    @FXML
-    private TableColumn<Restaurant, String> colAdresseRest;
-    @FXML
-    private TableColumn<Restaurant, Integer> colClassRest;
-    @FXML
-    private TableColumn<Restaurant, String> colFermRest;
-    @FXML
-    private TableColumn<Restaurant, Integer> colIdRest;
-    @FXML
-    private TableColumn<Restaurant, String> colNomRest;
-    @FXML
-    private TableColumn<Restaurant, String> colOuvRest;
-    @FXML
-    private TableColumn<Restaurant, String> colTypeRest;
+    @FXML private TableView<Restaurant> table;
+    @FXML private TableColumn<Restaurant, String> colNom;
+    @FXML private TableColumn<Restaurant, String> colAdresse;
+    @FXML private TableColumn<Restaurant, String> colType;
+    @FXML private TableColumn<Restaurant, Integer> colClassement;
+    @FXML private TableColumn<Restaurant, Void> colModifier;
+    @FXML private TableColumn<Restaurant, Void> colSupprimer;
+    @FXML private TableColumn<Restaurant, String> colHoraireOuvert;
+    @FXML private TableColumn<Restaurant, String> colHoraireFerme;
 
-    @FXML
-    private TableView<Restaurant> tableRestaurants;
+    private final RestaurantServices service = new RestaurantServices();
 
-    @FXML
-    private ComboBox<Restaurant> comboRestaurants;
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        colNom.setCellValueFactory(new PropertyValueFactory<>("nom"));
+        colAdresse.setCellValueFactory(new PropertyValueFactory<>("adresse"));
+        colType.setCellValueFactory(new PropertyValueFactory<>("type"));
+        colClassement.setCellValueFactory(new PropertyValueFactory<>("classement"));
+        colHoraireOuvert.setCellValueFactory(new PropertyValueFactory<>("horaireOuvert"));
 
-    @FXML
-    void initialize() {
-        chargerRestaurants();
+        colHoraireFerme.setCellValueFactory(new PropertyValueFactory<>("horaireFerme"));
+
+        colModifier.setCellFactory(col -> new TableCell<>() {
+            private final Button btn = new Button("Modifier");
+            {
+                btn.setOnAction(event -> {
+                    Restaurant r = getTableView().getItems().get(getIndex());
+                    modifierRestaurant(r);
+                });
+            }
+            @Override
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                setGraphic(empty ? null : btn);
+            }
+        });
+
+        colSupprimer.setCellFactory(col -> new TableCell<>() {
+            private final Button btn = new Button("Supprimer");
+            {
+                btn.setOnAction(event -> {
+                    Restaurant r = getTableView().getItems().get(getIndex());
+                    supprimerRestaurant(r);
+                });
+            }
+            @Override
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                setGraphic(empty ? null : btn);
+            }
+        });
+
+        afficherRestaurants();
     }
 
-    private void chargerRestaurants() {
+    @FXML
+    void ajouterRestaurant(ActionEvent event) {
+        System.out.println("Bouton Ajouter Restaurant cliqué !");
+        // Code pour ouvrir le formulaire d’ajout ici
+    }
+
+    private void afficherRestaurants() {
+        ObservableList<Restaurant> listRestaurants = FXCollections.observableArrayList(service.afficher());
+        table.setItems(listRestaurants);
+    }
+
+    private void modifierRestaurant(Restaurant restaurant) {
         try {
-            RestaurantServices service = new RestaurantServices();
-            List<Restaurant> restaurants = service.getAll();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/UpdateRestaurant.fxml"));
 
-            // Mettre à jour la TableView avec les restaurants
-            ObservableList<Restaurant> observableList = FXCollections.observableArrayList(restaurants);
-            tableRestaurants.setItems(observableList);
+            Parent root = loader.load();
+            UpdateRestaurant controller = loader.getController();
+            controller.setRestaurant(restaurant);
 
-            // Mettre à jour la ComboBox avec les restaurants
-            ObservableList<Restaurant> options = FXCollections.observableArrayList(restaurants);
-            comboRestaurants.setItems(options);
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.showAndWait();
 
-            // Configurer les colonnes de la TableView
-            colIdRest.setCellValueFactory(new PropertyValueFactory<>("id"));
-            colNomRest.setCellValueFactory(new PropertyValueFactory<>("nom"));
-            colAdresseRest.setCellValueFactory(new PropertyValueFactory<>("adresse"));
-            colTypeRest.setCellValueFactory(new PropertyValueFactory<>("type"));
-            colOuvRest.setCellValueFactory(new PropertyValueFactory<>("heure_ouv"));
-            colFermRest.setCellValueFactory(new PropertyValueFactory<>("heure_ferm"));
-            colClassRest.setCellValueFactory(new PropertyValueFactory<>("classement"));
-
-        } catch (SQLException e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Erreur");
-            alert.setHeaderText(e.getMessage());
-            alert.showAndWait();
+            afficherRestaurants();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
-    @FXML
-    void supprimerRestaurant(ActionEvent event) {
-        Restaurant selected = comboRestaurants.getSelectionModel().getSelectedItem();
-        if (selected == null) {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Attention");
-            alert.setContentText("Veuillez sélectionner un restaurant à supprimer.");
-            alert.showAndWait();
-            return;
-        }
-        try {
-            RestaurantServices service = new RestaurantServices();
-            service.delete(selected);
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Succès");
-            alert.setContentText("Restaurant supprimé avec succès !");
-            alert.showAndWait();
-            chargerRestaurants(); // Actualise la liste après suppression
-        } catch (Exception e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Erreur");
-            alert.setContentText("Erreur lors de la suppression : " + e.getMessage());
-            alert.showAndWait();
-        }
+    private void supprimerRestaurant(Restaurant restaurant) {
+        service.supprimer(restaurant.getId());
+        afficherRestaurants();
     }
 }

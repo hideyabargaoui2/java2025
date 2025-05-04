@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -18,8 +17,11 @@
                 <TableColumn fx:id="colDescription" text="Description" prefWidth="180.0" />
             </columns>
         </TableView>
-        <Button fx:id="btnUpdateMenu" text="Modifier un menu"
-                layoutX="230.0" layoutY="390.0"
-                onAction="#goToUpdateMenu" />
+        <Button fx:id="modifierMenuButton" text="Modifier" layoutX="200" layoutY="390" onAction="#modifierMenu"/>
+
+
+        <Button fx:id="btnDeleteMenu" text="Supprimer un menu"
+                layoutX="350.0" layoutY="390.0"
+                onAction="#deleteMenu" />
     </children>
 </AnchorPane>

@@ -1,0 +1,90 @@
+/* Styles pour la gestion des trajets */
+
+/* Style général pour le fond */
+.root {
+    -fx-background-color: #90bae6;
+    -fx-font-family: "Arial";
+}
+
+/* Style pour les boutons */
+.button {
+    -fx-background-color: #2d698e;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+    -fx-padding: 8px 15px;
+    -fx-background-radius: 5px;
+}
+
+.button:hover {
+    -fx-background-color: #b5d1ed;
+}
+
+/* Style pour le bouton ajouter */
+#btnAjouter {
+    -fx-background-color: #0f65cf;
+    -fx-font-size: 14px;
+}
+
+#btnAjouter:hover {
+    -fx-background-color: #0c6732;
+}
+
+/* Styles pour les boutons d'action */
+.btn-edit {
+    -fx-background-color: #ac6a1e;
+    -fx-text-fill: white;
+    -fx-font-size: 11px;
+    -fx-padding: 4px 8px;
+}
+
+.btn-delete {
+    -fx-background-color: #dc3545;
+    -fx-text-fill: white;
+    -fx-font-size: 11px;
+    -fx-padding: 4px 8px;
+}
+
+.btn-edit:hover {
+    -fx-background-color: #ffb732;
+}
+
+.btn-delete:hover {
+    -fx-background-color: #e45c6b;
+}
+
+/* Style pour le tableau */
+.table-view {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #dcdcdc;
+    -fx-border-width: 1px;
+}
+
+.table-view .column-header {
+    -fx-background-color: #4682b4;
+    -fx-text-fill: white;
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+/* Style pour les lignes du tableau */
+.table-row-cell {
+    -fx-background-color: #ffffff;
+}
+
+.table-row-cell:odd {
+    -fx-background-color: #f5f5f5;
+}
+
+.table-row-cell:hover {
+    -fx-background-color: #dae8f5;
+}
+
+/* Message affiché quand le tableau est vide */
+.table-view .placeholder .label {
+    -fx-text-fill: #555555;
+    -fx-font-style: italic;
+}

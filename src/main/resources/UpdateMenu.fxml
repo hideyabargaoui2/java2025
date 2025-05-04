@@ -1,21 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextArea?>
-<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="490.0" prefWidth="655.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.UpdateMenu">
+<AnchorPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="controllers.UpdateMenu"
+            prefWidth="400" prefHeight="300">
+
     <children>
-        <Label layoutX="57.0" layoutY="53.0" text="Nom du plat" />
-        <Label layoutX="57.0" layoutY="115.0" text="Prix" />
-        <TextField fx:id="TFupname" layoutX="177.0" layoutY="47.0" prefHeight="30.0" prefWidth="300.0" promptText="Nom du plat" />
-        <TextField fx:id="TFupprix" layoutX="177.0" layoutY="100.0" prefHeight="30.0" prefWidth="300.0" promptText="Prix" />
-        <TextArea fx:id="TFupdesc" layoutX="177.0" layoutY="150.0" prefHeight="100.0" prefWidth="300.0" promptText="Description" />
-        <ComboBox fx:id="TFupnomresto" layoutX="185.0" layoutY="264.0" prefHeight="30.0" prefWidth="300.0" promptText="Choisir un Restaurant" />
-        <ComboBox fx:id="comboupMenus" layoutX="185.0" layoutY="332.0" prefHeight="30.0" prefWidth="300.0" promptText="Choisir un Menu à mettre à jour" />
-        <Button fx:id="updateMenu" layoutX="276.0" layoutY="414.0" mnemonicParsing="false" onAction="#UpdateMenu" text="Mettre à jour le Menu" />
+        <Label layoutX="30" layoutY="30" text="Nom du menu:"/>
+        <TextField fx:id="TFupname" layoutX="150" layoutY="25" prefWidth="200"/>
+
+        <Label layoutX="30" layoutY="80" text="Description:"/>
+        <TextField fx:id="TFupdesc" layoutX="150" layoutY="75" prefWidth="200"/>
+
+        <Label layoutX="30" layoutY="130" text="Prix:"/>
+        <TextField fx:id="TFupprix" layoutX="150" layoutY="125" prefWidth="200"/>
+
+        <Label layoutX="30" layoutY="180" text="Restaurant:"/>
+        <ComboBox fx:id="TFupnomresto" layoutX="150" layoutY="175" prefWidth="200"/>
+
+        <Button fx:id="btnUpdate" layoutX="150" layoutY="230" text="Mettre à jour"
+                onAction="#modifierMenu"/>
+
     </children>
 </AnchorPane>
