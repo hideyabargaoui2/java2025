@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/21.0.2"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="controllers.Ajouterdepen"
+      spacing="15"
+      alignment="TOP_CENTER"
+      stylesheets="@style.css"
+      styleClass="root">
+
+   <Label text="Ajouter Dépense" style="-fx-font-size: 18px; -fx-font-weight: bold;" />
+
+   <HBox spacing="10">
+      <Label text="Catégorie" prefWidth="150" styleClass="label"/>
+      <TextField fx:id="categories" promptText="Catégorie" styleClass="text-field" prefWidth="300"/>
+   </HBox>
+
+   <HBox spacing="10">
+      <Label text="Date de paiement" prefWidth="150" styleClass="label"/>
+      <TextField fx:id="datepay" promptText="yyyy-MM-dd" styleClass="text-field" prefWidth="300"/>
+   </HBox>
+
+   <HBox spacing="10">
+      <Label text="Mode de paiement" prefWidth="150" styleClass="label"/>
+      <TextField fx:id="modepay" promptText="Espèces, Carte, etc." styleClass="text-field" prefWidth="300"/>
+   </HBox>
+
+   <HBox spacing="10">
+      <Label text="Description" prefWidth="150" styleClass="label"/>
+      <TextField fx:id="desc" promptText="Description" styleClass="text-field" prefWidth="300"/>
+   </HBox>
+
+   <HBox spacing="10">
+      <Label text="Montant" prefWidth="150" styleClass="label"/>
+      <TextField fx:id="monta" promptText="Montant" styleClass="text-field" prefWidth="300"/>
+   </HBox>
+
+   <Button fx:id="submit" text="Ajouter Dépense" onAction="#adduser" styleClass="button"/>
+   <Button fx:id="monafficher" text="Afficher Dépenses" onAction="#ondisplay" styleClass="button"/>
+   <Button fx:id="update" text="Modifier Dépense" onAction="#ouvrirUpdate" styleClass="button"/>
+   <Button fx:id="addrevenue" text="Ajouter Revenue" onAction="#ouvrirerevenue" styleClass="button"/>
+
+</VBox>

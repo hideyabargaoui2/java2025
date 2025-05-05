@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/23.0.1"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="controllers.AjouterRevenue"
+      spacing="15"
+      alignment="TOP_CENTER"
+      stylesheets="@style.css"
+      styleClass="root">
+
+    <Label text="Ajouter Revenue" style="-fx-font-size: 18px; -fx-font-weight: bold;" />
+
+    <HBox spacing="10">
+        <Label text="Date de revenue" prefWidth="150" styleClass="label"/>
+        <TextField fx:id="TFdate" promptText="Ex: 2025-04-30" styleClass="text-field" prefWidth="300"/>
+    </HBox>
+
+    <HBox spacing="10">
+        <Label text="Mode de réception" prefWidth="150" styleClass="label"/>
+        <TextField fx:id="TFmode" promptText="Espèces, Virement, etc." styleClass="text-field" prefWidth="300"/>
+    </HBox>
+
+    <HBox spacing="10">
+        <Label text="Montant" prefWidth="150" styleClass="label"/>
+        <TextField fx:id="TFmontant" promptText="Montant reçu" styleClass="text-field" prefWidth="300"/>
+    </HBox>
+
+    <HBox spacing="10">
+        <Label text="Devise" prefWidth="150" styleClass="label"/>
+        <TextField fx:id="TFdevise" promptText="Ex: TND, EUR" styleClass="text-field" prefWidth="300"/>
+    </HBox>
+
+    <Button fx:id="btnAjouter" text="Ajouter Revenue" onAction="#ajouter" styleClass="button"/>
+
+    <Separator prefWidth="600"/>
+
+    <HBox spacing="10">
+        <Label text="Revenue à Supprimer" prefWidth="150" styleClass="label"/>
+        <ComboBox fx:id="comboRevenues" promptText="Sélectionner" prefWidth="300" styleClass="combo-box"/>
+    </HBox>
+
+    <Button fx:id="btnSupprimer" text="Supprimer Revenue" onAction="#supprimer" styleClass="button"/>
+
+    <HBox spacing="10">
+        <Button fx:id="btnAfficher" text="Afficher Revenues" onAction="#afficherRevenues" styleClass="button"/>
+        <Button fx:id="update" text="Modifier Revenue" onAction="#ouvrirUpdate" styleClass="button"/>
+    </HBox>
+
+</VBox>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="600.0" prefWidth="800.0"
+            xmlns="http://javafx.com/javafx/23.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controllers.Affichierrevenue"
+            stylesheets="@style.css">
+
+    <children>
+
+        <!-- TableView Revenus -->
+        <TableView fx:id="tableRevenues" layoutX="20.0" layoutY="20.0"
+                   prefHeight="300.0" prefWidth="760.0"
+                   styleClass="table-view">
+            <columns>
+                <TableColumn fx:id="colDateRevenue" prefWidth="150.0" text="Date Revenue" />
+                <TableColumn fx:id="colModeReception" prefWidth="150.0" text="Mode Réception" />
+                <TableColumn fx:id="colMontant" prefWidth="100.0" text="Montant" />
+                <TableColumn fx:id="colDevise" prefWidth="100.0" text="Devise" />
+            </columns>
+        </TableView>
+
+        <!-- Bouton retour -->
+        <Button fx:id="btnRetour" layoutX="350.0" layoutY="350.0"
+                onAction="#retourAjout" text="Retour" />
+
+        <!-- ComboBox pour sélection de revenu -->
+        <ComboBox fx:id="comboRevenue" layoutX="86.0" layoutY="433.0"
+                  prefHeight="30.0" prefWidth="300.0"
+                  promptText="Sélectionner un revenu à supprimer" />
+
+        <!-- Bouton de suppression -->
+        <Button fx:id="btnSupprimer" layoutX="420.0" layoutY="433.0"
+                onAction="#supprimerRevenue" text="Supprimer"
+                styleClass="btn-delete" />
+
+        <!-- Bouton de modification -->
+        <Button layoutX="600.0" layoutY="350.0" text="Modifier"
+                onAction="#ouvrirModification" styleClass="btn-edit" />
+
+    </children>
+</AnchorPane>

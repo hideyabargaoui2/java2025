@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="600.0" prefWidth="800.0"
+            xmlns="http://javafx.com/javafx/23.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controllers.AfficherDepensse"
+            stylesheets="@style.css"> <!-- Mets ici le bon chemin relatif vers style.css -->
+
+    <children>
+
+        <!-- TableView Dépenses -->
+        <TableView fx:id="tableDepenses" layoutX="20.0" layoutY="20.0"
+                   prefHeight="300.0" prefWidth="760.0"
+                   styleClass="table-view">
+            <columns>
+                <TableColumn fx:id="colModePay" prefWidth="150.0" text="Mode Paiement" />
+                <TableColumn fx:id="colDatePay" prefWidth="150.0" text="Date Paiement" />
+                <TableColumn fx:id="colCategorie" prefWidth="150.0" text="Catégorie" />
+                <TableColumn fx:id="colMontant" prefWidth="100.0" text="Montant" />
+                <TableColumn fx:id="colDescription" prefWidth="210.0" text="Description" />
+            </columns>
+        </TableView>
+
+        <!-- ComboBox -->
+        <ComboBox fx:id="comboaffiche" layoutX="86.0" layoutY="433.0"
+                  prefHeight="30.0" prefWidth="300.0"
+                  promptText="Sélectionner une dépense à supprimer" />
+
+        <!-- Boutons -->
+        <Button fx:id="supprimeraff" layoutX="410.0" layoutY="433.0" text="Supprimer"
+                onAction="#supprimeraffichage" styleClass="btn-delete" />
+
+        <Button fx:id="btnModifier" layoutX="600.0" layoutY="350.0" text="Modifier"
+                onAction="#ouvrirModifier" styleClass="btn-edit" />
+
+        <Button fx:id="btnRetour" layoutX="350.0" layoutY="350.0" text="Retour"
+                onAction="#retourAjout" styleClass="button" />
+
+    </children>
+</AnchorPane>
