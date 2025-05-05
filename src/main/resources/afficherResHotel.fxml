@@ -18,7 +18,7 @@
                 <Button text="Ajouter Réservation" fx:id="btnAjouter" onAction="#ajouterResHotel"/>
 
                 <!-- Table des réservations -->
-                <TableView fx:id="tableView" prefWidth="600.0" prefHeight="400.0">
+                <TableView fx:id="tableView" prefWidth="650.0" prefHeight="400.0">
                     <columns>
                         <TableColumn fx:id="hotelCol" text="Hôtel" prefWidth="150.0"/>
                         <TableColumn fx:id="startresCol" text="Statut Réservation" prefWidth="150.0"/>

@@ -34,7 +34,7 @@
 
             <HBox spacing="10.0">
                <Label text="Standing:" prefWidth="100.0" alignment="CENTER_RIGHT"/>
-               <TextField fx:id="standingField" prefWidth="250.0" promptText="Entrez le standing"/>
+               <ComboBox fx:id="standingComboBox" prefWidth="250.0" promptText="Sélectionnez le standing"/>
             </HBox>
 
             <HBox spacing="10.0">

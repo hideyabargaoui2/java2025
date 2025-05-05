@@ -18,7 +18,8 @@ public class AjouterHotelController {
     @FXML private TextField adresseField;
     @FXML private Button btnConfirmer;
     @FXML private Button btnAnnuler;
-
+    @FXML
+    private ComboBox<String> standingComboBox;
     private final HotelService hotelService = new HotelService();
     private AfficherHotelController parentController;
 
@@ -45,6 +46,23 @@ public class AjouterHotelController {
 
         // Également configurer le champ de nombre de nuits pour cohérence
         configurerChampNumerique(nombreNuitField);
+
+
+
+
+
+            // Initialiser la ComboBox avec les options d'étoiles sous forme de symboles
+            standingComboBox.getItems().addAll(
+                    "⭐",
+                    "⭐⭐",
+                    "⭐⭐⭐",
+                    "⭐⭐⭐⭐",
+                    "⭐⭐⭐⭐⭐"
+            );
+
+
+// Dans votre méthode confirmerAjout(), vous récupérerez la valeur avec:
+// String standing = standingComboBox.getValue();
     }
 
     /**
