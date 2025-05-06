@@ -1,6 +1,5 @@
 package controllers;
 
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -19,8 +18,7 @@ import models.ResHotel;
 import service.ResHotelService;
 
 import java.io.IOException;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import java.sql.SQLException;
 import java.util.List;
 
 public class AfficherResHotelController {
@@ -44,9 +42,7 @@ public class AfficherResHotelController {
 
         // Pour formater la date de façon lisible
         dateresCol.setCellValueFactory(cellData ->
-            new SimpleStringProperty(cellData.getValue().getDateres().toLocalDate().toString()));
-
-        ;
+                new SimpleStringProperty(cellData.getValue().getDateres().toLocalDate().toString()));
 
         setupActionColumn();
         loadData();
@@ -96,7 +92,8 @@ public class AfficherResHotelController {
 
                     alert.showAndWait().ifPresent(response -> {
                         if (response == ButtonType.OK) {
-                            boolean success = resHotelService.supprimer(res);
+                            boolean success = false;
+                            success = resHotelService.supprimer(res);
                             if (success) {
                                 // Retirer directement de la liste observable
                                 getTableView().getItems().remove(res);

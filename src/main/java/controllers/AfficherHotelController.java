@@ -11,6 +11,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -46,6 +48,7 @@ public class AfficherHotelController {
         adresseCol.setCellValueFactory(new PropertyValueFactory<>("adresse"));
 
         setupActionColumn();
+        setupDoubleClickHandler();
         loadData();
 
         // Vérifier que le bouton est correctement configuré
@@ -59,6 +62,51 @@ public class AfficherHotelController {
             System.err.println("Erreur: btnAjouter est null - Vérifiez l'ID dans le fichier FXML");
         }
     }
+
+    /**
+     * Configure le gestionnaire d'événements de double-clic sur une ligne du tableau
+     */
+    private void setupDoubleClickHandler() {
+        tableView.setRowFactory(tv -> {
+            TableRow<hotel> row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+                if (event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 2 && !row.isEmpty()) {
+                    hotel selectedHotel = row.getItem();
+                    System.out.println("Double-clic sur l'hôtel: " + selectedHotel.getNom());
+                    ouvrirDetailsHotel(selectedHotel);
+                }
+            });
+            return row;
+        });
+    }
+
+    /**
+     * Ouvre la fenêtre de détails d'un hôtel
+     * @param h L'hôtel à afficher en détail
+     */
+    private void ouvrirDetailsHotel(hotel h) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/hotelDetails.fxml"));
+            Parent root = loader.load();
+
+            HotelDetailsController controller = loader.getController();
+            controller.setHotel(h);
+
+            Stage stage = new Stage();
+            stage.setTitle("Détails de l'hôtel: " + h.getNom());
+            stage.setScene(new Scene(root));
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.showAndWait();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erreur");
+            alert.setContentText("Impossible d'ouvrir la fenêtre de détails : " + e.getMessage());
+            alert.showAndWait();
+        }
+    }
+
     private void setupActionColumn() {
         actionCol.setCellFactory(param -> new TableCell<>() {
             final Button btnEdit = new Button("Modifier");

@@ -5,6 +5,7 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 import models.hotel;
 import service.HotelService;
+import service.HotelMapService;
 import javafx.scene.input.KeyEvent;
 import java.util.function.UnaryOperator;
 import javafx.util.converter.DoubleStringConverter;
@@ -14,13 +15,13 @@ public class AjouterHotelController {
     @FXML private TextField nomField;
     @FXML private TextField prixNuitField;
     @FXML private TextField nombreNuitField;
-    @FXML private TextField standingField;
     @FXML private TextField adresseField;
     @FXML private Button btnConfirmer;
     @FXML private Button btnAnnuler;
-    @FXML
-    private ComboBox<String> standingComboBox;
+    @FXML private ComboBox<String> standingComboBox;
+
     private final HotelService hotelService = new HotelService();
+    private final HotelMapService mapService = new HotelMapService();
     private AfficherHotelController parentController;
 
     @FXML
@@ -28,7 +29,7 @@ public class AjouterHotelController {
         System.out.println("Initialisation du AjouterHotelController");
         // Vérification que les champs et boutons sont correctement injectés
         if (nomField == null || prixNuitField == null || nombreNuitField == null ||
-                standingField == null || adresseField == null || btnConfirmer == null || btnAnnuler == null) {
+                adresseField == null || btnConfirmer == null || btnAnnuler == null) {
             System.err.println("Erreur: un ou plusieurs éléments FXML n'ont pas été injectés correctement");
         }
 
@@ -44,25 +45,42 @@ public class AjouterHotelController {
         // Ajouter le contrôle de saisie pour le champ de prix nuit (accepte uniquement les chiffres)
         configurerChampNumerique(prixNuitField);
 
-        // Également configurer le champ de nombre de nuits pour cohérence
+        // Également configurer le champ de nombre de nuits pour coherence
         configurerChampNumerique(nombreNuitField);
 
+        // Initialiser la ComboBox avec les options d'étoiles sous forme de symboles
+        standingComboBox.getItems().addAll(
+                "⭐",
+                "⭐⭐",
+                "⭐⭐⭐",
+                "⭐⭐⭐⭐",
+                "⭐⭐⭐⭐⭐"
+        );
 
+        // Configurer la recherche automatique d'adresse lors de la saisie du nom d'hôtel
+        configureHotelSearch();
+    }
 
+    /**
+     * Configure la recherche automatique d'adresse d'hôtel basée sur le nom
+     */
+    private void configureHotelSearch() {
+        // Utiliser le service de carte pour configurer la recherche automatique
+        mapService.setupAutoAddressLookup(nomField, adresseField);
 
-
-            // Initialiser la ComboBox avec les options d'étoiles sous forme de symboles
-            standingComboBox.getItems().addAll(
-                    "⭐",
-                    "⭐⭐",
-                    "⭐⭐⭐",
-                    "⭐⭐⭐⭐",
-                    "⭐⭐⭐⭐⭐"
-            );
-
-
-// Dans votre méthode confirmerAjout(), vous récupérerez la valeur avec:
-// String standing = standingComboBox.getValue();
+        // Ajouter un button d'action pour rechercher explicitement
+        nomField.setOnAction(event -> {
+            String hotelName = nomField.getText();
+            if (hotelName != null && !hotelName.isEmpty()) {
+                mapService.openInOpenStreetMap(hotelName);
+                mapService.searchHotelAddress(hotelName)
+                        .thenAccept(address -> {
+                            if (!address.isEmpty()) {
+                                adresseField.setText(address);
+                            }
+                        });
+            }
+        });
     }
 
     /**
@@ -120,11 +138,11 @@ public class AjouterHotelController {
                 return;
             }
 
-            String standing = standingField.getText();
+            String standing = standingComboBox.getValue();
             String adresse = adresseField.getText();
 
             // Validation des champs
-            if (nom.isEmpty() || standing.isEmpty() || adresse.isEmpty()) {
+            if (nom.isEmpty() || standing == null || adresse.isEmpty()) {
                 afficherAlerte("Veuillez remplir tous les champs.");
                 return;
             }
@@ -179,5 +197,5 @@ public class AjouterHotelController {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
-}
+    }
 }

@@ -1,33 +1,150 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
+<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="500.0" prefWidth="650.0"
-            xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="controllers.AfficherResHotelController"
-            stylesheets="@style.css">
+<StackPane prefHeight="700.0" prefWidth="1000.0"
+           xmlns="http://javafx.com/javafx"
+           xmlns:fx="http://javafx.com/fxml"
+           fx:controller="controllers.AfficherResHotelController"
+           stylesheets="@style.css">
 
-    <children>
-        <VBox spacing="10.0" layoutX="20.0" layoutY="20.0">
-            <children>
+    <!-- Background with solid color as fallback -->
+    <VBox styleClass="main-background"/>
 
-                <!-- Bouton Ajouter -->
-                <Button text="Ajouter Réservation" fx:id="btnAjouter" onAction="#ajouterResHotel"/>
+    <!-- Background image with error handling -->
+    <ImageView fitWidth="1000.0" fitHeight="700.0" preserveRatio="false">
+        <image>
+            <!-- Reservation-specific background image -->
+            <Image url="@images/aireplane_view.jpg"/>
+        </image>
+    </ImageView>
 
-                <!-- Table des réservations -->
-                <TableView fx:id="tableView" prefWidth="650.0" prefHeight="400.0">
+    <!-- Main container with transparent background -->
+    <BorderPane styleClass="transparent-container" fx:id="mainContainer">
+        <!-- Header -->
+        <top>
+            <HBox alignment="CENTER_LEFT" spacing="20.0" styleClass="header-transparent">
+                <padding>
+                    <Insets top="15.0" right="20.0" bottom="15.0" left="20.0"/>
+                </padding>
+
+                <!-- Logo -->
+                <StackPane fx:id="logoContainer" styleClass="logo-container">
+                    <ImageView fitHeight="80.0" fitWidth="80.0" preserveRatio="true">
+                        <image>
+                            <Image url="@images/travelpro_logo.png"/>
+                        </image>
+                    </ImageView>
+                </StackPane>
+
+                <!-- Title -->
+                <VBox alignment="CENTER_LEFT" styleClass="title-container">
+                    <Text text="TRAVELPRO" styleClass="app-title"/>
+                    <Text text="ELEVATE YOUR BUSINESS TRIP" styleClass="app-subtitle"/>
+                </VBox>
+
+                <HBox HBox.hgrow="ALWAYS" alignment="CENTER_RIGHT" spacing="15">
+                    <!-- Navigation buttons -->
+                    <Button text="Home" styleClass="nav-button">
+                        <graphic>
+                            <ImageView fitHeight="16.0" fitWidth="16.0" preserveRatio="true">
+                                <image>
+                                    <Image url="@icons/home.png"/>
+                                </image>
+                            </ImageView>
+                        </graphic>
+                    </Button>
+                    <Button text="Profil" styleClass="nav-button">
+                        <graphic>
+                            <ImageView fitHeight="16.0" fitWidth="16.0" preserveRatio="true">
+                                <image>
+                                    <Image url="@icons/profile.png"/>
+                                </image>
+                            </ImageView>
+                        </graphic>
+                    </Button>
+                    <Button text="Paramètres" styleClass="nav-button">
+                        <graphic>
+                            <ImageView fitHeight="16.0" fitWidth="16.0" preserveRatio="true">
+                                <image>
+                                    <Image url="@icons/settigns.png"/>
+                                </image>
+                            </ImageView>
+                        </graphic>
+                    </Button>
+                </HBox>
+            </HBox>
+        </top>
+
+        <!-- Main content -->
+        <center>
+            <VBox spacing="20.0" styleClass="content-area-transparent" fx:id="contentArea">
+                <padding>
+                    <Insets top="20.0" right="20.0" bottom="20.0" left="20.0"/>
+                </padding>
+
+                <!-- Section header -->
+                <HBox alignment="CENTER_LEFT" spacing="15.0" styleClass="section-header-transparent">
+                    <Text text="Gestion des Réservations" styleClass="section-title-light"/>
+                    <Pane HBox.hgrow="ALWAYS"/>
+
+                    <!-- Search box -->
+                    <HBox alignment="CENTER" styleClass="search-box-transparent">
+                        <ImageView fitHeight="16.0" fitWidth="16.0" preserveRatio="true">
+                            <image>
+                                <Image url="@icons/search.png"/>
+                            </image>
+                        </ImageView>
+                        <TextField promptText="Rechercher..." styleClass="search-field-transparent"/>
+                    </HBox>
+
+                    <!-- Add button -->
+                    <Button text="+ Ajouter Réservation" fx:id="btnAjouter" onAction="#ajouterResHotel" styleClass="action-button"/>
+                </HBox>
+
+                <!-- Table with transparent background -->
+                <TableView fx:id="tableView" VBox.vgrow="ALWAYS" styleClass="transparent-table">
                     <columns>
-                        <TableColumn fx:id="hotelCol" text="Hôtel" prefWidth="150.0"/>
-                        <TableColumn fx:id="startresCol" text="Statut Réservation" prefWidth="150.0"/>
-                        <TableColumn fx:id="dateresCol" text="Date Réservation" prefWidth="150.0"/>
-                        <TableColumn fx:id="actionCol" text="Actions" prefWidth="150.0"/>
+                        <TableColumn fx:id="hotelCol" text="Hôtel" prefWidth="250.0"/>
+                        <TableColumn fx:id="startresCol" text="Statut Réservation" prefWidth="250.0"/>
+                        <TableColumn fx:id="dateresCol" text="Date Réservation" prefWidth="250.0"/>
+                        <TableColumn fx:id="actionCol" text="Actions" prefWidth="200.0"/>
                     </columns>
+                    <placeholder>
+                        <VBox alignment="CENTER" spacing="10" styleClass="empty-placeholder">
+                            <ImageView fitHeight="64.0" fitWidth="64.0" preserveRatio="true">
+                                <image>
+                                    <Image url="@icons/empty_list.png"/>
+                                </image>
+                            </ImageView>
+                            <Label text="Aucune réservation disponible" styleClass="empty-table-title-light"/>
+                            <Label text="Cliquez sur '+ Ajouter Réservation' pour commencer." styleClass="empty-table-message-light"/>
+                        </VBox>
+                    </placeholder>
                 </TableView>
 
-            </children>
-        </VBox>
-    </children>
-</AnchorPane>
+                <!-- Simple pagination -->
+                <HBox alignment="CENTER" spacing="10" styleClass="pagination-container-transparent">
+                    <Button styleClass="pagination-btn-transparent" text="&lt;"/>
+                    <Pagination maxPageIndicatorCount="5" pageCount="10" styleClass="transparent-pagination" />
+                    <Button styleClass="pagination-btn-transparent" text="&gt;"/>
+                </HBox>
+            </VBox>
+        </center>
+
+        <!-- Footer -->
+        <bottom>
+            <HBox alignment="CENTER" styleClass="footer-transparent">
+                <padding>
+                    <Insets top="15.0" right="20.0" bottom="15.0" left="20.0"/>
+                </padding>
+                <Text text="© 2025 TRAVELPRO - Tous droits réservés" styleClass="footer-text-light"/>
+            </HBox>
+        </bottom>
+    </BorderPane>
+</StackPane>
