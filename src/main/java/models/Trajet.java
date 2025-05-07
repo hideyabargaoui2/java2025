@@ -1,5 +1,8 @@
 package models;
 
+import javafx.scene.image.Image;
+import utils.QRCodeGenerator;
+import utils.QRCodeGenerator ;
 import java.time.LocalDateTime;
 import java.util.Date;
 
@@ -10,7 +13,7 @@ public class Trajet {
     private String destination;
     private  String transport;
     private int duree ;
-
+    private Image qrCodeImage;
     public Trajet() {
     }
 
@@ -29,6 +32,26 @@ public class Trajet {
         this.destination = destination;
         this.transport = transport;
         this.duree = duree;
+    }
+
+
+    // Nouvelle méthode pour générer le QR code à la demande
+    public Image getQRCodeImage() {
+        if (qrCodeImage == null) {
+            try {
+                qrCodeImage = QRCodeGenerator.generateQRCodeImage(this);
+            } catch (Exception e) {
+                System.err.println("Erreur lors de la génération du QR code: " + e.getMessage());
+                e.printStackTrace();
+            }
+        }
+        return qrCodeImage;
+    }
+
+    // Méthode pour forcer la régénération du QR code
+    public void regenerateQRCode() {
+        qrCodeImage = null;
+        getQRCodeImage();
     }
 
     public int getId() {

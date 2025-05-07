@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.Text?>
+
+<StackPane prefHeight="700.0" prefWidth="1000.0"
+           xmlns="http://javafx.com/javafx"
+           xmlns:fx="http://javafx.com/fxml"
+           fx:controller="controllers.StatistiquesController"
+           stylesheets="@style.css">
+
+    <!-- Background with solid color as fallback -->
+    <VBox styleClass="main-background"/>
+
+    <!-- Background image with error handling -->
+    <ImageView fitWidth="1000.0" fitHeight="700.0" preserveRatio="false">
+        <image>
+            <Image url="@/images/airplane_view.png"/>
+        </image>
+    </ImageView>
+
+    <!-- Main container with transparent background -->
+    <BorderPane styleClass="transparent-container" fx:id="mainContainer">
+        <!-- Header -->
+        <top>
+            <HBox alignment="CENTER_LEFT" spacing="20.0" styleClass="header-transparent">
+                <padding>
+                    <Insets top="15.0" right="20.0" bottom="15.0" left="20.0"/>
+                </padding>
+
+                <!-- Logo -->
+                <StackPane fx:id="logoContainer" styleClass="logo-container">
+                    <ImageView fitHeight="80.0" fitWidth="80.0" preserveRatio="true">
+                        <image>
+                            <Image url="@/images/travelpro_logo.png"/>
+                        </image>
+                    </ImageView>
+                </StackPane>
+
+                <!-- Title -->
+                <VBox alignment="CENTER_LEFT" styleClass="title-container">
+                    <Text text="TRAVELPRO ANALYTICS" styleClass="app-title"/>
+                    <Text text="VISUALISEZ VOS TRAJETS PROFESSIONNELS" styleClass="app-subtitle"/>
+                </VBox>
+
+                <HBox HBox.hgrow="ALWAYS" alignment="CENTER_RIGHT" spacing="15">
+                    <!-- Navigation buttons with transparent backgrounds -->
+                    <Button text="Home" styleClass="nav-button" onAction="#navigateToScreen">
+                        <graphic>
+                            <ImageView fitHeight="16.0" fitWidth="16.0" preserveRatio="true">
+                                <image>
+                                    <Image url="@/icons/home.png"/>
+                                </image>
+                            </ImageView>
+                        </graphic>
+                    </Button>
+                    <Button text="Trajets" styleClass="nav-button" onAction="#navigateToScreen">
+                        <graphic>
+                            <ImageView fitHeight="16.0" fitWidth="16.0" preserveRatio="true">
+                                <image>
+                                    <Image url="@/icons/route.png"/>
+                                </image>
+                            </ImageView>
+                        </graphic>
+                    </Button>
+                    <Button text="Exporter" styleClass="nav-button" onAction="#exportData">
+                        <graphic>
+                            <ImageView fitHeight="16.0" fitWidth="16.0" preserveRatio="true">
+                                <image>
+                                    <Image url="@/icons/export.png"/>
+                                </image>
+                            </ImageView>
+                        </graphic>
+                    </Button>
+                    <Button text="Actualiser" styleClass="nav-button" onAction="#refreshData">
+                        <graphic>
+                            <ImageView fitHeight="16.0" fitWidth="16.0" preserveRatio="true">
+                                <image>
+                                    <Image url="@/icons/refresh.png"/>
+                                </image>
+                            </ImageView>
+                        </graphic>
+                    </Button>
+                </HBox>
+            </HBox>
+        </top>
+
+        <!-- Main content -->
+        <center>
+            <VBox spacing="20.0" styleClass="content-area-transparent">
+                <padding>
+                    <Insets top="20.0" right="20.0" bottom="20.0" left="20.0"/>
+                </padding>
+
+                <!-- Filters section -->
+                <HBox alignment="CENTER_LEFT" spacing="15.0" styleClass="section-header-transparent" fx:id="filtersContainer">
+                    <Text text="Filtrer les statistiques" styleClass="section-title-light"/>
+                    <ComboBox fx:id="periodeComboBox" promptText="Période" prefWidth="150.0"/>
+                    <ComboBox fx:id="critereComboBox" promptText="Critère" prefWidth="150.0"/>
+                    <DatePicker fx:id="dateDebut" promptText="Date début"/>
+                    <DatePicker fx:id="dateFin" promptText="Date fin"/>
+                    <Button text="Appliquer" fx:id="applyFilterBtn" styleClass="action-button"/>
+                </HBox>
+
+                <!-- KPI section - Changed Text elements to Label for controller compatibility -->
+                <GridPane fx:id="kpiGrid" styleClass="kpi-section-transparent" hgap="20" vgap="20">
+                    <padding>
+                        <Insets top="10.0" right="10.0" bottom="10.0" left="10.0"/>
+                    </padding>
+                    <columnConstraints>
+                        <ColumnConstraints percentWidth="25" />
+                        <ColumnConstraints percentWidth="25" />
+                        <ColumnConstraints percentWidth="25" />
+                        <ColumnConstraints percentWidth="25" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints vgrow="SOMETIMES" />
+                    </rowConstraints>
+
+                    <!-- KPI Cards - Text elements changed to Label -->
+                    <VBox styleClass="kpi-card-transparent" GridPane.columnIndex="0">
+                        <Text text="Total des trajets" styleClass="kpi-title"/>
+                        <Label fx:id="totalTrajetsLabel" text="0" styleClass="kpi-value"/>
+                    </VBox>
+
+                    <VBox styleClass="kpi-card-transparent" GridPane.columnIndex="1">
+                        <Text text="Durée moyenne" styleClass="kpi-title"/>
+                        <Label fx:id="avgDurationLabel" text="0 min" styleClass="kpi-value"/>
+                    </VBox>
+
+                    <VBox styleClass="kpi-card-transparent" GridPane.columnIndex="2">
+                        <Text text="Destination populaire" styleClass="kpi-title"/>
+                        <Label fx:id="mostPopularDestLabel" text="N/A" styleClass="kpi-value"/>
+                    </VBox>
+
+                    <VBox styleClass="kpi-card-transparent" GridPane.columnIndex="3">
+                        <Text text="Transport favori" styleClass="kpi-title"/>
+                        <Label fx:id="mostUsedTransportLabel" text="N/A" styleClass="kpi-value"/>
+                    </VBox>
+                </GridPane>
+
+                <!-- Tab system for different views -->
+                <TabPane fx:id="tabPane" VBox.vgrow="ALWAYS" styleClass="transparent-tab-pane">
+                    <Tab text="Graphiques" closable="false">
+                        <VBox fx:id="chartsContainer" spacing="20" styleClass="charts-container">
+                            <!-- Charts will be dynamically added here -->
+                        </VBox>
+                    </Tab>
+                    <Tab text="Voir détails" closable="false" onSelectionChanged="#showDetailedDataTable">
+                        <!-- Table will be dynamically added here -->
+                    </Tab>
+                </TabPane>
+            </VBox>
+        </center>
+
+        <!-- Footer -->
+        <bottom>
+            <HBox alignment="CENTER" styleClass="footer-transparent">
+                <padding>
+                    <Insets top="15.0" right="20.0" bottom="15.0" left="20.0"/>
+                </padding>
+                <Text text="© 2025 TRAVELPRO - Tous droits réservés" styleClass="footer-text-light"/>
+            </HBox>
+        </bottom>
+    </BorderPane>
+</StackPane>

@@ -6,7 +6,7 @@ import java.sql.SQLException;
 public class Maconnexion {
     private final String username="root";
     private final String password="";
-    private final String URL="jdbc:mysql://localhost:3306/transportmanager";
+    private final String URL="jdbc:mysql://localhost:3306/java";
     static Maconnexion instance;
     Connection connection;
 

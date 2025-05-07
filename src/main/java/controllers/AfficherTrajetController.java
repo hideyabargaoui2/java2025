@@ -26,6 +26,7 @@ import javafx.util.Duration;
 import models.Trajet;
 import services.Trajetservice;
 import utils.Maconnexion;
+import utils.QRCodeGenerator;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -82,6 +83,9 @@ public class AfficherTrajetController {
             // Configure action column
             setupActionColumn();
 
+            // Configure QR Code column
+            setupQRCodeColumn();
+
             // Configure pagination
             setupPagination();
 
@@ -122,6 +126,82 @@ public class AfficherTrajetController {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Configure la colonne de QR Code
+     */
+    private void setupQRCodeColumn() {
+        TableColumn<Trajet, Void> qrCodeCol = new TableColumn<>("QR Code");
+        qrCodeCol.setPrefWidth(100);
+        qrCodeCol.setCellFactory(param -> new TableCell<Trajet, Void>() {
+            private final Button btn = new Button("QR Code");
+
+            {
+                try {
+                    // Essayer de charger l'icône QR code
+                    InputStream qrIconStream = getResourceAsStream("/icons/qrcode.png");
+                    if (qrIconStream != null) {
+                        ImageView qrIcon = new ImageView(new Image(qrIconStream, 16, 16, true, true));
+                        btn.setGraphic(qrIcon);
+                    }
+                } catch (Exception e) {
+                    System.err.println("Impossible de charger l'icône QR code: " + e.getMessage());
+                }
+
+                btn.getStyleClass().add("action-button");
+                btn.getStyleClass().add("qr-btn");
+
+                btn.setOnAction(event -> {
+                    Trajet trajet = getTableView().getItems().get(getIndex());
+                    afficherQRCode(trajet);
+                });
+
+                btn.setStyle(
+                        "-fx-background-color: #0066a4; " +
+                                "-fx-text-fill: white; " +
+                                "-fx-background-radius: 3;"
+                );
+            }
+
+            @Override
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setGraphic(null);
+                } else {
+                    setGraphic(btn);
+                }
+            }
+        });
+
+        // Ajouter la colonne QR Code à la TableView
+        tableView.getColumns().add(qrCodeCol);
+    }
+
+    /**
+     * Affiche le QR Code pour un trajet spécifique
+     * @param trajet Le trajet pour lequel générer le QR code
+     */
+    private void afficherQRCode(Trajet trajet) {
+        try {
+            System.out.println("Génération du QR code pour le trajet: " + trajet.getId());
+
+            // Utiliser le QRCodeViewController pour afficher le QR code
+            QRCodeViewController.showQRCode(trajet);
+
+        } catch (Exception e) {
+            System.err.println("Erreur lors de l'affichage du QR code: " + e.getMessage());
+            e.printStackTrace();
+
+            // Afficher une alerte en cas d'erreur
+            Alert alert = createStyledAlert(Alert.AlertType.ERROR);
+            alert.setTitle("Erreur QR Code");
+            alert.setHeaderText("Génération du QR Code impossible");
+            alert.setContentText("Erreur lors de la génération du QR code: " + e.getMessage());
+            alert.showAndWait();
+        }
+    }
+
     /**
      * Méthode pour naviguer vers l'interface des transports avec une transition animée
      */
@@ -987,6 +1067,102 @@ public class AfficherTrajetController {
                 alert.setContentText("Erreur: " + e.getMessage());
                 alert.showAndWait();
             });
+        }
+    }
+    /**
+     * Méthode pour naviguer vers l'interface des statistiques avec une transition animée
+     */
+    @FXML
+    public void naviguerVersStatistiques() {
+        try {
+            System.out.println("Navigation vers l'interface de statistiques");
+
+            // Liste des chemins possibles pour le fichier FXML
+            String[] possiblePaths = {
+                    "statistiques.fxml",
+                    "/statistiques.fxml",
+                    "../statistiques.fxml",
+                    "/views/statistiques.fxml",
+                    "/fxml/statistiques.fxml"
+            };
+
+            FXMLLoader loader = null;
+
+            // Essayer chaque chemin jusqu'à ce qu'un fonctionne
+            for (String path : possiblePaths) {
+                try {
+                    loader = new FXMLLoader(getClass().getResource(path));
+                    System.out.println("Tentative de chargement avec: " + path);
+                    if (loader.getLocation() != null) {
+                        System.out.println("Fichier FXML trouvé à: " + path);
+                        break;
+                    }
+                } catch (Exception e) {
+                    System.out.println("Erreur avec le chemin " + path + ": " + e.getMessage());
+                }
+            }
+
+            // Vérifier si on a bien pu charger le fichier
+            if (loader == null || loader.getLocation() == null) {
+                throw new IOException("Impossible de localiser le fichier FXML pour les statistiques");
+            }
+
+            // Récupérer le conteneur parent actuel pour l'animation
+            StackPane rootContainer = (StackPane) mainContainer.getScene().getRoot();
+
+            // Charger la nouvelle vue
+            Parent nouveauContenu = loader.load();
+
+            // S'assurer que le nouveau contenu utilise le même CSS
+            nouveauContenu.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
+
+            // Créer une transition pour déplacer le contenu actuel hors de l'écran
+            TranslateTransition sortieActuelle = new TranslateTransition(Duration.millis(300), mainContainer);
+            sortieActuelle.setFromX(0);
+            sortieActuelle.setToX(-rootContainer.getWidth());
+
+            // Préparation de la nouvelle vue
+            nouveauContenu.setTranslateX(rootContainer.getWidth());
+
+            // Ajouter le nouveau contenu à côté de l'actuel
+            rootContainer.getChildren().add(nouveauContenu);
+
+            // Créer une transition pour faire entrer le nouveau contenu
+            TranslateTransition entreeNouvelle = new TranslateTransition(Duration.millis(300), nouveauContenu);
+            entreeNouvelle.setFromX(rootContainer.getWidth());
+            entreeNouvelle.setToX(0);
+
+            // Jouer les deux transitions en parallèle
+            ParallelTransition transition = new ParallelTransition(sortieActuelle, entreeNouvelle);
+
+            // Nettoyer après la transition
+            transition.setOnFinished(event -> {
+                // Remplacer la scène complètement
+                Scene scene = mainContainer.getScene();
+                Stage stage = (Stage) scene.getWindow();
+
+                Scene nouvelleScene = new Scene(nouveauContenu, scene.getWidth(), scene.getHeight());
+                nouvelleScene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
+
+                stage.setScene(nouvelleScene);
+
+                // Nettoyer l'ancienne vue
+                rootContainer.getChildren().remove(mainContainer);
+            });
+
+            // Lancer la transition
+            transition.play();
+
+        } catch (IOException e) {
+            System.err.println("Erreur lors de la navigation vers les statistiques: " + e.getMessage());
+            e.printStackTrace();
+
+            // Afficher une alerte en cas d'erreur
+            Alert alert = createStyledAlert(Alert.AlertType.ERROR);
+            alert.setTitle("Erreur de navigation");
+            alert.setHeaderText("Impossible d'afficher les statistiques");
+            alert.setContentText("Erreur: " + e.getMessage());
+            alert.showAndWait();
         }
     }
 }
