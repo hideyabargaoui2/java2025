@@ -10,7 +10,7 @@ import java.io.IOException;
 
 public class MainFX extends Application {
 
-    @Override
+    /*@Override
     public void start(Stage primaryStage) {
         try {
             // Load the FXML file from the resources folder
@@ -32,10 +32,10 @@ public class MainFX extends Application {
         launch(args);
 
 
-    }
+    }*/
 
 
-    /*@Override
+    @Override
     public void start(Stage primaryStage) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/afficherreshotel.fxml"));
         try {
@@ -48,7 +48,7 @@ public class MainFX extends Application {
             throw new RuntimeException(e);
         }
 
-    }*/
+    }
 
 
 }

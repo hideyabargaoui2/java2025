@@ -9,9 +9,11 @@ import models.ResHotel;
 import models.hotel;
 import service.HotelService;
 import service.ResHotelService;
+import service.WhatsAppService;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class AjouterResHotelController {
@@ -25,6 +27,9 @@ public class AjouterResHotelController {
     private final ResHotelService resHotelService = new ResHotelService();
     private final HotelService hotelService = new HotelService();
     private AfficherResHotelController parentController;
+
+    // Numéro de téléphone par défaut - sera demandé à l'utilisateur au moment de l'envoi
+    private static final String DEFAULT_PHONE_NUMBER = "+21652348380";
 
     @FXML
     public void initialize() {
@@ -41,6 +46,9 @@ public class AjouterResHotelController {
 
         // Initialiser la date à aujourd'hui
         dateResPicker.setValue(LocalDate.now());
+
+        // Initialiser la valeur par défaut du statut de réservation
+        startresField.setText("En attente de confirmation");
 
         // Configuration explicite des événements boutons
         if (btnConfirmer != null) {
@@ -102,6 +110,21 @@ public class AjouterResHotelController {
             System.out.println("Résultat de l'ajout: " + success);
 
             if (success) {
+                // Demander à l'utilisateur s'il souhaite envoyer un WhatsApp de confirmation
+                Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION);
+                confirmAlert.setTitle("Confirmation WhatsApp");
+                confirmAlert.setHeaderText(null);
+                confirmAlert.setContentText("Souhaitez-vous envoyer une confirmation par WhatsApp?");
+
+                ButtonType buttonOui = new ButtonType("Oui");
+                ButtonType buttonNon = new ButtonType("Non");
+
+                confirmAlert.getButtonTypes().setAll(buttonOui, buttonNon);
+
+                if (confirmAlert.showAndWait().orElse(buttonNon) == buttonOui) {
+                    envoyerWhatsAppConfirmation(nouvelleReservation);
+                }
+
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Succès");
                 alert.setHeaderText(null);
@@ -124,6 +147,35 @@ public class AjouterResHotelController {
         } catch (Exception e) {
             e.printStackTrace();
             afficherAlerte("Erreur inattendue lors de l'ajout : " + e.getMessage());
+        }
+    }
+
+    /**
+     * Envoie un WhatsApp de confirmation pour une nouvelle réservation
+     * @param reservation La réservation pour laquelle envoyer la confirmation
+     */
+    private void envoyerWhatsAppConfirmation(ResHotel reservation) {
+        // Demander le numéro de téléphone WhatsApp
+        String phoneNumber = WhatsAppService.demanderNumeroTelephone(DEFAULT_PHONE_NUMBER);
+
+        if (phoneNumber.isEmpty()) {
+            return; // L'utilisateur a annulé
+        }
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        String dateFormatted = reservation.getDateres().toLocalDate().format(formatter);
+
+        String message = "Votre réservation à l'hôtel " + reservation.getHotel() +
+                " pour le " + dateFormatted + " a été enregistrée avec succès. " +
+                "Statut: " + reservation.getStartres() + ". " +
+                "Merci pour votre confiance. - TRAVELPRO";
+
+        boolean messageEnvoye = WhatsAppService.sendWhatsApp(phoneNumber, message);
+
+        if (messageEnvoye) {
+            System.out.println("Message WhatsApp de confirmation envoyé avec succès au " + phoneNumber);
+        } else {
+            System.err.println("Échec de l'envoi du message WhatsApp de confirmation");
         }
     }
 

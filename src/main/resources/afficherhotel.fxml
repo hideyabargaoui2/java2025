@@ -59,6 +59,18 @@
                             </ImageView>
                         </graphic>
                     </Button>
+
+                    <!-- Nouveau bouton pour naviguer vers la gestion des réservations -->
+                    <Button text="Réservations" styleClass="nav-button" fx:id="btnNavReservation" onAction="#navigateToReservations">
+                        <graphic>
+                            <ImageView fitHeight="16.0" fitWidth="16.0" preserveRatio="true">
+                                <image>
+                                    <Image url="@icons/calendar.png"/>
+                                </image>
+                            </ImageView>
+                        </graphic>
+                    </Button>
+
                     <Button text="Profil" styleClass="nav-button">
                         <graphic>
                             <ImageView fitHeight="16.0" fitWidth="16.0" preserveRatio="true">

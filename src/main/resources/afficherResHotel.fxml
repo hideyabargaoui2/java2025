@@ -59,6 +59,18 @@
                             </ImageView>
                         </graphic>
                     </Button>
+
+                    <!-- Nouveau bouton pour naviguer vers la gestion des hôtels -->
+                    <Button text="Hôtels" styleClass="nav-button" fx:id="btnNavHotels" onAction="#navigateToHotels">
+                        <graphic>
+                            <ImageView fitHeight="16.0" fitWidth="16.0" preserveRatio="true">
+                                <image>
+                                    <Image url="@icons/hotel.png"/>
+                                </image>
+                            </ImageView>
+                        </graphic>
+                    </Button>
+
                     <Button text="Profil" styleClass="nav-button">
                         <graphic>
                             <ImageView fitHeight="16.0" fitWidth="16.0" preserveRatio="true">
@@ -105,6 +117,8 @@
 
                     <!-- Add button -->
                     <Button text="+ Ajouter Réservation" fx:id="btnAjouter" onAction="#ajouterResHotel" styleClass="action-button"/>
+
+
                 </HBox>
 
                 <!-- Table with transparent background -->

@@ -35,6 +35,7 @@ public class AfficherHotelController {
     @FXML private TableColumn<hotel, String> adresseCol;
     @FXML private TableColumn<hotel, Void> actionCol;
     @FXML private Button btnAjouter;
+    @FXML private Button btnNavReservation; // Nouveau bouton de navigation
 
     @FXML
     public void initialize() {
@@ -60,6 +61,45 @@ public class AfficherHotelController {
             });
         } else {
             System.err.println("Erreur: btnAjouter est null - Vérifiez l'ID dans le fichier FXML");
+        }
+
+        // Configuration du bouton de navigation vers les réservations
+        if (btnNavReservation != null) {
+            btnNavReservation.setOnAction(event -> {
+                System.out.println("Navigation vers la gestion des réservations");
+                navigateToReservations();
+            });
+        } else {
+            System.err.println("Erreur: btnNavReservation est null - Vérifiez l'ID dans le fichier FXML");
+        }
+    }
+
+    /**
+     * Navigue vers l'écran de gestion des réservations
+     */
+    @FXML
+    public void navigateToReservations() {
+        try {
+            // Charger l'écran des réservations
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/AfficherResHotel.fxml"));
+            Parent root = loader.load();
+
+            // Récupérer la scène actuelle
+            Scene currentScene = tableView.getScene();
+            Stage stage = (Stage) currentScene.getWindow();
+
+            // Remplacer la scène actuelle par celle des réservations
+            Scene scene = new Scene(root, currentScene.getWidth(), currentScene.getHeight());
+            stage.setTitle("Gestion des Réservations - TRAVELPRO");
+            stage.setScene(scene);
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erreur de Navigation");
+            alert.setContentText("Impossible d'ouvrir l'écran des réservations : " + e.getMessage());
+            alert.showAndWait();
         }
     }
 

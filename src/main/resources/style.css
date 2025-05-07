@@ -480,3 +480,38 @@ VBox Label, HBox Label {
     -fx-border-radius: 8px;
     -fx-background-radius: 8px;
 }
+/* Ajout au fichier style.css existant */
+
+/* Style pour le bouton de confirmation */
+.confirm-button {
+    -fx-background-color: #28a745;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 8px 15px;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 3, 0, 0, 2);
+}
+
+.confirm-button:hover {
+    -fx-background-color: #218838;
+}
+
+.confirm-button:pressed {
+    -fx-background-color: #1e7e34;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 1, 0, 0, 1);
+}
+
+/* Style pour les boutons de confirmation dans la table */
+.table-cell .button:nth-child(3) {
+    -fx-background-color: #28a745;
+    -fx-text-fill: white;
+    -fx-padding: 4px 8px;
+    -fx-border-radius: 3px;
+    -fx-background-radius: 3px;
+}
+
+.table-cell .button:nth-child(3):hover {
+    -fx-background-color: #218838;
+}
