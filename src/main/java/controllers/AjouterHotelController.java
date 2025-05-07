@@ -72,7 +72,7 @@ public class AjouterHotelController {
         nomField.setOnAction(event -> {
             String hotelName = nomField.getText();
             if (hotelName != null && !hotelName.isEmpty()) {
-                mapService.openInOpenStreetMap(hotelName);
+                mapService.openMapInBrowser(hotelName);
                 mapService.searchHotelAddress(hotelName)
                         .thenAccept(address -> {
                             if (!address.isEmpty()) {
