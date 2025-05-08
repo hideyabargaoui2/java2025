@@ -34,14 +34,11 @@
                 <padding>
                     <Insets bottom="15.0" left="20.0" right="20.0" top="15.0" />
                 </padding>
-
-                <StackPane fx:id="logoContainer" styleClass="logo-container">
-                    <ImageView fitHeight="80.0" fitWidth="80.0" preserveRatio="true">
-                        <image>
-                            <Image url="@images/travelpro_logo.png" />
-                        </image>
-                    </ImageView>
-                </StackPane>
+                 <ImageView fitHeight="80.0" fitWidth="80.0" preserveRatio="true">
+                     <image>
+                         <Image url="@images/travelpro_logo.png" />
+                     </image>
+                 </ImageView>
 
                 <VBox alignment="CENTER_LEFT" styleClass="title-container">
                     <Text styleClass="app-title" text="AJOUTER MENU" />
@@ -59,10 +56,10 @@
 
                 <Label style="-fx-text-fill: #f0f0f0;" styleClass="form-label" text="Nom du Plat" />
 
-                <TextField fx:id="TFname" promptText="Nom du plat" styleClass="form-field"  maxWidth="300" />
+                <TextField fx:id="TFname" maxWidth="300" promptText="Nom du plat" styleClass="form-field" />
 
                 <Label style="-fx-text-fill: #f0f0f0;" styleClass="form-label" text="Prix" />
-                <TextField fx:id="TFprix" promptText="Prix" styleClass="form-field"  maxWidth="300" />
+                <TextField fx:id="TFprix" maxWidth="300" promptText="Prix" styleClass="form-field" />
 
                 <Label style="-fx-text-fill: #f0f0f0;" styleClass="form-label" text="Description" />
                 <TextArea fx:id="TFdesc" promptText="Description" styleClass="form-field" />
