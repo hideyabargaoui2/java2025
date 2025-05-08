@@ -1,27 +1,90 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
+<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml"
-            fx:controller="controllers.UpdateMenu"
-            prefWidth="400" prefHeight="300">
+<StackPane prefHeight="700.0" prefWidth="1000.0"
+           xmlns="http://javafx.com/javafx"
+           xmlns:fx="http://javafx.com/fxml"
+           fx:controller="controllers.UpdateMenu"
+           stylesheets="@Style.css">
 
-    <children>
-        <Label layoutX="30" layoutY="30" text="Nom du menu:"/>
-        <TextField fx:id="TFupname" layoutX="150" layoutY="25" prefWidth="200"/>
+    <!-- Background de secours -->
+    <VBox styleClass="main-background"/>
 
-        <Label layoutX="30" layoutY="80" text="Description:"/>
-        <TextField fx:id="TFupdesc" layoutX="150" layoutY="75" prefWidth="200"/>
+    <!-- Image de fond -->
+    <ImageView fitWidth="1000.0" fitHeight="700.0" preserveRatio="false">
+        <image>
+            <Image url="@images/airplane_view.jpg"/>
+        </image>
+    </ImageView>
 
-        <Label layoutX="30" layoutY="130" text="Prix:"/>
-        <TextField fx:id="TFupprix" layoutX="150" layoutY="125" prefWidth="200"/>
+    <!-- Conteneur principal transparent -->
+    <BorderPane styleClass="transparent-container">
+        <!-- En-tête -->
+        <top>
+            <HBox alignment="CENTER_LEFT" spacing="20.0" styleClass="header-transparent">
+                <padding>
+                    <Insets top="15.0" right="20.0" bottom="15.0" left="20.0"/>
+                </padding>
 
-        <Label layoutX="30" layoutY="180" text="Restaurant:"/>
-        <ComboBox fx:id="TFupnomresto" layoutX="150" layoutY="175" prefWidth="200"/>
+                <!-- Logo -->
+                <StackPane fx:id="logoContainer" styleClass="logo-container">
+                    <ImageView fitHeight="80.0" fitWidth="80.0" preserveRatio="true">
+                        <image>
+                            <Image url="@images/travelpro_logo.png"/>
+                        </image>
+                    </ImageView>
+                </StackPane>
 
-        <Button fx:id="btnUpdate" layoutX="150" layoutY="230" text="Mettre à jour"
-                onAction="#modifierMenu"/>
+                <!-- Titre -->
+                <VBox alignment="CENTER_LEFT" styleClass="title-container">
+                    <Text text="RESTAURANT MANAGEMENT" styleClass="app-title"/>
+                    <Text text="Modifier un menu" styleClass="app-subtitle"/>
+                </VBox>
 
-    </children>
-</AnchorPane>
+                <!-- Navigation (vide ici aussi) -->
+                <HBox HBox.hgrow="ALWAYS" alignment="CENTER_RIGHT" spacing="15"/>
+            </HBox>
+        </top>
+
+        <!-- Formulaire de mise à jour -->
+        <center>
+            <VBox spacing="15.0" alignment="CENTER_LEFT" styleClass="content-area-transparent">
+                <padding>
+                    <Insets top="30.0" right="40.0" bottom="30.0" left="40.0"/>
+                </padding>
+
+                <Text text="Modifier les informations du menu" styleClass="section-title-light"/>
+
+                <Label text="Nom du menu" styleClass="form-label"/>
+                <TextField fx:id="TFupname" styleClass="form-field"/>
+
+                <Label text="Description" styleClass="form-label"/>
+                <TextField fx:id="TFupdesc" styleClass="form-field"/>
+
+                <Label text="Prix" styleClass="form-label"/>
+                <TextField fx:id="TFupprix" styleClass="form-field"/>
+
+                <Label text="Restaurant" styleClass="form-label"/>
+                <ComboBox fx:id="TFupnomresto" styleClass="form-field"/>
+
+                <Button fx:id="btnUpdate" text="Mettre à jour" onAction="#modifierMenu" styleClass="action-button"/>
+            </VBox>
+        </center>
+
+        <!-- Pied de page -->
+        <bottom>
+            <HBox alignment="CENTER" styleClass="footer-transparent">
+                <padding>
+                    <Insets top="15.0" right="20.0" bottom="15.0" left="20.0"/>
+                </padding>
+                <Text text="© 2025 Restaurant Management - Tous droits réservés" styleClass="footer-text-light"/>
+            </HBox>
+        </bottom>
+    </BorderPane>
+</StackPane>

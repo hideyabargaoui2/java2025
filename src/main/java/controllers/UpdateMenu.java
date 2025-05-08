@@ -1,5 +1,4 @@
 package controllers;
-
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -9,24 +8,34 @@ import models.Menu;
 import models.Restaurant;
 import services.MenuService;
 import services.RestaurantServices;
-
+import java.util.List;
 public class UpdateMenu {
-
     @FXML private TextField TFupname;
     @FXML private TextField TFupdesc;
     @FXML private TextField TFupprix;
     @FXML private ComboBox<Restaurant> TFupnomresto;
-
     private Menu menu;
     private final MenuService menuService = new MenuService();
     private final RestaurantServices restaurantService = new RestaurantServices();
-
     @FXML
     public void initialize() {
-        // Initialisez ici le ComboBox avec les restaurants
-        TFupnomresto.setItems(FXCollections.observableArrayList(restaurantService.afficher()));
+        List<Restaurant> restaurants = restaurantService.afficher();
+        TFupnomresto.setItems(FXCollections.observableArrayList(restaurants));
+        TFupnomresto.setCellFactory(listView -> new ListCell<>() {
+            @Override
+            protected void updateItem(Restaurant item, boolean empty) {
+                super.updateItem(item, empty);
+                setText((empty || item == null) ? "" : item.getNom());
+            }
+        });
+        TFupnomresto.setButtonCell(new ListCell<>() {
+            @Override
+            protected void updateItem(Restaurant item, boolean empty) {
+                super.updateItem(item, empty);
+                setText((empty || item == null) ? "" : item.getNom());
+            }
+        });
     }
-
     public void setMenu(Menu menu) {
         this.menu = menu;
         if (menu != null) {
@@ -38,7 +47,6 @@ public class UpdateMenu {
             showAlert(Alert.AlertType.ERROR, "Erreur", "Aucun menu sélectionné pour la modification.");
         }
     }
-
     private void showAlert(Alert.AlertType type, String title, String content) {
         Alert alert = new Alert(type);
         alert.setTitle(title);
@@ -46,14 +54,12 @@ public class UpdateMenu {
         alert.setContentText(content);
         alert.showAndWait();
     }
-
     @FXML
     public void modifierMenu(ActionEvent event) {
         String newName = TFupname.getText();
         String newDescription = TFupdesc.getText();
         String newPrix = TFupprix.getText();
         Restaurant newRestaurant = TFupnomresto.getValue();
-
         // Mettre à jour le menu avec les nouvelles valeurs
         menu.setName(newName);
         menu.setDescription(newDescription);

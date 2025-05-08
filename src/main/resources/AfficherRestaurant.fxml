@@ -1,21 +1,130 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.Text?>
 
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.layout.VBox?>
+<StackPane prefHeight="700.0" prefWidth="1000.0"
+           xmlns="http://javafx.com/javafx"
+           xmlns:fx="http://javafx.com/fxml"
+           fx:controller="controllers.AfficherRestaurant"
+           stylesheets="@Style.css">
 
-<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.AfficherRestaurant">
-    <TableView fx:id="table">
-        <columns>
-            <TableColumn fx:id="colNom" text="Nom" />
-            <TableColumn fx:id="colAdresse" text="Adresse" />
-            <TableColumn fx:id="colType" text="Type" />
-            <TableColumn fx:id="colModifier" text="Modifier" />
-            <TableColumn fx:id="colSupprimer" text="Supprimer" />
-            <TableColumn fx:id="colClassement" text="Classement"/>
-            <TableColumn fx:id="colHoraireOuvert" text="Horaire Ouverture" />
-            <TableColumn fx:id="colHoraireFerme" text="Horaire Fermeture" />
+    <!-- Background with solid color as fallback -->
+    <VBox styleClass="main-background"/>
 
-        </columns>
-    </TableView>
-</VBox>
+    <!-- Background image with error handling -->
+    <ImageView fitWidth="1000.0" fitHeight="700.0" preserveRatio="false">
+        <image>
+            <Image url="@images/airplane_view.jpg"/>
+        </image>
+    </ImageView>
+
+    <!-- Main container with transparent background -->
+    <BorderPane styleClass="transparent-container" fx:id="mainContainer">
+        <!-- Header -->
+        <top>
+            <HBox alignment="CENTER_LEFT" spacing="20.0" styleClass="header-transparent">
+                <padding>
+                    <Insets top="15.0" right="20.0" bottom="15.0" left="20.0"/>
+                </padding>
+
+                <!-- Logo -->
+                <StackPane fx:id="logoContainer" styleClass="logo-container">
+                    <ImageView fitHeight="80.0" fitWidth="80.0" preserveRatio="true">
+                        <image>
+                            <Image url="@images/travelpro_logo.png"/>
+                        </image>
+                    </ImageView>
+                </StackPane>
+
+                <!-- Title -->
+                <VBox alignment="CENTER_LEFT" styleClass="title-container">
+                    <Text text="RESTAURANT MANAGEMENT" styleClass="app-title"/>
+                    <Text text="Gérer les Restaurants" styleClass="app-subtitle"/>
+                </VBox>
+
+                <HBox HBox.hgrow="ALWAYS" alignment="CENTER_RIGHT" spacing="15">
+                    <Button text="Home" styleClass="nav-button"/>
+                    <Button text="Profil" styleClass="nav-button"/>
+                    <Button text="Paramètres" styleClass="nav-button"/>
+                </HBox>
+            </HBox>
+        </top>
+
+        <!-- Main content -->
+        <center>
+            <VBox spacing="20.0" styleClass="content-area-transparent" fx:id="contentArea">
+                <padding>
+                    <Insets top="20.0" right="20.0" bottom="20.0" left="20.0"/>
+                </padding>
+
+                <!-- Section header -->
+                <HBox alignment="CENTER_LEFT" spacing="15.0" styleClass="section-header-transparent">
+                    <Text text="Gestion des Restaurants" styleClass="section-title-light"/>
+                    <Pane HBox.hgrow="ALWAYS"/>
+
+                    <!-- Search box -->
+                    <HBox alignment="CENTER" styleClass="search-box-transparent">
+                        <ImageView fitHeight="16.0" fitWidth="16.0" preserveRatio="true">
+                            <image>
+                                <Image url="@icons/search.png"/>
+                            </image>
+                        </ImageView>
+                        <TextField promptText="Rechercher..." styleClass="search-field-transparent"/>
+                    </HBox>
+
+                    <!-- Add button -->
+                    <Button text="+ Ajouter Restaurant" fx:id="btnAjouter" onAction="#ajouterRestaurant" styleClass="action-button"/>
+                </HBox>
+
+                <!-- Table with transparent background -->
+                <TableView fx:id="table" VBox.vgrow="ALWAYS" styleClass="transparent-table">
+                    <columns>
+                        <TableColumn fx:id="colNom" text="Nom" prefWidth="150.0"/>
+                        <TableColumn fx:id="colAdresse" text="Adresse" prefWidth="150.0"/>
+                        <TableColumn fx:id="colType" text="Type" prefWidth="150.0"/>
+                        <TableColumn fx:id="colClassement" text="Classement" prefWidth="100.0"/>
+                        <TableColumn fx:id="colHoraireOuvert" text="Horaire Ouverture" prefWidth="100.0"/>
+                        <TableColumn fx:id="colHoraireFerme" text="Horaire Fermeture" prefWidth="100.0"/>
+                        <TableColumn fx:id="colModifier" text="Modifier" prefWidth="100.0"/>
+                        <TableColumn fx:id="colSupprimer" text="Supprimer" prefWidth="100.0"/>
+                        <TableColumn fx:id="colMap" text="Carte" prefWidth="100" />
+
+                    </columns>
+                    <placeholder>
+                        <VBox alignment="CENTER" spacing="10" styleClass="empty-placeholder">
+                            <ImageView fitHeight="64.0" fitWidth="64.0" preserveRatio="true">
+                                <image>
+                                    <Image url="@icons/empty_list.png"/>
+                                </image>
+                            </ImageView>
+                            <Label text="Aucun restaurant disponible" styleClass="empty-table-title-light"/>
+                            <Label text="Cliquez sur '+ Ajouter Restaurant' pour commencer." styleClass="empty-table-message-light"/>
+                        </VBox>
+                    </placeholder>
+                </TableView>
+
+                <!-- Pagination -->
+                <HBox alignment="CENTER" spacing="10" styleClass="pagination-container-transparent">
+                    <Button styleClass="pagination-btn-transparent" text="&lt;"/>
+                    <Pagination maxPageIndicatorCount="5" pageCount="10" styleClass="transparent-pagination" />
+                    <Button styleClass="pagination-btn-transparent" text="&gt;"/>
+                </HBox>
+            </VBox>
+        </center>
+
+        <!-- Footer -->
+        <bottom>
+            <HBox alignment="CENTER" styleClass="footer-transparent">
+                <padding>
+                    <Insets top="15.0" right="20.0" bottom="15.0" left="20.0"/>
+                </padding>
+                <Text text="© 2025 Restaurant Management - Tous droits réservés" styleClass="footer-text-light"/>
+            </HBox>
+        </bottom>
+    </BorderPane>
+</StackPane>

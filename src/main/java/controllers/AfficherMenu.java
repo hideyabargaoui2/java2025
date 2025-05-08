@@ -3,37 +3,62 @@ package controllers;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import models.Menu;
 import models.Restaurant;
 import services.MenuService;
-
 import java.io.IOException;
 import java.util.List;
-
 public class AfficherMenu {
-
     @FXML private TableView<Menu> tableMenus;
     @FXML private TableColumn<Menu, String> colRestaurant;
     @FXML private TableColumn<Menu, String> colPlat;
     @FXML private TableColumn<Menu, String> colPrix;
     @FXML private TableColumn<Menu, String> colDescription;
     @FXML private TableColumn<Menu, Void> colActions;
+    @FXML
+    private ImageView logoImage;
 
+
+    @FXML
+    private void closeWindow(ActionEvent event) {
+        ((Stage) ((Node) event.getSource()).getScene().getWindow()).close();
+    }
     private final MenuService menuService = new MenuService();
+    @FXML
+    private void ajouterMenu(ActionEvent event) {
+        try {
+            // Créez ou ouvrez la fenêtre d'ajout de menu
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/AjouterMenu.fxml"));
+            Parent root = loader.load();
+
+            // Créez le contrôleur pour cette fenêtre (ajoutez si nécessaire un paramètre à la méthode de votre fenêtre)
+            AjouterMenu ajouterMenuController = loader.getController();
+            Scene scene = colPlat.getTableView().getScene();
+            scene.setRoot(root);
+
+        } catch (IOException e) {
+            showAlert(Alert.AlertType.ERROR, "Erreur", null, "Impossible d'ouvrir la fenêtre d'ajout.");
+        }
+    }
 
     @FXML
     public void initialize() {
         setupTableColumns();
         loadMenus();
         addActionButtonsToTable();
+        Circle circle = new Circle(40, 40, 40); // centre x, y, rayon
+        logoImage.setClip(circle);
     }
 
     private void setupTableColumns() {
@@ -94,9 +119,9 @@ public class AfficherMenu {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/UpdateMenu.fxml"));
             Parent root = loader.load();
-
             UpdateMenu updateMenuController = loader.getController();
             updateMenuController.setMenu(selectedMenu);
+
 
             Stage stage = new Stage();
             stage.setScene(new Scene(root));

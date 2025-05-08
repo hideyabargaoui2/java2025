@@ -1,31 +1,91 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="550.0" prefWidth="700.0" style="-fx-background-color: #D6F1FF; -fx-background-size: cover;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AjouterMenu">
-    <children>
-        <TextField fx:id="TFname" layoutX="200.0" layoutY="40.0" prefHeight="30.0" prefWidth="300.0" promptText="Nom du plat" />
-        <Label layoutX="50.0" layoutY="44.0" text="Nom du plat" />
+<StackPane prefHeight="700.0" prefWidth="1000.0" stylesheets="@Style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AjouterMenu">
 
-        <TextField fx:id="TFprix" layoutX="200.0" layoutY="90.0" prefHeight="30.0" prefWidth="300.0" promptText="Prix" />
-        <Label layoutX="50.0" layoutY="95.0" text="Prix" />
+    <!-- Arrière-plan -->
+    <VBox styleClass="main-background" />
 
-        <TextArea fx:id="TFdesc" layoutX="200.0" layoutY="140.0" prefHeight="100.0" prefWidth="300.0" promptText="Description" />
-        <Label layoutX="50.0" layoutY="170.0" text="Description" />
+    <!-- Image de fond -->
+    <ImageView fitHeight="700.0" fitWidth="1000.0" preserveRatio="false">
+        <image>
+            <Image url="@images/airplane_view.jpg" />
+        </image>
+    </ImageView>
 
-        <ComboBox fx:id="TFnomresto" layoutX="200.0" layoutY="260.0" prefHeight="30.0" prefWidth="300.0" promptText="Choisir un Restaurant" />
-        <Label layoutX="50.0" layoutY="265.0" text="Restaurant" />
+    <BorderPane fx:id="mainContainer" styleClass="transparent-container">
 
-        <Button fx:id="addrmenu" layoutX="420.0" layoutY="310.0" mnemonicParsing="false" onAction="#ajouter" text="Ajouter Menu" />
+        <!-- En-tête -->
+        <top>
+            <HBox alignment="CENTER_LEFT" spacing="20.0" styleClass="header-transparent">
+                <padding>
+                    <Insets bottom="15.0" left="20.0" right="20.0" top="15.0" />
+                </padding>
 
-        <Separator layoutX="20.0" layoutY="360.0" prefWidth="650.0" />
+                <StackPane fx:id="logoContainer" styleClass="logo-container">
+                    <ImageView fitHeight="80.0" fitWidth="80.0" preserveRatio="true">
+                        <image>
+                            <Image url="@images/travelpro_logo.png" />
+                        </image>
+                    </ImageView>
+                </StackPane>
 
-        <!-- Nouveau bouton pour aller vers Afficher Menu -->
-        <Button fx:id="afficherMenus" layoutX="200.0" layoutY="500.0" mnemonicParsing="false" onAction="#afficherMenus" text="Afficher Menus" />
-    </children>
-</AnchorPane>
+                <VBox alignment="CENTER_LEFT" styleClass="title-container">
+                    <Text styleClass="app-title" text="AJOUTER MENU" />
+                    <Text styleClass="app-subtitle" text="Ajouter un nouveau menu" />
+                </VBox>
+            </HBox>
+        </top>
+
+        <!-- Contenu principal -->
+        <center>
+            <VBox alignment="TOP_CENTER" spacing="20.0" styleClass="content-area-transparent">
+                <padding>
+                    <Insets bottom="40.0" left="50.0" right="50.0" top="40.0" />
+                </padding>
+
+                <Label style="-fx-text-fill: #f0f0f0;" styleClass="form-label" text="Nom du Plat" />
+
+                <TextField fx:id="TFname" promptText="Nom du plat" styleClass="form-field" />
+
+                <Label style="-fx-text-fill: #f0f0f0;" styleClass="form-label" text="Prix" />
+                <TextField fx:id="TFprix" promptText="Prix" styleClass="form-field" />
+
+                <Label style="-fx-text-fill: #f0f0f0;" styleClass="form-label" text="Description" />
+                <TextArea fx:id="TFdesc" promptText="Description" styleClass="form-field" />
+
+                <Label style="-fx-text-fill: #f0f0f0;" styleClass="form-label" text="Restaurant" />
+                <ComboBox fx:id="TFnomresto" promptText="Choisir un Restaurant" styleClass="form-field" />
+
+                <HBox alignment="CENTER" spacing="20">
+                    <Button fx:id="addrmenu" onAction="#ajouter" styleClass="action-button" text="Ajouter Menu" />
+                    <Button fx:id="addresto" onAction="#addresto" styleClass="nav-button" text="Ajouter Restaurant" />
+                    <Button fx:id="afficherMenus" onAction="#afficherMenus" styleClass="action-button" text="Afficher Menus" />
+                </HBox>
+            </VBox>
+        </center>
+
+        <!-- Pied de page -->
+        <bottom>
+            <HBox alignment="CENTER" styleClass="footer-transparent">
+                <padding>
+                    <Insets bottom="15.0" left="20.0" right="20.0" top="15.0" />
+                </padding>
+                <Text styleClass="footer-text-light" text="© 2025 Restaurant Management - Tous droits réservés" />
+            </HBox>
+        </bottom>
+    </BorderPane>
+</StackPane>

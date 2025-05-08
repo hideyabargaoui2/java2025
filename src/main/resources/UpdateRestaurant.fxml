@@ -1,34 +1,90 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="controllers.UpdateRestaurant">
+<StackPane prefHeight="700.0" prefWidth="1000.0"
+           xmlns="http://javafx.com/javafx"
+           xmlns:fx="http://javafx.com/fxml"
+           fx:controller="controllers.UpdateRestaurant"
+           stylesheets="@Style.css">
 
-    <children>
-        <VBox spacing="15.0" layoutX="20.0" layoutY="20.0" prefWidth="400.0">
-            <padding>
-                <Insets top="10" right="10" bottom="10" left="10"/>
-            </padding>
+    <!-- Background de secours -->
+    <VBox styleClass="main-background"/>
 
-            <Label text="Modifier Restaurant" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #0066a4;" />
+    <!-- Image de fond -->
+    <ImageView fitWidth="1000.0" fitHeight="700.0" preserveRatio="false">
+        <image>
+            <Image url="@images/airplane_view.jpg"/>
+        </image>
+    </ImageView>
 
-            <Label text="Nom:"/>
-            <TextField fx:id="nomField"/>
+    <!-- Conteneur principal transparent -->
+    <BorderPane styleClass="transparent-container">
+        <!-- En-tête -->
+        <top>
+            <HBox alignment="CENTER_LEFT" spacing="20.0" styleClass="header-transparent">
+                <padding>
+                    <Insets top="15.0" right="20.0" bottom="15.0" left="20.0"/>
+                </padding>
 
-            <Label text="Adresse:"/>
-            <TextField fx:id="adresseField"/>
+                <!-- Logo -->
+                <StackPane fx:id="logoContainer" styleClass="logo-container">
+                    <ImageView fitHeight="80.0" fitWidth="80.0" preserveRatio="true">
+                        <image>
+                            <Image url="@images/travelpro_logo.png"/>
+                        </image>
+                    </ImageView>
+                </StackPane>
 
-            <Label text="Type:"/>
-            <TextField fx:id="typeField"/>
+                <!-- Titre -->
+                <VBox alignment="CENTER_LEFT" styleClass="title-container">
+                    <Text text="RESTAURANT MANAGEMENT" styleClass="app-title"/>
+                    <Text text="Modifier un restaurant" styleClass="app-subtitle"/>
+                </VBox>
 
-            <Label text="Classement:"/>
-            <TextField fx:id="TFclass" promptText="Entrez le classement"/>
+                <!-- Navigation (vide ici) -->
+                <HBox HBox.hgrow="ALWAYS" alignment="CENTER_RIGHT" spacing="15"/>
+            </HBox>
+        </top>
 
-            <Button text="Enregistrer" onAction="#handleUpdate" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-background-radius: 5;"/>
-        </VBox>
-    </children>
-</AnchorPane>
+        <!-- Formulaire principal -->
+        <center>
+            <VBox spacing="15.0" alignment="CENTER_LEFT" styleClass="content-area-transparent">
+                <padding>
+                    <Insets top="30.0" right="40.0" bottom="30.0" left="40.0"/>
+                </padding>
+
+                <Text text="Modifier les informations du restaurant" styleClass="section-title-light"/>
+
+                <Label text="Nom" styleClass="form-label"/>
+                <TextField fx:id="nomField" styleClass="form-field"/>
+
+                <Label text="Adresse" styleClass="form-label"/>
+                <TextField fx:id="adresseField" styleClass="form-field"/>
+
+                <Label text="Type" styleClass="form-label"/>
+                <TextField fx:id="typeField" styleClass="form-field"/>
+
+                <Label text="Classement" styleClass="form-label"/>
+                <TextField fx:id="TFclass" promptText="Entrez le classement" styleClass="form-field"/>
+
+                <Button text="Enregistrer les modifications" onAction="#handleUpdate" styleClass="action-button"/>
+            </VBox>
+        </center>
+
+        <!-- Pied de page -->
+        <bottom>
+            <HBox alignment="CENTER" styleClass="footer-transparent">
+                <padding>
+                    <Insets top="15.0" right="20.0" bottom="15.0" left="20.0"/>
+                </padding>
+                <Text text="© 2025 Restaurant Management - Tous droits réservés" styleClass="footer-text-light"/>
+            </HBox>
+        </bottom>
+    </BorderPane>
+</StackPane>
