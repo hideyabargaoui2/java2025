@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.OffreReservation.ShowOffreController">
+    <top>
+        <HBox style="-fx-background-color: #2d698e; -fx-padding: 15px;" alignment="CENTER">
+            <Label text="Détails de l'Offre" style="-fx-text-fill: white; -fx-font-size: 20px; -fx-font-weight: bold;" />
+        </HBox>
+    </top>
+
+    <center>
+        <ScrollPane fitToWidth="true">
+            <VBox spacing="20" style="-fx-padding: 20px;">
+                <!-- Carte de détail de l'offre -->
+                <VBox fx:id="offreDetailCard" style="-fx-background-color: white; -fx-background-radius: 5; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 0); -fx-padding: 20;">
+                    <Label fx:id="offreTitle" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+                    <HBox spacing="10" style="-fx-padding: 5 0;">
+                        <Label fx:id="datesLabel" style="-fx-text-fill: #555;"/>
+                    </HBox>
+                    <GridPane hgap="10" vgap="10" style="-fx-padding: 10 0;">
+                        <Label text="Capacité:" style="-fx-font-weight: bold;" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                        <Label fx:id="capaciteLabel" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+                        <Label text="Prix Total:" style="-fx-font-weight: bold;" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                        <Label fx:id="prixLabel" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+                    </GridPane>
+                    <Label text="Description:" style="-fx-font-weight: bold; -fx-padding: 5 0 0 0;"/>
+                    <TextArea fx:id="descriptionArea" editable="false" wrapText="true"
+                              style="-fx-background-color: transparent; -fx-border-color: #eee;"/>
+                </VBox>
+
+                <!-- Section Réservations -->
+                <VBox spacing="10">
+                    <HBox spacing="10" alignment="CENTER_RIGHT">
+                        <Label text="Réservations associées" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+                        <Button id="btnAjouter" text="Ajouter Réservation" onAction="#ajouterReservation" />
+                    </HBox>
+
+                    <!-- Conteneur des cartes de réservation -->
+                    <FlowPane fx:id="reservationsContainer" hgap="20" vgap="20" alignment="TOP_CENTER" />
+                </VBox>
+            </VBox>
+        </ScrollPane>
+    </center>
+</BorderPane>

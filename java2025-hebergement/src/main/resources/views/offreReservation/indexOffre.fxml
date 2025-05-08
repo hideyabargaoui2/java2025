@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Pagination?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<StackPane prefHeight="700.0" prefWidth="1000.0" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.OffreReservation.IndexOffreController">
+
+    <!-- Background with solid color as fallback -->
+    <VBox styleClass="main-background" />
+
+    <!-- Background image with error handling -->
+    <ImageView fitHeight="900.0" fitWidth="1600.0" preserveRatio="false">
+        <image>
+            <Image url="@/icons/airplane_view.png" />
+        </image>
+    </ImageView>
+
+    <!-- Main container with transparent background -->
+    <BorderPane fx:id="mainContainer" styleClass="transparent-container">
+        <!-- Header -->
+        <top>
+            <HBox alignment="CENTER_LEFT" spacing="20.0" styleClass="header-transparent">
+                <padding>
+                    <Insets bottom="15.0" left="20.0" right="20.0" top="15.0" />
+                </padding>
+
+                <!-- Logo -->
+                <StackPane fx:id="logoContainer" styleClass="logo-container">
+                    <ImageView fitHeight="80.0" fitWidth="80.0" preserveRatio="true">
+                        <image>
+                            <Image url="@/icons/travelpro_logo.png" />
+                        </image>
+                    </ImageView>
+                </StackPane>
+
+                <!-- Title -->
+                <VBox alignment="CENTER_LEFT" styleClass="title-container">
+                    <Text styleClass="app-title" text="TRAVELPRO" />
+                    <Text styleClass="app-subtitle" text="ELEVATE YOUR BUSINESS TRIP" />
+                </VBox>
+
+                <HBox alignment="CENTER_RIGHT" spacing="15" HBox.hgrow="ALWAYS">
+                    <!-- Navigation buttons with icons -->
+                    <Button styleClass="nav-button" text="Home">
+                        <graphic>
+                            <ImageView fitHeight="16.0" fitWidth="16.0" preserveRatio="true">
+                                <image>
+                                    <Image url="@/icons/home.png" />
+                                </image>
+                            </ImageView>
+                        </graphic>
+                    </Button>
+                    <Button styleClass="nav-button" text="Profil">
+                        <graphic>
+                            <ImageView fitHeight="16.0" fitWidth="16.0" preserveRatio="true">
+                                <image>
+                                    <Image url="@/icons/profile.png" />
+                                </image>
+                            </ImageView>
+                        </graphic>
+                    </Button>
+                    <Button styleClass="nav-button" text="Paramètres">
+                        <graphic>
+                            <ImageView fitHeight="16.0" fitWidth="16.0" preserveRatio="true">
+                                <image>
+                                    <Image url="@/icons/settings.png" />
+                                </image>
+                            </ImageView>
+                        </graphic>
+                    </Button>
+                </HBox>
+            </HBox>
+        </top>
+
+        <!-- Main content -->
+        <center>
+            <VBox fx:id="contentArea" spacing="20.0" styleClass="content-area-transparent">
+                <padding>
+                    <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                </padding>
+
+                <!-- Section header -->
+                <HBox alignment="CENTER_LEFT" spacing="15.0" styleClass="section-header-transparent">
+                    <Text styleClass="section-title-light" text="Gestion des Offres" />
+                    <Pane HBox.hgrow="ALWAYS" />
+
+                    <!-- Search box with icon -->
+                    <HBox alignment="CENTER" styleClass="search-box-transparent">
+                        <ImageView fitHeight="16.0" fitWidth="16.0" preserveRatio="true">
+                            <image>
+                                <Image url="@/icons/search.png" />
+                            </image>
+                        </ImageView>
+                        <TextField fx:id="searchField" promptText="Rechercher..." styleClass="search-field-transparent" />
+                    </HBox>
+
+                    <!-- Action buttons with icons -->
+                    <Button fx:id="btnAjouter" onAction="#ajouterOffre" styleClass="action-button" text="+ Ajouter Offre">
+                        <graphic>
+                            <ImageView fitHeight="16.0" fitWidth="16.0" preserveRatio="true">
+                                <image>
+                                 </image>
+                            </ImageView>
+                        </graphic>
+                    </Button>
+                    <Button fx:id="btnReservations" onAction="#gotores" styleClass="action-button" text="Réservations">
+                        <graphic>
+                            <ImageView fitHeight="16.0" fitWidth="16.0" preserveRatio="true">
+                                <image>
+                                 </image>
+                            </ImageView>
+                        </graphic>
+                    </Button>
+                </HBox>
+
+                <!-- Cards container with scroll -->
+                <ScrollPane fitToWidth="true"
+                            hbarPolicy="NEVER"
+                            vbarPolicy="AS_NEEDED"
+                            styleClass="transparent-scroll">
+                    <FlowPane fx:id="cardsContainer"
+                              alignment="TOP_CENTER"
+                              hgap="20"
+                              vgap="20"
+                              styleClass="cards-container"/>
+                </ScrollPane>
+
+                <!-- Simple pagination -->
+                <HBox alignment="CENTER" spacing="10" styleClass="pagination-container-transparent">
+                    <Button styleClass="pagination-btn-transparent" text="&lt;">
+                        <graphic>
+                            <ImageView fitHeight="14.0" fitWidth="14.0" preserveRatio="true">
+                                <image>
+                                 </image>
+                            </ImageView>
+                        </graphic>
+                    </Button>
+                    <Pagination fx:id="pagination" maxPageIndicatorCount="5" pageCount="10" styleClass="transparent-pagination" />
+                    <Button styleClass="pagination-btn-transparent" text="&gt;">
+                        <graphic>
+                            <ImageView fitHeight="14.0" fitWidth="14.0" preserveRatio="true">
+                                <image>
+                                 </image>
+                            </ImageView>
+                        </graphic>
+                    </Button>
+                </HBox>
+            </VBox>
+        </center>
+
+        <!-- Footer -->
+        <bottom>
+            <HBox alignment="CENTER" styleClass="footer-transparent">
+                <padding>
+                    <Insets bottom="15.0" left="20.0" right="20.0" top="15.0" />
+                </padding>
+                <Text styleClass="footer-text-light" text="© 2025 TRAVELPRO - Tous droits réservés" />
+            </HBox>
+        </bottom>
+    </BorderPane>
+</StackPane>

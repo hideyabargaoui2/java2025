@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.OffreReservation.client.IndexOffreController">
+    <top>
+        <HBox alignment="CENTER" style="-fx-background-color: #2d698e; -fx-padding: 15px;">
+            <Label style="-fx-text-fill: white; -fx-font-size: 20px; -fx-font-weight: bold;" text="Liste des Offres" />
+        </HBox>
+    </top>
+
+    <center>
+        <VBox spacing="20" style="-fx-padding: 20px;">
+         <Button mnemonicParsing="false" onAction="#gotores" style="-fx-background-color: gris;" text="Mes réservations">
+            <font>
+               <Font name="Times New Roman Italic" size="11.0" />
+            </font></Button>
+
+
+            <!-- Conteneur des cartes avec ScrollPane pour le défilement si nécessaire -->
+            <ScrollPane fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED">
+                <FlowPane fx:id="cardsContainer" alignment="TOP_CENTER" hgap="20" vgap="20" />
+            </ScrollPane>
+        </VBox>
+    </center>
+</BorderPane>

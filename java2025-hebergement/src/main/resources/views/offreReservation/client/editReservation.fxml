@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.SpinnerValueFactory.IntegerSpinnerValueFactory?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.OffreReservation.client.EditReservationController">
+    <top>
+        <HBox alignment="CENTER" style="-fx-background-color: #2d698e; -fx-padding: 15px;">
+            <Label style="-fx-text-fill: white; -fx-font-size: 20px; -fx-font-weight: bold;" text="Ajouter/Modifier une Réservation" />
+        </HBox>
+    </top>
+
+    <center>
+        <ScrollPane fitToWidth="true">
+            <VBox alignment="TOP_CENTER" spacing="20" style="-fx-padding: 20px;">
+                <GridPane hgap="10" style="-fx-padding: 20; -fx-background-color: white; -fx-background-radius: 5; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 0);" vgap="15">
+                    <Label style="-fx-font-weight: bold;" text="Offre:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                    <ComboBox fx:id="offreCombo" disable="true" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+
+                    <Label style="-fx-font-weight: bold;" text="Nom Client:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                    <TextField fx:id="clientNomField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+                    <Label style="-fx-font-weight: bold;" text="Email Client:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                    <TextField fx:id="clientEmailField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+
+                    <Label style="-fx-font-weight: bold;" text="Date Réservation:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                    <DatePicker fx:id="dateReservationPicker" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+
+                    <Label style="-fx-font-weight: bold;" text="Nombre de Personnes:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+                    <Spinner fx:id="personnesSpinner" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                        <valueFactory>
+                            <SpinnerValueFactory.IntegerSpinnerValueFactory initialValue="1" max="20" min="1" />
+                        </valueFactory>
+                    </Spinner>
+
+
+                    <HBox alignment="CENTER_RIGHT" spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="6">
+                        <Button onAction="#annuler" style="-fx-background-color: #dc3545; -fx-text-fill: white;" text="Annuler" />
+                        <Button onAction="#enregistrer" style="-fx-background-color: #28a745; -fx-text-fill: white;" text="Enregistrer" />
+                    </HBox>
+               <columnConstraints>
+                  <ColumnConstraints />
+                  <ColumnConstraints />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints />
+                  <RowConstraints />
+                  <RowConstraints />
+                  <RowConstraints />
+                  <RowConstraints />
+                  <RowConstraints />
+                  <RowConstraints />
+               </rowConstraints>
+                </GridPane>
+            </VBox>
+        </ScrollPane>
+    </center>
+</BorderPane>

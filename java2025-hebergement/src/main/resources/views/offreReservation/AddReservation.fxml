@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="controllers.OffreReservation.AddReservationController" spacing="10" style="-fx-padding: 20;">
+    <Label text="Nouvelle Réservation" style="-fx-font-size: 18px; -fx-font-weight: bold;" />
+
+    <GridPane hgap="10" vgap="10">
+        <Label text="Offre:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+        <Label fx:id="offreLabel" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+
+        <Label text="Nom Client:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+        <TextField fx:id="clientNomField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+        <Label text="Email Client:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+        <TextField fx:id="clientEmailField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+
+        <Label text="Date Réservation:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+        <DatePicker fx:id="dateReservationPicker" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+
+        <Label text="Nombre Personnes:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+        <Spinner fx:id="personnesSpinner" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+
+        <Label text="Statut:" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+        <ComboBox fx:id="statutComboBox" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+    </GridPane>
+
+    <HBox spacing="10" style="-fx-padding: 10 0 0 0;">
+        <Button text="Enregistrer" onAction="#handleSave" style="-fx-background-color: #4CAF50; -fx-text-fill: white;" />
+        <Button text="Annuler" onAction="#handleCancel" style="-fx-background-color: #f44336; -fx-text-fill: white;" />
+    </HBox>
+</VBox>

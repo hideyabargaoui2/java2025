@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controllers.OffreReservation.client.IndexReservationController">
+    <top>
+        <HBox style="-fx-background-color: #2d698e; -fx-padding: 15px;" alignment="CENTER">
+            <Label text="Gestion des Réservations" style="-fx-text-fill: white; -fx-font-size: 20px; -fx-font-weight: bold;" />
+        </HBox>
+    </top>
+
+    <center>
+        <VBox spacing="10" style="-fx-padding: 20;">
+            <HBox spacing="10" alignment="CENTER_RIGHT">
+                 <Button text="Supprimer" onAction="#handleDeleteReservation" style="-fx-background-color: #f44336; -fx-text-fill: white;" />
+            </HBox>
+
+            <TableView fx:id="reservationTable">
+                <columns>
+                    <TableColumn fx:id="clientColumn" text="Client" />
+                    <TableColumn fx:id="emailColumn" text="Email" />
+                    <TableColumn fx:id="offreColumn" text="Offre" />
+                    <TableColumn fx:id="dateColumn" text="Date Réservation" />
+                    <TableColumn fx:id="personnesColumn" text="Personnes" />
+                    <TableColumn fx:id="statutColumn" text="Statut" />
+                </columns>
+            </TableView>
+        </VBox>
+    </center>
+</BorderPane>

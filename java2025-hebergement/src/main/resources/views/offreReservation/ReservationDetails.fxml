@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="controllers.OffreReservation.ReservationDetailsController" spacing="10" style="-fx-padding: 20;">
+    <Label text="Détails de la Réservation" style="-fx-font-size: 18px; -fx-font-weight: bold;" />
+
+    <GridPane hgap="10" vgap="10">
+        <Label text="ID:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+        <Label fx:id="idLabel" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+
+        <Label text="Offre:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+        <Label fx:id="offreLabel" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+        <Label text="Client:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+        <Label fx:id="clientLabel" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+
+        <Label text="Email:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+        <Label fx:id="emailLabel" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+
+        <Label text="Date Réservation:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+        <Label fx:id="dateLabel" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+
+        <Label text="Nombre Personnes:" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+        <Label fx:id="personnesLabel" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+
+        <Label text="Statut:" GridPane.columnIndex="0" GridPane.rowIndex="6" />
+        <Label fx:id="statutLabel" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+    </GridPane>
+
+    <HBox spacing="10" style="-fx-padding: 10 0 0 0;">
+        <Button text="Fermer" onAction="#handleClose" style="-fx-background-color: #2196F3; -fx-text-fill: white;" />
+    </HBox>
+</VBox>

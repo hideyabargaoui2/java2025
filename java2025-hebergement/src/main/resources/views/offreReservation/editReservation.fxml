@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.OffreReservation.EditReservationController">
+    <top>
+        <HBox style="-fx-background-color: #2d698e; -fx-padding: 15px;" alignment="CENTER">
+            <Label text="Ajouter/Modifier une Réservation" style="-fx-text-fill: white; -fx-font-size: 20px; -fx-font-weight: bold;" />
+        </HBox>
+    </top>
+
+    <center>
+        <ScrollPane fitToWidth="true">
+            <VBox spacing="20" style="-fx-padding: 20px;" alignment="TOP_CENTER">
+                <GridPane hgap="10" vgap="15" style="-fx-padding: 20; -fx-background-color: white; -fx-background-radius: 5; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 0);">
+                    <Label text="Offre:" style="-fx-font-weight: bold;" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                    <ComboBox fx:id="offreCombo" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+                    <Label text="Nom Client:" style="-fx-font-weight: bold;" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                    <TextField fx:id="clientNomField" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+                    <Label text="Email Client:" style="-fx-font-weight: bold;" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                    <TextField fx:id="clientEmailField" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+                    <Label text="Date Réservation:" style="-fx-font-weight: bold;" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                    <DatePicker fx:id="dateReservationPicker" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+                    <Label text="Nombre de Personnes:" style="-fx-font-weight: bold;" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+                    <Spinner fx:id="personnesSpinner" GridPane.rowIndex="4" GridPane.columnIndex="1">
+                        <valueFactory>
+                            <SpinnerValueFactory.IntegerSpinnerValueFactory min="1" max="20" initialValue="1"/>
+                        </valueFactory>
+                    </Spinner>
+
+                    <Label text="Statut:" style="-fx-font-weight: bold;" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+                    <ComboBox fx:id="statutCombo" GridPane.rowIndex="5" GridPane.columnIndex="1"/>
+
+                    <HBox spacing="10" alignment="CENTER_RIGHT" GridPane.rowIndex="6" GridPane.columnIndex="1">
+                        <Button text="Annuler" onAction="#annuler" style="-fx-background-color: #dc3545; -fx-text-fill: white;"/>
+                        <Button text="Enregistrer" onAction="#enregistrer" style="-fx-background-color: #28a745; -fx-text-fill: white;"/>
+                    </HBox>
+                </GridPane>
+            </VBox>
+        </ScrollPane>
+    </center>
+</BorderPane>
