@@ -3,6 +3,8 @@ package controllers;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -19,13 +21,17 @@ import service.ResHotelService;
 import service.SMSService;
 
 import java.io.IOException;
-import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.function.Predicate;
 
 public class AfficherResHotelController {
 
     private final ResHotelService resHotelService = new ResHotelService();
     private static final String PHONE_NUMBER = "+21652348380"; // Numéro de téléphone à utiliser
+    private ObservableList<ResHotel> masterData = FXCollections.observableArrayList();
+    private FilteredList<ResHotel> filteredData;
 
     @FXML private TableView<ResHotel> tableView;
     @FXML private TableColumn<ResHotel, String> hotelCol;
@@ -35,6 +41,10 @@ public class AfficherResHotelController {
     @FXML private Button btnAjouter;
     @FXML private Button btnConfirmSMS;
     @FXML private Button btnNavHotels; // Bouton de navigation vers les hôtels
+    @FXML private TextField searchField; // Champ de recherche pour le nom d'hôtel
+    @FXML private DatePicker searchDatePicker; // Date picker pour la recherche par date
+    @FXML private Button searchButton; // Bouton pour déclencher la recherche
+    @FXML private Button resetSearchButton; // Bouton pour réinitialiser la recherche
 
     @FXML
     public void initialize() {
@@ -50,6 +60,7 @@ public class AfficherResHotelController {
 
         setupActionColumn();
         loadData();
+        setupSearch();
 
         // Vérifier que le bouton est correctement configuré
         if (btnAjouter != null) {
@@ -81,6 +92,83 @@ public class AfficherResHotelController {
         } else {
             System.err.println("Erreur: btnNavHotels est null - Vérifiez l'ID dans le fichier FXML");
         }
+    }
+
+    /**
+     * Configure la fonctionnalité de recherche
+     */
+    private void setupSearch() {
+        // Initialiser la liste filtrée avec toutes les données
+        filteredData = new FilteredList<>(masterData, p -> true);
+        tableView.setItems(filteredData);
+
+        // Vérifier que les composants de recherche sont correctement chargés
+        if (searchField == null) {
+            System.err.println("Erreur: searchField est null - Vérifiez l'ID dans le fichier FXML");
+        } else {
+            // Permettre d'effectuer une recherche en appuyant sur Entrée dans le champ de recherche
+            searchField.setOnAction(this::handleSearch);
+        }
+
+        if (searchButton == null) {
+            System.err.println("Erreur: searchButton est null - Vérifiez l'ID dans le fichier FXML");
+        } else {
+            // Configurer le bouton de recherche
+            searchButton.setOnAction(this::handleSearch);
+        }
+
+        if (resetSearchButton == null) {
+            System.err.println("Erreur: resetSearchButton est null - Vérifiez l'ID dans le fichier FXML");
+        } else {
+            // Configurer le bouton de réinitialisation
+            resetSearchButton.setOnAction(event -> {
+                if (searchField != null) {
+                    searchField.clear();
+                }
+                if (searchDatePicker != null) {
+                    searchDatePicker.setValue(null);
+                }
+                filteredData.setPredicate(p -> true); // Afficher toutes les données
+            });
+        }
+    }
+
+    /**
+     * Gère l'événement de recherche
+     */
+    @FXML
+    private void handleSearch(ActionEvent event) {
+        String searchText = searchField != null ? searchField.getText().toLowerCase().trim() : "";
+        LocalDate searchDate = searchDatePicker != null ? searchDatePicker.getValue() : null;
+
+        // Définir le prédicat de filtrage
+        if (filteredData != null) {
+            filteredData.setPredicate(createSearchPredicate(searchText, searchDate));
+        }
+    }
+
+    /**
+     * Crée un prédicat pour filtrer les données selon les critères de recherche
+     */
+    private Predicate<ResHotel> createSearchPredicate(String searchText, LocalDate searchDate) {
+        return reservation -> {
+            boolean matchesText = true;
+            boolean matchesDate = true;
+
+            // Vérifier si le texte de recherche correspond au nom de l'hôtel
+            if (searchText != null && !searchText.isEmpty()) {
+                matchesText = reservation.getHotel().toLowerCase().contains(searchText);
+            }
+
+            // Vérifier si la date de recherche correspond à la date de réservation
+            if (searchDate != null) {
+                LocalDate reservationDate = reservation.getDateres().toLocalDate();
+                matchesDate = reservationDate.equals(searchDate);
+            }
+
+            // La réservation doit correspondre à tous les critères spécifiés
+            return matchesText && matchesDate;
+        };
     }
 
     /**
@@ -252,8 +340,23 @@ public class AfficherResHotelController {
     public void loadData() {
         try {
             List<ResHotel> reservations = resHotelService.getA();
-            ObservableList<ResHotel> observableList = FXCollections.observableArrayList(reservations);
-            tableView.setItems(observableList);
+            masterData.setAll(reservations);
+
+            // Si la liste filtrée n'est pas encore initialisée
+            if (filteredData == null) {
+                filteredData = new FilteredList<>(masterData, p -> true);
+                tableView.setItems(filteredData);
+            } else {
+                // Réappliquer le dernier filtre utilisé
+                // Utilisation d'une solution qui évite l'erreur de compatibilité des types
+                String searchText = searchField != null ? searchField.getText().toLowerCase().trim() : "";
+                LocalDate searchDate = searchDatePicker != null ? searchDatePicker.getValue() : null;
+
+                // Réinitialiser puis appliquer un nouveau prédicat pour éviter l'erreur de type
+                filteredData.setPredicate(p -> true); // Réinitialiser d'abord
+                filteredData.setPredicate(createSearchPredicate(searchText, searchDate));
+            }
+
             tableView.refresh(); // Forcer le rafraîchissement de l'affichage
         } catch (Exception e) {
             e.printStackTrace();

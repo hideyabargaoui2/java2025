@@ -36,7 +36,9 @@ public class AfficherHotelController {
     @FXML private TableColumn<hotel, Void> actionCol;
     @FXML private Button btnAjouter;
     @FXML private Button btnNavReservation; // Nouveau bouton de navigation
-
+    @FXML private TextField searchField;
+    private ObservableList<hotel> hotelsData = FXCollections.observableArrayList();
+    private ObservableList<hotel> filteredList = FXCollections.observableArrayList();
     @FXML
     public void initialize() {
         System.out.println("Initialisation de AfficherHotelController");
@@ -71,6 +73,15 @@ public class AfficherHotelController {
             });
         } else {
             System.err.println("Erreur: btnNavReservation est null - Vérifiez l'ID dans le fichier FXML");
+        }
+
+
+        if (searchField != null) {
+            searchField.textProperty().addListener((observable, oldValue, newValue) -> {
+                rechercherHotel();
+            });
+        } else {
+            System.err.println("Erreur: searchField est null - Vérifiez l'ID dans le fichier FXML");
         }
     }
 
@@ -231,10 +242,10 @@ public class AfficherHotelController {
 
     public void loadData() {
         try {
-            List<hotel> hotels = hotelService.getA(); // Utilisation de la méthode d'instance
-            ObservableList<hotel> observableList = FXCollections.observableArrayList(hotels);
-            tableView.setItems(observableList);
-            tableView.refresh(); // Forcer le rafraîchissement de l'affichage
+            List<hotel> hotels = hotelService.getA();
+            hotelsData = FXCollections.observableArrayList(hotels);
+            tableView.setItems(hotelsData);
+            tableView.refresh();
         } catch (Exception e) {
             e.printStackTrace();
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -243,6 +254,29 @@ public class AfficherHotelController {
             alert.showAndWait();
         }
     }
+    @FXML
+    public void rechercherHotel() {
+        String searchTerm = searchField.getText().toLowerCase().trim();
+
+        if (searchTerm.isEmpty()) {
+            // Si le champ de recherche est vide, affichez toutes les données
+            tableView.setItems(hotelsData);
+        } else {
+            // Filtrer les données en fonction du terme de recherche
+            filteredList.clear();
+
+            for (hotel h : hotelsData) {
+                if (h.getNom().toLowerCase().contains(searchTerm)) {
+                    filteredList.add(h);
+                }
+            }
+
+            tableView.setItems(filteredList);
+        }
+
+        tableView.refresh();
+    }
+
 
     @FXML
     private void ajouterHotel() {

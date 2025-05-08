@@ -7,7 +7,7 @@ import java.sql.SQLException;
 public class Maconnection {
     private final String username="root";
     private final String  password ="";
-    private final String  url ="jdbc:mysql://localhost:3306/hebergementmanager";
+    private final String  url ="jdbc:mysql://localhost:3306/java";
 
     private Connection connection ;
 

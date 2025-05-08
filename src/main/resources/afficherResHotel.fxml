@@ -105,20 +105,33 @@
                     <Text text="Gestion des Réservations" styleClass="section-title-light"/>
                     <Pane HBox.hgrow="ALWAYS"/>
 
-                    <!-- Search box -->
-                    <HBox alignment="CENTER" styleClass="search-box-transparent">
-                        <ImageView fitHeight="16.0" fitWidth="16.0" preserveRatio="true">
-                            <image>
-                                <Image url="@icons/search.png"/>
-                            </image>
-                        </ImageView>
-                        <TextField promptText="Rechercher..." styleClass="search-field-transparent"/>
-                    </HBox>
-
-                    <!-- Add button -->
+                    <!-- Bouton pour ajouter une réservation -->
                     <Button text="+ Ajouter Réservation" fx:id="btnAjouter" onAction="#ajouterResHotel" styleClass="action-button"/>
+                </HBox>
 
+                <!-- Barre de recherche améliorée -->
+                <HBox spacing="10" alignment="CENTER_LEFT" styleClass="search-container-transparent">
+                    <!-- Icône de recherche -->
+                    <ImageView fitHeight="16.0" fitWidth="16.0" preserveRatio="true">
+                        <image>
+                            <Image url="@icons/search.png"/>
+                        </image>
+                    </ImageView>
 
+                    <!-- Champ de recherche pour le nom d'hôtel -->
+                    <TextField fx:id="searchField" promptText="Rechercher par nom d'hôtel..."
+                               styleClass="search-field-transparent" HBox.hgrow="ALWAYS"/>
+
+                    <!-- Sélecteur de date pour la recherche par date -->
+                    <DatePicker fx:id="searchDatePicker" promptText="Sélectionner une date"
+                                styleClass="search-date-picker"/>
+
+                    <!-- Boutons de recherche et de réinitialisation -->
+                    <Button fx:id="searchButton" text="Rechercher" styleClass="search-button"/>
+                    <Button fx:id="resetSearchButton" text="Réinitialiser" styleClass="reset-button"/>
+
+                    <!-- Bouton SMS global -->
+                    <Button fx:id="btnConfirmSMS" text="Confirmer par SMS" styleClass="confirm-sms-button"/>
                 </HBox>
 
                 <!-- Table with transparent background -->

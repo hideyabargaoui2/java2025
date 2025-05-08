@@ -112,7 +112,9 @@
                                 <Image url="@icons/search.png"/>
                             </image>
                         </ImageView>
-                        <TextField promptText="Rechercher..." styleClass="search-field-transparent"/>
+                        <TextField fx:id="searchField" promptText="Rechercher..."
+                                   styleClass="search-field-transparent"
+                                   onKeyReleased="#rechercherHotel"/>
                     </HBox>
 
                     <!-- Add button -->
