@@ -1,6 +1,7 @@
 package controllers;
 
 import javafx.collections.*;
+import javafx.collections.transformation.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.*;
 import javafx.scene.*;
@@ -9,6 +10,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import models.Restaurant;
 import services.RestaurantServices;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -16,7 +18,7 @@ import java.util.ResourceBundle;
 public class AfficherRestaurant implements Initializable {
 
     @FXML
-    private TableView<Restaurant> table;  // Assurez-vous que la TableView existe dans le FXML
+    private TableView<Restaurant> table;
     @FXML
     private TableColumn<Restaurant, String> colNom;
     @FXML
@@ -34,9 +36,12 @@ public class AfficherRestaurant implements Initializable {
     @FXML
     private TableColumn<Restaurant, String> colSupprimer;
     @FXML
-    private TableColumn<Restaurant, String> colMap; // Colonne pour la carte
+    private TableColumn<Restaurant, String> colMap;
+    @FXML
+    private TextField searchField;
 
     private final RestaurantServices service = new RestaurantServices();
+    private final ObservableList<Restaurant> masterData = FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -47,11 +52,17 @@ public class AfficherRestaurant implements Initializable {
         colHoraireOuvert.setCellValueFactory(new PropertyValueFactory<>("horaireOuvert"));
         colHoraireFerme.setCellValueFactory(new PropertyValueFactory<>("horaireFerme"));
 
-        // Modifier Column
+        initActions();
+        afficherRestaurants();
+    }
+
+    private void initActions() {
+        // Modifier
         colModifier.setCellFactory(col -> new TableCell<Restaurant, String>() {
             private final Button btn = new Button("Modifier");
 
             {
+                btn.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white;");
                 btn.setOnAction(event -> {
                     Restaurant r = getTableView().getItems().get(getIndex());
                     modifierRestaurant(r);
@@ -65,11 +76,12 @@ public class AfficherRestaurant implements Initializable {
             }
         });
 
-        // Supprimer Column
+        // Supprimer
         colSupprimer.setCellFactory(col -> new TableCell<Restaurant, String>() {
             private final Button btn = new Button("Supprimer");
 
             {
+                btn.setStyle("-fx-background-color: #f44336; -fx-text-fill: white;");
                 btn.setOnAction(event -> {
                     Restaurant r = getTableView().getItems().get(getIndex());
                     supprimerRestaurant(r);
@@ -83,7 +95,7 @@ public class AfficherRestaurant implements Initializable {
             }
         });
 
-        // Carte Column
+        // Carte (Google Maps)
         colMap.setCellFactory(col -> new TableCell<Restaurant, String>() {
             private final Button btn = new Button("Carte");
 
@@ -109,7 +121,27 @@ public class AfficherRestaurant implements Initializable {
             }
         });
 
-        afficherRestaurants();
+        // Recherche dynamique
+        FilteredList<Restaurant> filteredData = new FilteredList<>(masterData, p -> true);
+        searchField.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredData.setPredicate(restaurant -> {
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+                String lowerCaseFilter = newValue.toLowerCase();
+                return restaurant.getNom().toLowerCase().contains(lowerCaseFilter)
+                        || restaurant.getAdresse().toLowerCase().contains(lowerCaseFilter)
+                        || restaurant.getType().toLowerCase().contains(lowerCaseFilter);
+            });
+        });
+
+        SortedList<Restaurant> sortedData = new SortedList<>(filteredData);
+        sortedData.comparatorProperty().bind(table.comparatorProperty());
+        table.setItems(sortedData);
+    }
+
+    private void afficherRestaurants() {
+        masterData.setAll(service.afficher());
     }
 
     @FXML
@@ -117,22 +149,11 @@ public class AfficherRestaurant implements Initializable {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/AjouterRestaurant.fxml"));
             Parent root = loader.load();
-
-            // Obtenir la scène à partir d'un composant quelconque (ici colNom)
             Scene scene = colNom.getTableView().getScene();
             scene.setRoot(root);
-
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    private void afficherRestaurants() {
-        ObservableList<Restaurant> listRestaurants = FXCollections.observableArrayList(service.afficher());
-        System.out.println("Restaurants chargés : " + listRestaurants.size());  // Vérification de la taille de la liste
-
-        listRestaurants.sort((r1, r2) -> r1.getHoraireOuvert().compareTo(r2.getHoraireOuvert()));
-        table.setItems(listRestaurants);
     }
 
     private void modifierRestaurant(Restaurant restaurant) {

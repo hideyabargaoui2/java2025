@@ -17,36 +17,37 @@ import javafx.stage.Stage;
 import models.Menu;
 import models.Restaurant;
 import services.MenuService;
+
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
+
 public class AfficherMenu {
+
     @FXML private TableView<Menu> tableMenus;
     @FXML private TableColumn<Menu, String> colRestaurant;
     @FXML private TableColumn<Menu, String> colPlat;
     @FXML private TableColumn<Menu, String> colPrix;
     @FXML private TableColumn<Menu, String> colDescription;
     @FXML private TableColumn<Menu, Void> colActions;
-    @FXML
-    private ImageView logoImage;
+    @FXML private ImageView logoImage;
+    @FXML private TextField searchField;
 
+    private final MenuService menuService = new MenuService();
+    private ObservableList<Menu> allMenus = FXCollections.observableArrayList();
 
     @FXML
     private void closeWindow(ActionEvent event) {
         ((Stage) ((Node) event.getSource()).getScene().getWindow()).close();
     }
-    private final MenuService menuService = new MenuService();
+
     @FXML
     private void ajouterMenu(ActionEvent event) {
         try {
-            // Créez ou ouvrez la fenêtre d'ajout de menu
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/AjouterMenu.fxml"));
             Parent root = loader.load();
-
-            // Créez le contrôleur pour cette fenêtre (ajoutez si nécessaire un paramètre à la méthode de votre fenêtre)
-            AjouterMenu ajouterMenuController = loader.getController();
             Scene scene = colPlat.getTableView().getScene();
             scene.setRoot(root);
-
         } catch (IOException e) {
             showAlert(Alert.AlertType.ERROR, "Erreur", null, "Impossible d'ouvrir la fenêtre d'ajout.");
         }
@@ -57,7 +58,9 @@ public class AfficherMenu {
         setupTableColumns();
         loadMenus();
         addActionButtonsToTable();
-        Circle circle = new Circle(40, 40, 40); // centre x, y, rayon
+        setupSearch();
+
+        Circle circle = new Circle(40, 40, 40);
         logoImage.setClip(circle);
     }
 
@@ -74,8 +77,8 @@ public class AfficherMenu {
     private void loadMenus() {
         try {
             List<Menu> menus = menuService.getAll();
-            ObservableList<Menu> observableMenus = FXCollections.observableArrayList(menus);
-            tableMenus.setItems(observableMenus);
+            allMenus.setAll(menus);
+            tableMenus.setItems(allMenus);
         } catch (Exception e) {
             showAlert(Alert.AlertType.ERROR, "Erreur", "Impossible de charger les menus.", e.getMessage());
         }
@@ -92,13 +95,13 @@ public class AfficherMenu {
 
                 btnModifier.setOnAction(event -> {
                     Menu selectedMenu = getTableView().getItems().get(getIndex());
-                    openUpdateWindow(selectedMenu);  // Méthode pour ouvrir la fenêtre de modification
+                    openUpdateWindow(selectedMenu);
                 });
 
                 btnSupprimer.setOnAction(event -> {
                     Menu selectedMenu = getTableView().getItems().get(getIndex());
-                    menuService.delete(selectedMenu);  // Méthode pour supprimer le menu
-                    loadMenus();  // Recharger la table
+                    menuService.delete(selectedMenu);
+                    loadMenus();
                 });
             }
 
@@ -109,7 +112,7 @@ public class AfficherMenu {
                     setGraphic(null);
                 } else {
                     HBox container = new HBox(10, btnModifier, btnSupprimer);
-                    setGraphic(container);  // Afficher les boutons Modifier et Supprimer dans chaque ligne
+                    setGraphic(container);
                 }
             }
         });
@@ -122,17 +125,32 @@ public class AfficherMenu {
             UpdateMenu updateMenuController = loader.getController();
             updateMenuController.setMenu(selectedMenu);
 
-
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
-
-            // Recharger les menus après la fermeture de la fenêtre de modification
-            stage.setOnHidden(e -> loadMenus());  // Recharge les menus après la mise à jour
+            stage.setOnHidden(e -> loadMenus());
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
             showAlert(Alert.AlertType.ERROR, "Erreur", null, "Impossible d'ouvrir la fenêtre de modification.");
         }
+    }
+
+    private void setupSearch() {
+        searchField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue == null || newValue.isEmpty()) {
+                tableMenus.setItems(allMenus);
+            } else {
+                String lower = newValue.toLowerCase();
+                ObservableList<Menu> filtered = FXCollections.observableArrayList(
+                        allMenus.stream()
+                                .filter(menu -> menu.getName().toLowerCase().contains(lower)
+                                        || menu.getDescription().toLowerCase().contains(lower)
+                                        || (menu.getRestaurant() != null &&
+                                        menu.getRestaurant().getNom().toLowerCase().contains(lower)))
+                                .collect(Collectors.toList()));
+                tableMenus.setItems(filtered);
+            }
+        });
     }
 
     private void showAlert(Alert.AlertType type, String title, String header, String content) {

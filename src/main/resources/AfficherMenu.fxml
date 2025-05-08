@@ -15,7 +15,7 @@
     <!-- Fond de secours -->
     <VBox styleClass="main-background"/>
 
-    <!-- Image de fond corrigée -->
+    <!-- Image de fond -->
     <ImageView fitWidth="1000.0" fitHeight="700.0" preserveRatio="false">
         <image>
             <Image url="@images/airplane_view.jpg"/>
@@ -46,9 +46,35 @@
                 </VBox>
 
                 <HBox HBox.hgrow="ALWAYS" alignment="CENTER_RIGHT" spacing="15">
-                    <Button text="Home" styleClass="nav-button"/>
-                    <Button text="Profil" styleClass="nav-button"/>
-                    <Button text="Paramètres" styleClass="nav-button"/>
+                    <Button text="Home" styleClass="nav-button">
+                        <graphic>
+                            <ImageView fitHeight="16.0" fitWidth="16.0" preserveRatio="true">
+                                <image>
+                                    <Image url="@icons/home.png"/>
+                                </image>
+                            </ImageView>
+                        </graphic>
+                    </Button>
+
+                    <Button text="Profil" styleClass="nav-button">
+                        <graphic>
+                            <ImageView fitHeight="16.0" fitWidth="16.0" preserveRatio="true">
+                                <image>
+                                    <Image url="@icons/profile.png"/>
+                                </image>
+                            </ImageView>
+                        </graphic>
+                    </Button>
+
+                    <Button text="Paramètres" styleClass="nav-button">
+                        <graphic>
+                            <ImageView fitHeight="16.0" fitWidth="16.0" preserveRatio="true">
+                                <image>
+                                    <Image url="@icons/settings.png"/>
+                                </image>
+                            </ImageView>
+                        </graphic>
+                    </Button>
                 </HBox>
             </HBox>
         </top>
@@ -65,8 +91,14 @@
                     <Text text="Gestion des Menus" styleClass="section-title-light"/>
                     <Pane HBox.hgrow="ALWAYS"/>
 
-                    <HBox alignment="CENTER" styleClass="search-box-transparent">
-                        <TextField promptText="Rechercher..." styleClass="search-field-transparent"/>
+                    <!-- Barre de recherche avec icône -->
+                    <HBox alignment="CENTER" styleClass="search-box-transparent" spacing="8">
+                        <ImageView fitHeight="16.0" fitWidth="16.0" preserveRatio="true">
+                            <image>
+                                <Image url="@icons/search.png"/>
+                            </image>
+                        </ImageView>
+                        <TextField fx:id="searchField" promptText="Rechercher..." styleClass="search-field-transparent"/>
                     </HBox>
 
                     <Button fx:id="btnAjouter" onAction="#ajouterMenu" text="+ Ajouter Menu" styleClass="action-button"/>
@@ -92,7 +124,6 @@
                             <Label text="Aucun menu disponible" styleClass="empty-table-title-light"/>
                             <Label text="Cliquez sur '+ Ajouter Menu' pour commencer." styleClass="empty-table-message-light"/>
                         </VBox>
-
                     </placeholder>
                 </TableView>
 

@@ -59,10 +59,10 @@
 
                 <Label style="-fx-text-fill: #f0f0f0;" styleClass="form-label" text="Nom du Plat" />
 
-                <TextField fx:id="TFname" promptText="Nom du plat" styleClass="form-field" />
+                <TextField fx:id="TFname" promptText="Nom du plat" styleClass="form-field"  maxWidth="300" />
 
                 <Label style="-fx-text-fill: #f0f0f0;" styleClass="form-label" text="Prix" />
-                <TextField fx:id="TFprix" promptText="Prix" styleClass="form-field" />
+                <TextField fx:id="TFprix" promptText="Prix" styleClass="form-field"  maxWidth="300" />
 
                 <Label style="-fx-text-fill: #f0f0f0;" styleClass="form-label" text="Description" />
                 <TextArea fx:id="TFdesc" promptText="Description" styleClass="form-field" />

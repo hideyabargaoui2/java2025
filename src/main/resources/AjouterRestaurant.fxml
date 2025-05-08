@@ -79,7 +79,7 @@
                      </stops>
                   </LinearGradient>
                </textFill></Label>
-                <TextField fx:id="TFnom" prefHeight="28.0" prefWidth="866.0" promptText="Nom du restaurant" styleClass="form-field" />
+                <TextField fx:id="TFnom" prefHeight="28.0" prefWidth="866.0" promptText="Nom du restaurant" styleClass="form-field"  maxWidth="300" />
 
                 <Label prefHeight="30.0" prefWidth="112.0" style="-fx-text-fill: #f0f0f0;" styleClass="form-label" text="Adresse">
                <textFill>
@@ -101,7 +101,7 @@
                <font>
                   <Font size="20.0" />
                </font></Label>
-                <TextField fx:id="TFadresse" prefHeight="28.0" prefWidth="843.0" promptText="Adresse" styleClass="form-field" />
+                <TextField fx:id="TFadresse" prefHeight="28.0" prefWidth="843.0" promptText="Adresse" styleClass="form-field"  maxWidth="300" />
 
                 <Label style="-fx-text-fill: #f0f0f0;" styleClass="form-label" text="Type">
                <textFill>
@@ -123,7 +123,7 @@
                <font>
                   <Font size="14.0" />
                </font></Label>
-                <TextField fx:id="TFtype" promptText="Type" styleClass="form-field" />
+                <TextField fx:id="TFtype" promptText="Type" styleClass="form-field"  maxWidth="300"/>
 
                 <Label style="-fx-text-fill: #f0f0f0;" styleClass="form-label" text="Heure ouverture">
                <font>
@@ -145,7 +145,7 @@
                      </stops>
                   </LinearGradient>
                </textFill></Label>
-                <TextField fx:id="TFouvert" promptText="hh:mm" styleClass="form-field" />
+                <TextField fx:id="TFouvert" promptText="hh:mm" styleClass="form-field"  maxWidth="300" />
 
                 <Label style="-fx-text-fill: #f0f0f0;" styleClass="form-label" text="Heure fermeture">
                <font>
@@ -167,7 +167,7 @@
                      </stops>
                   </LinearGradient>
                </textFill></Label>
-                <TextField fx:id="TFferme" promptText="hh:mm" styleClass="form-field" />
+                <TextField fx:id="TFferme" promptText="hh:mm" styleClass="form-field"  maxWidth="300" />
 
                 <Label style="-fx-text-fill: #f0f0f0;" styleClass="form-label" text="Classement">
                <textFill>
@@ -189,7 +189,8 @@
                <font>
                   <Font size="14.0" />
                </font></Label>
-                <TextField fx:id="TFclass" promptText="Classement" styleClass="form-field" />
+                <TextField fx:id="TFclass" promptText="Classement" styleClass="form-field" maxWidth="300"/>
+
 
                 <HBox alignment="CENTER" spacing="20">
                     <Button fx:id="ajoutermenu" onAction="#ouvrirMenu" styleClass="action-button" text="Ajouter Menu" />
