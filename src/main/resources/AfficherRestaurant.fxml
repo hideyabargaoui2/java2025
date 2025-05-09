@@ -37,11 +37,11 @@
                 <padding>
                     <Insets bottom="15.0" left="20.0" right="20.0" top="15.0" />
                 </padding>
-                 <ImageView fitHeight="80.0" fitWidth="80.0" preserveRatio="true">
-                     <image>
-                         <Image url="@images/travelpro_logo.png" />
-                     </image>
-                 </ImageView>
+                <ImageView fitHeight="80.0" fitWidth="80.0" preserveRatio="true">
+                    <image>
+                        <Image url="@images/travelpro_logo.png" />
+                    </image>
+                </ImageView>
 
                 <!-- Title -->
                 <VBox alignment="CENTER_LEFT" styleClass="title-container">
@@ -104,7 +104,6 @@
                             </image>
                         </ImageView>
                         <TextField fx:id="searchField" promptText="Rechercher..." styleClass="search-field-transparent" />
-
                     </HBox>
 
                     <!-- Add button -->
@@ -133,7 +132,6 @@
                             </ImageView>
                             <Label styleClass="empty-table-title-light" text="Aucun restaurant disponible" />
                             <Label styleClass="empty-table-message-light" text="Cliquez sur '+ Ajouter Restaurant' pour commencer." />
-
                         </VBox>
                     </placeholder>
                 </TableView>
@@ -141,7 +139,7 @@
                 <!-- Pagination -->
                 <HBox alignment="CENTER" spacing="10" styleClass="pagination-container-transparent">
                     <Button styleClass="pagination-btn-transparent" text="&lt;" />
-                    <Pagination maxPageIndicatorCount="5" pageCount="10" styleClass="transparent-pagination" />
+                    <Pagination fx:id="pagination" maxPageIndicatorCount="5" pageCount="10" styleClass="transparent-pagination" />
                     <Button styleClass="pagination-btn-transparent" text="&gt;" />
                 </HBox>
             </VBox>

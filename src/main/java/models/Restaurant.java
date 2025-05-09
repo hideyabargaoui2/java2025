@@ -9,6 +9,8 @@ public class Restaurant {
     private Time heure_ouv;
     private Time heure_ferm;
     private int classement;
+    private double latitude;  // Nouvelle propriété pour la latitude
+    private double longitude;
 
     public Restaurant() {
         // Constructeur vide nécessaire pour certains cas
@@ -22,6 +24,7 @@ public class Restaurant {
         this.heure_ouv = heure_ouv;
         this.heure_ferm = heure_ferm;
         this.classement = classement;
+
     }
 
     // Getters et setters
@@ -49,4 +52,20 @@ public class Restaurant {
     public String getHoraireFerme() {
         return heure_ferm != null ? heure_ferm.toString() : null;
     }
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
 }

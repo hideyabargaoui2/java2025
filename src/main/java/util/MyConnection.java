@@ -6,9 +6,9 @@ import java.sql.SQLException;
 
 public class MyConnection {
 
-    private final String URL = "jdbc:mysql://localhost:3306/gestion de resto"; // ou "gestion_resto" si renommée
+    private final String URL = "jdbc:mysql://localhost:3306/java";
     private final String USER = "root";
-    private final String PASS = ""; // mets ici ton mot de passe root si besoin
+    private final String PASS = "";
 
     private Connection connection;
     private static MyConnection instance;

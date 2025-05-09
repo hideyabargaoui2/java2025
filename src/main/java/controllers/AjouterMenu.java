@@ -105,14 +105,14 @@ public class AjouterMenu {
             return;
         }
 
-        // Vérifier si un restaurant a été sélectionné
+
         Restaurant selectedRestaurant = TFnomresto.getSelectionModel().getSelectedItem();
         if (selectedRestaurant == null) {
             showAlert(Alert.AlertType.WARNING, "Attention", "Veuillez sélectionner un restaurant !");
             return;
         }
 
-        // Créer un objet Menu à partir des informations
+
         Menu menu = new Menu();
         menu.setName(TFname.getText());
         try {
