@@ -17,8 +17,8 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import models.Trajet;
 import services.Trajetservice;
+import services.TwilioService;
 
-import java.awt.event.ActionEvent;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -40,11 +40,13 @@ public class Ajoutertrajetcontroller {
     @FXML private VBox formContainer;
     @FXML private HBox buttonBar;
     @FXML private ImageView headerIcon;
+    @FXML private CheckBox enableNotificationsCheckbox;
 
     private final Trajetservice trajetService = new Trajetservice();
     private Trajet trajet;
     private Runnable onCloseCallback;
     private final SimpleBooleanProperty editMode = new SimpleBooleanProperty(false);
+    private boolean notificationsEnabled = true;
 
     /**
      * Initialise le contrôleur
@@ -72,6 +74,8 @@ public class Ajoutertrajetcontroller {
         // Animation d'entrée
         playEntranceAnimation();
 
+        // Initialiser le service Twilio en arrière-plan
+        initializeTwilioService();
 
         datePicker.setValue(LocalDate.now());
         datePicker.setDayCellFactory(picker -> new DateCell() {
@@ -103,6 +107,21 @@ public class Ajoutertrajetcontroller {
                 }
             }
         });
+
+        // Si la checkbox de notification existe dans le FXML, configurer son comportement
+        if (enableNotificationsCheckbox != null) {
+            enableNotificationsCheckbox.setSelected(notificationsEnabled);
+            enableNotificationsCheckbox.selectedProperty().addListener((obs, oldVal, newVal) -> {
+                notificationsEnabled = newVal;
+            });
+        }
+    }
+
+    /**
+     * Initialise le service Twilio en arrière-plan
+     */
+    private void initializeTwilioService() {
+        new Thread(TwilioService::initialize).start();
     }
 
     /**
@@ -142,12 +161,7 @@ public class Ajoutertrajetcontroller {
         setupButtonAnimation(btnSave);
         setupButtonAnimation(btnCancel);
     }
-    @FXML
-    public void ajouterTrajet(ActionEvent event) {
-        if (validateForm()) {
-            saveTrajet();
-        }
-    }
+
     /**
      * Configure les validations des champs du formulaire
      */
@@ -307,6 +321,7 @@ public class Ajoutertrajetcontroller {
 
         return isValid;
     }
+
     private void showFieldError(DatePicker field, String message) {
         Tooltip tooltip = new Tooltip(message);
         tooltip.setStyle("-fx-background-color: #f8d7da; -fx-text-fill: #721c24;");
@@ -321,6 +336,7 @@ public class Ajoutertrajetcontroller {
         shake.setAutoReverse(true);
         shake.play();
     }
+
     /**
      * Enregistre le trajet (ajout ou modification)
      */
@@ -346,6 +362,11 @@ public class Ajoutertrajetcontroller {
             } else {
                 trajetService.ajouter(trajet);
                 playSuccessAnimation("Trajet ajouté avec succès");
+
+                // Envoi de notification vocale seulement si les notifications sont activées
+                if (notificationsEnabled) {
+                    sendVoiceNotification(trajet);
+                }
             }
 
             // Fermer après un délai
@@ -360,6 +381,31 @@ public class Ajoutertrajetcontroller {
             // Afficher un message d'erreur
             showErrorMessage("Erreur lors de l'enregistrement", e.getMessage());
         }
+    }
+
+    /**
+     * Envoie une notification vocale via Twilio
+     */
+    private void sendVoiceNotification(Trajet trajet) {
+        TwilioService.sendVoiceNotification(trajet)
+                .thenAccept(result -> {
+                    if (!result.isSuccess()) {
+                        // Si l'envoi échoue, afficher un message sur le thread UI
+                        javafx.application.Platform.runLater(() ->
+                                showErrorMessage("Notification vocale", "Impossible d'envoyer la notification vocale: " + result.getMessage())
+                        );
+                    } else {
+                        // En cas de succès, afficher éventuellement un message
+                        System.out.println("Notification vocale envoyée avec succès: " + result.getMessage());
+                    }
+                })
+                .exceptionally(e -> {
+                    // En cas d'erreur dans le CompletableFuture
+                    javafx.application.Platform.runLater(() ->
+                            showErrorMessage("Notification vocale", "Erreur lors de l'envoi de la notification: " + e.getMessage())
+                    );
+                    return null;
+                });
     }
 
     /**
@@ -501,5 +547,15 @@ public class Ajoutertrajetcontroller {
      */
     public void setOnClose(Runnable callback) {
         this.onCloseCallback = callback;
+    }
+
+    /**
+     * Active ou désactive les notifications vocales
+     */
+    public void setNotificationsEnabled(boolean enabled) {
+        this.notificationsEnabled = enabled;
+        if (enableNotificationsCheckbox != null) {
+            enableNotificationsCheckbox.setSelected(enabled);
+        }
     }
 }

@@ -2,7 +2,6 @@ package models;
 
 import javafx.scene.image.Image;
 import utils.QRCodeGenerator;
-import utils.QRCodeGenerator ;
 import java.time.LocalDateTime;
 import java.util.Date;
 
@@ -11,9 +10,11 @@ public class Trajet {
     private LocalDateTime date;
     private int heure;
     private String destination;
-    private  String transport;
-    private int duree ;
+    private final String lieuDepart = "Ariana, Tunis";
+    private String transport;
+    private int duree;
     private Image qrCodeImage;
+
     public Trajet() {
     }
 
@@ -52,6 +53,10 @@ public class Trajet {
     public void regenerateQRCode() {
         qrCodeImage = null;
         getQRCodeImage();
+    }
+
+    public String getLieuDepart() {
+        return lieuDepart;
     }
 
     public int getId() {
@@ -106,11 +111,13 @@ public class Trajet {
     public String toString() {
         return "Trajet{" +
                 "id=" + id +
-                ", date='" + date + '\'' +
-                ", heure='" + heure + '\'' +
+                ", date=" + date +
+                ", heure=" + heure +
                 ", destination='" + destination + '\'' +
+                ", lieuDepart='" + lieuDepart + '\'' +
                 ", transport='" + transport + '\'' +
                 ", duree=" + duree +
+                ", qrCodeImage=" + qrCodeImage +
                 '}';
     }
 }

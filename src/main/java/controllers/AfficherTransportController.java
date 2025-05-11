@@ -924,7 +924,104 @@ public class AfficherTransportController {
             });
         }
     }
+    /**
+     * Méthode pour naviguer vers l'interface des réservations d'hôtels avec une transition animée
+     */
+    @FXML
+    public void naviguerVersHotel() {
+        try {
+            System.out.println("Navigation vers l'interface de gestion des réservations d'hôtels");
 
+            // Liste des chemins possibles pour le fichier FXML
+            String[] possiblePaths = {
+                    "afficherResHotel.fxml",
+                    "/afficherResHotel.fxml",
+                    "../afficherResHotel.fxml",
+                    "/views/afficherResHotel.fxml",
+                    "/fxml/afficherResHotel.fxml"
+            };
+
+            FXMLLoader loader = null;
+
+            // Essayer chaque chemin jusqu'à ce qu'un fonctionne
+            for (String path : possiblePaths) {
+                try {
+                    loader = new FXMLLoader(getClass().getResource(path));
+                    System.out.println("Tentative de chargement avec: " + path);
+                    if (loader.getLocation() != null) {
+                        System.out.println("Fichier FXML trouvé à: " + path);
+                        break;
+                    }
+                } catch (Exception e) {
+                    System.out.println("Erreur avec le chemin " + path + ": " + e.getMessage());
+                }
+            }
+
+            // Vérifier si on a bien pu charger le fichier
+            if (loader == null || loader.getLocation() == null) {
+                throw new IOException("Impossible de localiser le fichier FXML pour la gestion des réservations d'hôtels");
+            }
+
+            // Récupérer le conteneur parent actuel pour l'animation
+            StackPane rootContainer = (StackPane) mainContainer.getScene().getRoot();
+
+            // Charger la nouvelle vue
+            Parent nouveauContenu = loader.load();
+
+            // S'assurer que le nouveau contenu utilise le même CSS
+            nouveauContenu.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
+
+            // Créer une transition pour déplacer le contenu actuel hors de l'écran
+            TranslateTransition sortieActuelle = new TranslateTransition(Duration.millis(300), mainContainer);
+            sortieActuelle.setFromX(0);
+            sortieActuelle.setToX(-rootContainer.getWidth());
+
+            // Préparation de la nouvelle vue
+            nouveauContenu.setTranslateX(rootContainer.getWidth());
+
+            // Ajouter le nouveau contenu à côté de l'actuel
+            rootContainer.getChildren().add(nouveauContenu);
+
+            // Créer une transition pour faire entrer le nouveau contenu
+            TranslateTransition entreeNouvelle = new TranslateTransition(Duration.millis(300), nouveauContenu);
+            entreeNouvelle.setFromX(rootContainer.getWidth());
+            entreeNouvelle.setToX(0);
+
+            // Jouer les deux transitions en parallèle
+            ParallelTransition transition = new ParallelTransition(sortieActuelle, entreeNouvelle);
+
+            // Nettoyer après la transition
+            transition.setOnFinished(event -> {
+                // Remplacer la scène complètement
+                Scene scene = mainContainer.getScene();
+                Stage stage = (Stage) scene.getWindow();
+
+                Scene nouvelleScene = new Scene(nouveauContenu, scene.getWidth(), scene.getHeight());
+                nouvelleScene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
+
+                stage.setScene(nouvelleScene);
+
+                // Nettoyer l'ancienne vue
+                rootContainer.getChildren().remove(mainContainer);
+            });
+
+            // Lancer la transition
+            transition.play();
+
+        } catch (IOException e) {
+            System.err.println("Erreur lors de la navigation vers la gestion des réservations d'hôtels: " + e.getMessage());
+            e.printStackTrace();
+
+            // Afficher une alerte en cas d'erreur
+            Alert alert = createStyledAlert(Alert.AlertType.ERROR);
+            alert.setTitle("Erreur de navigation");
+            alert.setHeaderText("Impossible d'afficher la gestion des réservations d'hôtels");
+            alert.setContentText("Erreur: " + e.getMessage());
+            alert.showAndWait();
+        }
+    }
+    /**
+     * Charge les données avec animation
     /**
      * Affiche un message toast animé
      * @param message Le message à afficher
@@ -1055,4 +1152,7 @@ public class AfficherTransportController {
             System.err.println("Erreur lors de l'affichage du toast: " + e.getMessage());
             e.printStackTrace();
         }
+
+
+
     }}

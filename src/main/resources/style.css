@@ -1,3 +1,9 @@
+/*
+   Unified Style Sheet for JavaFX Application
+   Created: May 15, 2025
+   Updated: May 15, 2025 - Standardized button styles across tabs
+*/
+
 /* Base styles */
 .root {
     -fx-font-family: 'Segoe UI', Arial, sans-serif;
@@ -9,7 +15,7 @@
     -fx-background-color: linear-gradient(to bottom right, #859aef, #1773ac, #fdbb2d);
 }
 
-/* Transparent container - More transparent to allow background image to show through */
+/* Containers */
 .transparent-container {
     -fx-background-color: rgba(255, 255, 255, 0.08);
     -fx-background-radius: 10;
@@ -46,29 +52,33 @@
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 1, 0, 0, 1);
 }
 
-/* Navigation buttons - More transparent against airplane background */
+/* Navigation buttons */
 .nav-button {
-    -fx-background-color: rgba(255, 255, 255, 0.15);
+    -fx-background-color: transparent;
     -fx-background-radius: 20;
     -fx-text-fill: white;
     -fx-padding: 8 15;
     -fx-cursor: hand;
     -fx-graphic-text-gap: 8;
+    -fx-border-color: rgba(255, 255, 255, 0.3);
+    -fx-border-radius: 20;
+    -fx-border-width: 1;
 }
 
 .nav-button:hover {
-    -fx-background-color: rgba(255, 255, 255, 0.3);
+    -fx-background-color: rgba(255, 255, 255, 0.15);
+    -fx-border-color: rgba(255, 255, 255, 0.5);
     -fx-effect: dropshadow(gaussian, rgba(255, 255, 255, 0.4), 5, 0, 0, 1);
 }
 
-/* Content area with increased transparency */
+/* Content area */
 .content-area-transparent {
     -fx-background-color: rgba(0, 0, 0, 0.4);
     -fx-background-radius: 10;
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 10, 0, 0, 2);
 }
 
-/* Section header - less opacity */
+/* Section header */
 .section-header-transparent {
     -fx-padding: 10;
     -fx-background-color: rgba(255, 255, 255, 0.08);
@@ -82,12 +92,15 @@
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 3, 0, 0, 1);
 }
 
-/* Search box with less opacity */
+/* Search box */
 .search-box-transparent {
-    -fx-background-color: rgba(255, 255, 255, 0.08);
+    -fx-background-color: transparent;
     -fx-background-radius: 20;
     -fx-padding: 5 10;
     -fx-spacing: 5;
+    -fx-border-color: rgba(255, 255, 255, 0.3);
+    -fx-border-radius: 20;
+    -fx-border-width: 1;
 }
 
 .search-field-transparent {
@@ -97,9 +110,9 @@
     -fx-min-width: 200;
 }
 
-/* Action button with enhanced design */
+/* Buttons */
 .action-button {
-    -fx-background-color: #4CAF50;
+    -fx-background-color: rgba(76, 175, 80, 0.7);
     -fx-text-fill: white;
     -fx-font-weight: bold;
     -fx-background-radius: 20;
@@ -109,16 +122,80 @@
 }
 
 .action-button:hover {
-    -fx-background-color: #5BBF5F;
+    -fx-background-color: rgba(91, 191, 95, 0.8);
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 8, 0, 0, 2);
 }
 
 .action-button:pressed {
-    -fx-background-color: #3E8E41;
+    -fx-background-color: rgba(62, 142, 65, 0.9);
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 3, 0, 0, 1);
 }
 
-/* Table styles - More transparent table against airplane background */
+/* STANDARDIZED BUTTON STYLES - Make all Modify buttons consistent */
+.modify-button {
+    -fx-background-color: rgba(76, 175, 80, 0.7);
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 20;
+    -fx-padding: 8 15;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 5, 0, 0, 1);
+}
+
+.modify-button:hover {
+    -fx-background-color: rgba(91, 191, 95, 0.8);
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 8, 0, 0, 2);
+}
+
+.modify-button:pressed {
+    -fx-background-color: rgba(62, 142, 65, 0.9);
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 3, 0, 0, 1);
+}
+
+.delete-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-background-radius: 20;
+    -fx-border-color: rgba(255, 69, 0, 0.5);
+    -fx-border-radius: 20;
+    -fx-border-width: 1;
+}
+
+.delete-button:hover {
+    -fx-background-color: rgba(255, 69, 0, 0.2);
+}
+
+.confirm-button {
+    -fx-background-color: #28a745;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 8px 15px;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 3, 0, 0, 2);
+}
+
+.confirm-button:hover {
+    -fx-background-color: #218838;
+}
+
+.confirm-button:pressed {
+    -fx-background-color: #1e7e34;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 1, 0, 0, 1);
+}
+
+/* QR Code button styling */
+.qr-btn {
+    -fx-background-color: #9b59b6;
+    -fx-text-fill: white;
+}
+
+.qr-btn:hover {
+    -fx-background-color: #8e44ad;
+}
+
+/* Table styles */
 .transparent-table {
     -fx-background-color: transparent;
     -fx-border-color: transparent;
@@ -160,6 +237,18 @@
     -fx-border-color: transparent;
 }
 
+.table-cell .button:nth-child(3) {
+    -fx-background-color: #28a745;
+    -fx-text-fill: white;
+    -fx-padding: 4px 8px;
+    -fx-border-radius: 3px;
+    -fx-background-radius: 3px;
+}
+
+.table-cell .button:nth-child(3):hover {
+    -fx-background-color: #218838;
+}
+
 /* Empty table placeholder */
 .empty-placeholder {
     -fx-background-color: transparent;
@@ -176,22 +265,26 @@
     -fx-text-fill: #cccccc;
 }
 
-/* Pagination styles - More subtle */
+/* Pagination styles */
 .pagination-container-transparent {
     -fx-padding: 10 0;
 }
 
 .pagination-btn-transparent {
-    -fx-background-color: rgba(255, 255, 255, 0.1);
+    -fx-background-color: transparent;
     -fx-background-radius: 20;
     -fx-text-fill: white;
     -fx-min-width: 30;
     -fx-min-height: 30;
     -fx-cursor: hand;
+    -fx-border-color: rgba(255, 255, 255, 0.3);
+    -fx-border-radius: 20;
+    -fx-border-width: 1;
 }
 
 .pagination-btn-transparent:hover {
-    -fx-background-color: rgba(255, 255, 255, 0.2);
+    -fx-background-color: rgba(255, 255, 255, 0.15);
+    -fx-border-color: rgba(255, 255, 255, 0.5);
 }
 
 .transparent-pagination {
@@ -200,13 +293,16 @@
 }
 
 .transparent-pagination .pagination-control .button {
-    -fx-background-color: rgba(255, 255, 255, 0.05);
+    -fx-background-color: transparent;
     -fx-background-radius: 20;
     -fx-text-fill: white;
+    -fx-border-color: rgba(255, 255, 255, 0.3);
+    -fx-border-radius: 20;
+    -fx-border-width: 1;
 }
 
 .transparent-pagination .pagination-control .button:hover {
-    -fx-background-color: rgba(255, 255, 255, 0.2);
+    -fx-background-color: rgba(255, 255, 255, 0.15);
 }
 
 .transparent-pagination .pagination-control .page-number {
@@ -217,122 +313,83 @@
 .transparent-pagination .pagination-control .page-number:selected {
     -fx-background-color: rgba(100, 150, 255, 0.3);
 }
-/* Navigation buttons - Completely transparent background */
-.nav-button {
-    -fx-background-color: transparent;
-    -fx-background-radius: 20;
+
+/* Footer */
+.footer-transparent {
+    -fx-background-color: rgba(0, 0, 0, 0.5);
+    -fx-background-radius: 0 0 10 10;
+    -fx-padding: 10;
+}
+
+.footer-text-light {
+    -fx-fill: #cccccc;
+    -fx-font-size: 12px;
+}
+
+/* Toast notifications */
+.toast {
+    -fx-background-color: rgba(60, 60, 60, 0.8);
+    -fx-background-radius: 5;
+    -fx-padding: 10 20;
+}
+
+.toast-text {
     -fx-text-fill: white;
-    -fx-padding: 8 15;
-    -fx-cursor: hand;
-    -fx-graphic-text-gap: 8;
-    -fx-border-color: rgba(255, 255, 255, 0.3);
-    -fx-border-radius: 20;
-    -fx-border-width: 1;
+    -fx-font-size: 14;
 }
 
-.nav-button:hover {
-    -fx-background-color: rgba(255, 255, 255, 0.15);
-    -fx-border-color: rgba(255, 255, 255, 0.5);
-    -fx-effect: dropshadow(gaussian, rgba(255, 255, 255, 0.4), 5, 0, 0, 1);
+.toast-info {
+    -fx-border-color: #4285f4;
+    -fx-border-width: 0 0 0 5;
+    -fx-border-radius: 5;
 }
 
-/* Search box - Completely transparent */
-.search-box-transparent {
-    -fx-background-color: transparent;
-    -fx-background-radius: 20;
-    -fx-padding: 5 10;
-    -fx-spacing: 5;
-    -fx-border-color: rgba(255, 255, 255, 0.3);
-    -fx-border-radius: 20;
-    -fx-border-width: 1;
+.toast-success {
+    -fx-background-color: rgba(76, 175, 80, 0.9);
 }
 
-.search-field-transparent {
-    -fx-background-color: transparent;
-    -fx-text-fill: white;
-    -fx-prompt-text-fill: #aaaaaa;
-    -fx-min-width: 200;
+.toast-error {
+    -fx-background-color: rgba(244, 67, 54, 0.9);
 }
 
-/* Action buttons with transparent backgrounds */
-.action-button {
-    -fx-background-color: rgba(76, 175, 80, 0.7);
-    -fx-text-fill: white;
+.toast-warning {
+    -fx-background-color: rgba(255, 152, 0, 0.9);
+}
+
+/* Dialog styles */
+.dialog-pane {
+    -fx-background-color: rgba(40, 40, 40, 0.9);
+    -fx-background-radius: 10;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 10, 0, 0, 2);
+}
+
+.dialog-title {
+    -fx-font-size: 18px;
     -fx-font-weight: bold;
+    -fx-text-fill: white;
+}
+
+.dialog-content {
+    -fx-padding: 20;
+}
+
+.dialog-button {
     -fx-background-radius: 20;
     -fx-padding: 8 15;
     -fx-cursor: hand;
-    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 5, 0, 0, 1);
 }
 
-.action-button:hover {
-    -fx-background-color: rgba(91, 191, 95, 0.8);
-    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 8, 0, 0, 2);
-}
-
-.action-button:pressed {
-    -fx-background-color: rgba(62, 142, 65, 0.9);
-    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 3, 0, 0, 1);
-}
-
-/* Modify button */
-.modify-button {
-    -fx-background-color: transparent;
+.dialog-confirm {
+    -fx-background-color: #4CAF50;
     -fx-text-fill: white;
-    -fx-background-radius: 20;
-    -fx-border-color: rgba(138, 43, 226, 0.5);
-    -fx-border-radius: 20;
-    -fx-border-width: 1;
 }
 
-.modify-button:hover {
-    -fx-background-color: rgba(138, 43, 226, 0.2);
-}
-
-/* Delete button */
-.delete-button {
-    -fx-background-color: transparent;
+.dialog-cancel {
+    -fx-background-color: #f44336;
     -fx-text-fill: white;
-    -fx-background-radius: 20;
-    -fx-border-color: rgba(255, 69, 0, 0.5);
-    -fx-border-radius: 20;
-    -fx-border-width: 1;
 }
 
-.delete-button:hover {
-    -fx-background-color: rgba(255, 69, 0, 0.2);
-}
-
-/* Pagination buttons - Make completely transparent */
-.pagination-btn-transparent {
-    -fx-background-color: transparent;
-    -fx-background-radius: 20;
-    -fx-text-fill: white;
-    -fx-min-width: 30;
-    -fx-min-height: 30;
-    -fx-cursor: hand;
-    -fx-border-color: rgba(255, 255, 255, 0.3);
-    -fx-border-radius: 20;
-    -fx-border-width: 1;
-}
-
-.pagination-btn-transparent:hover {
-    -fx-background-color: rgba(255, 255, 255, 0.15);
-    -fx-border-color: rgba(255, 255, 255, 0.5);
-}
-
-.transparent-pagination .pagination-control .button {
-    -fx-background-color: transparent;
-    -fx-background-radius: 20;
-    -fx-text-fill: white;
-    -fx-border-color: rgba(255, 255, 255, 0.3);
-    -fx-border-radius: 20;
-    -fx-border-width: 1;
-}
-
-.transparent-pagination .pagination-control .button:hover {
-    -fx-background-color: rgba(255, 255, 255, 0.15);
-}
+/* KPI Cards and Dashboard */
 .kpi-card-transparent {
     -fx-background-color: rgba(255, 255, 255, 0.5);
     -fx-background-radius: 8;
@@ -353,6 +410,7 @@
     -fx-fill: #0066cc;
 }
 
+/* Tab pane */
 .transparent-tab-pane {
     -fx-background-color: transparent;
 }
@@ -369,34 +427,106 @@
     -fx-background-color: rgba(255, 255, 255, 0.8);
 }
 
+/* Chart container */
 .chart-box {
     -fx-background-color: rgba(255, 255, 255, 0.7);
     -fx-background-radius: 8;
     -fx-padding: 10;
 }
 
-.toast {
-    -fx-background-color: rgba(60, 60, 60, 0.8);
+/* Hotel details styles */
+.hotel-name {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2c3e50;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 4, 0, 0, 1);
+    -fx-padding: 5 0 0 0;
+}
+
+.hotel-address {
+    -fx-font-size: 16px;
+    -fx-text-fill: #7f8c8d;
+    -fx-font-style: italic;
+    -fx-padding: 0 0 5 0;
+}
+
+.hotel-price {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #27ae60;
+    -fx-background-color: #e8f5e9;
     -fx-background-radius: 5;
-    -fx-padding: 10 20;
+    -fx-padding: 5 10 5 10;
 }
 
-.toast-info {
-    -fx-border-color: #4285f4;
-    -fx-border-width: 0 0 0 5;
-    -fx-border-radius: 5;
+.hotel-standing {
+    -fx-font-size: 16px;
+    -fx-text-fill: #f39c12;
+    -fx-background-color: #fff8e1;
+    -fx-background-radius: 5;
+    -fx-padding: 5 10 5 10;
 }
 
-.toast-text {
-    -fx-text-fill: white;
-    -fx-font-size: 14;
-}
-/* QR Code button styling */
-.qr-btn {
-    -fx-background-color: #9b59b6;
-    -fx-text-fill: white;
+.section-title {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #34495e;
+    -fx-padding: 10 0 5 0;
+    -fx-border-color: transparent transparent #bdc3c7 transparent;
+    -fx-border-width: 0 0 1 0;
 }
 
-.qr-btn:hover {
-    -fx-background-color: #8e44ad;
+/* Map container */
+.map-container {
+    -fx-background-color: white;
+    -fx-border-color: #3498db;
+    -fx-border-width: 2px;
+    -fx-border-radius: 5px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 10, 0, 0, 0);
+}
+
+.map-container .viewport {
+    -fx-background-color: white;
+}
+
+.map-container:hover {
+    -fx-border-color: #2980b9;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.5), 12, 0, 0, 0);
+}
+
+/* Leaflet controls for maps */
+.leaflet-control-zoom {
+    -fx-background-color: white;
+    -fx-border-color: #ccc;
+    -fx-border-radius: 5px;
+}
+
+.leaflet-control-zoom a {
+    -fx-text-fill: #333;
+    -fx-font-weight: bold;
+}
+
+/* Hotel image view */
+#hotelImageView {
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.4), 8, 0, 0, 0);
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+}
+
+/* Map placeholder */
+#mapPlaceholderLabel {
+    -fx-font-size: 14px;
+    -fx-text-fill: #7f8c8d;
+    -fx-alignment: center;
+    -fx-text-alignment: center;
+    -fx-wrap-text: true;
+    -fx-padding: 20;
+}
+
+/* Hover animations */
+.button:hover, .hyperlink:hover {
+    -fx-cursor: hand;
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+    -fx-transition: all 0.1s ease-in-out;
 }

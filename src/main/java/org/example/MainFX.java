@@ -26,8 +26,8 @@ public class MainFX extends Application {
             throw new RuntimeException(e);
         }
 
-    }*/
-
+    }
+*/
 @Override
 public void start(Stage primaryStage) {
     try {
@@ -41,18 +41,21 @@ public void start(Stage primaryStage) {
         e.printStackTrace();
     }
 
-}/*
+}
+/*
     @Override
     public void start(Stage primaryStage) {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/afficherreshotel.fxml"));
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/AfficherTransport.fxml"));
-            Parent root = loader.load();
-            Scene scene = new Scene(root);
+            Parent parent = loader.load();
+            Scene scene = new Scene(parent);
             primaryStage.setScene(scene);
-            primaryStage.setTitle("Liste des trajets");
+            primaryStage.setTitle("Afficher Une Reservation Hotel");
             primaryStage.show();
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
+
     }*/
+
 }

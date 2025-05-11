@@ -63,6 +63,14 @@
                          style="-fx-background-radius: 5;"
                          prefWidth="100" />
             </HBox>
+
+            <!-- Notifications -->
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Label text="Notifications:" style="-fx-font-size: 14px; -fx-min-width: 120;" alignment="CENTER_RIGHT" />
+                <CheckBox fx:id="enableNotificationsCheckbox" text="Activer les notifications vocales"
+                          selected="true"
+                          style="-fx-font-size: 14px;" />
+            </HBox>
         </VBox>
     </center>
 
