@@ -19,6 +19,7 @@ import models.Restaurant;
 import services.MenuService;
 
 import java.io.IOException;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -77,6 +78,8 @@ public class AfficherMenu {
     private void loadMenus() {
         try {
             List<Menu> menus = menuService.getAll();
+            // Tri automatique par prix croissant
+            menus.sort(Comparator.comparingDouble(Menu::getPrix));
             allMenus.setAll(menus);
             tableMenus.setItems(allMenus);
         } catch (Exception e) {

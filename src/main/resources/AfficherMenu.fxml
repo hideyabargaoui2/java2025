@@ -132,9 +132,10 @@
                 <!-- Pagination -->
                 <HBox alignment="CENTER" spacing="10" styleClass="pagination-container-transparent">
                     <Button styleClass="pagination-btn-transparent" text="&lt;" />
-                    <Pagination maxPageIndicatorCount="5" pageCount="10" styleClass="transparent-pagination" />
+                    <Pagination fx:id="pagination" maxPageIndicatorCount="5" pageCount="10" styleClass="transparent-pagination" />
                     <Button styleClass="pagination-btn-transparent" text="&gt;" />
                 </HBox>
+
             </VBox>
         </center>
 

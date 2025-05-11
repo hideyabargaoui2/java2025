@@ -43,11 +43,26 @@
             <artifactId>javafx-web</artifactId>
             <version>${javafx.version}</version>
         </dependency>
+
+        <!-- JSON Dependency -->
         <dependency>
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
             <version>20210307</version>
         </dependency>
+
+        <!-- Unirest for HTTP Requests -->
+        <dependency>
+            <groupId>com.konghq</groupId>
+            <artifactId>unirest-java</artifactId>
+            <version>3.11.11</version>
+        </dependency>
+        <dependency>
+            <groupId>com.squareup.okhttp3</groupId>
+            <artifactId>okhttp</artifactId>
+            <version>4.12.0</version>
+        </dependency>
+
 
         <!-- JDBC (standard Java library, should already be included by default) -->
         <!-- <dependency>
