@@ -184,17 +184,14 @@ public class AfficherRestaurant implements Initializable {
             Parent root = loader.load();
             UpdateRestaurant controller = loader.getController();
             controller.setRestaurant(restaurant);
-
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.showAndWait();
-
             afficherRestaurants();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
     private void supprimerRestaurant(Restaurant restaurant) {
         service.supprimer(restaurant.getId());
         afficherRestaurants();

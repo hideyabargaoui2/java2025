@@ -105,7 +105,12 @@ public class RestaurantServices {
         }
 
         return restaurants;
+
     }
+    public List<Restaurant> recuperer() {
+        return afficher();
+    }
+
 
 
 

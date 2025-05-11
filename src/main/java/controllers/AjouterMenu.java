@@ -1,25 +1,26 @@
 package controllers;
 
-import javafx.animation.FadeTransition;
-import javafx.animation.ScaleTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 import models.Menu;
 import models.Restaurant;
+import okhttp3.*;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import services.MenuService;
 import services.RestaurantServices;
 
 import java.io.IOException;
-import java.util.List;
+import java.net.URL;
+import java.util.*;
 
-public class AjouterMenu {
+public class AjouterMenu implements Initializable {
+
     @FXML
     private TextField TFname;
     @FXML
@@ -31,113 +32,165 @@ public class AjouterMenu {
     @FXML
     private Button addrmenu;
     @FXML
+    private Button addresto;
+    @FXML
     private Button afficherMenus;
     @FXML
-    private Button addresto;
+    private Button suggestButton;
+    @FXML
+    private Button genererIA;
 
     private final MenuService menuService = new MenuService();
     private final RestaurantServices restaurantServices = new RestaurantServices();
 
+    // Clé API (remplacer par votre propre clé API après l'avoir sécurisée)
+    private static final String GEMINI_API_KEY = "AIzaSyCn36S-Jz699VBEGxKGitXS9r53Qy2OGxI";
+    private static final String GEMINI_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=" + GEMINI_API_KEY;
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        List<Restaurant> restaurants = restaurantServices.recuperer();
+        TFnomresto.getItems().addAll(restaurants);
+
+        TFnomresto.setCellFactory(param -> new ListCell<>() {
+            @Override
+            protected void updateItem(Restaurant item, boolean empty) {
+                super.updateItem(item, empty);
+                setText(empty || item == null ? null : item.getNom());
+            }
+        });
+
+        TFnomresto.setButtonCell(new ListCell<>() {
+            @Override
+            protected void updateItem(Restaurant item, boolean empty) {
+                super.updateItem(item, empty);
+                setText(empty || item == null ? null : item.getNom());
+            }
+        });
+
+        TFnomresto.getSelectionModel().selectedItemProperty().addListener((obs, ancien, nouveau) -> {
+            if (nouveau != null) {
+                String suggestion = suggérerPlat(nouveau.getAdresse());
+                TFname.setText(suggestion);
+            }
+        });
+    }
+
+    private String suggérerPlat(String adresse) {
+        adresse = adresse.toLowerCase();
+
+        Map<String, String> platsParAdresse = Map.ofEntries(
+                Map.entry("italie", "Pizza Margherita"),
+                Map.entry("rome", "Pizza Margherita"),
+                Map.entry("milano", "Pizza Margherita"),
+                Map.entry("japon", "Sushi"),
+                Map.entry("tokyo", "Sushi"),
+                Map.entry("france", "Boeuf Bourguignon"),
+                Map.entry("paris", "Boeuf Bourguignon"),
+                Map.entry("ariena", "Couscous"),
+                Map.entry("casablanca", "Couscous")
+        );
+
+        for (Map.Entry<String, String> entry : platsParAdresse.entrySet()) {
+            if (adresse.contains(entry.getKey())) {
+                return entry.getValue();
+            }
+        }
+
+        return "Plat du jour";
+    }
+
     @FXML
-    void addresto(ActionEvent event) {
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource("/AjouterRestaurant.fxml"));
-            TFname.getScene().setRoot(root);
+    private void suggérerNom(ActionEvent event) {
+        Restaurant restaurant = TFnomresto.getValue();
+        if (restaurant != null) {
+            String suggestion = suggérerPlat(restaurant.getAdresse());
+            TFname.setText(suggestion);
+        } else {
+            TFname.clear();
+            showAlert("Veuillez d'abord sélectionner un restaurant !");
+        }
+    }
+
+    @FXML
+    private void genererDescriptionIA(ActionEvent event) {
+        String nomPlat = TFname.getText().trim();
+        if (nomPlat.isEmpty()) {
+            showAlert("Veuillez d'abord saisir un nom de plat !");
+            return;
+        }
+
+        String description = genererDescriptionAvecGemini(nomPlat);
+        TFdesc.setText(description);
+    }
+
+    private String genererDescriptionAvecGemini(String nomPlat) {
+        OkHttpClient client = new OkHttpClient();
+
+        String json = "{\n" +
+                "  \"contents\": [\n" +
+                "    {\n" +
+                "      \"parts\": [\n" +
+                "        { \"text\": \"Rédige une courte description appétissante pour le plat suivant : " + nomPlat + "\" }\n" +
+                "      ]\n" +
+                "    }\n" +
+                "  ]\n" +
+                "}";
+
+        RequestBody body = RequestBody.create(json, MediaType.parse("application/json"));
+
+        Request request = new Request.Builder()
+                .url(GEMINI_URL)
+                .post(body)
+                .build();
+
+        try (Response response = client.newCall(request).execute()) {
+            if (response.isSuccessful() && response.body() != null) {
+                String responseBody = response.body().string();
+                JSONObject jsonResponse = new JSONObject(responseBody);
+                JSONArray candidates = jsonResponse.getJSONArray("candidates");
+                JSONObject content = candidates.getJSONObject(0).getJSONObject("content");
+                JSONArray parts = content.getJSONArray("parts");
+                return parts.getJSONObject(0).getString("text");
+            } else {
+                System.err.println("Erreur Gemini : " + response.code());
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return "Description non disponible pour le moment.";
     }
+    private void clearFields() {
+        TFname.clear();
+        TFdesc.clear();
+        TFprix.clear();
 
-    @FXML
-    private AnchorPane rootPane;
-
-    @FXML
-    public void initialize() {
-        try {
-            List<Restaurant> restaurants = restaurantServices.getAll();
-            TFnomresto.getItems().addAll(restaurants);
-
-            TFnomresto.setCellFactory(param -> new ListCell<Restaurant>() {
-                @Override
-                protected void updateItem(Restaurant item, boolean empty) {
-                    super.updateItem(item, empty);
-                    setText((item == null || empty) ? null : item.getNom());
-                }
-            });
-
-            TFnomresto.setButtonCell(new ListCell<Restaurant>() {
-                @Override
-                protected void updateItem(Restaurant item, boolean empty) {
-                    super.updateItem(item, empty);
-                    setText((item == null || empty) ? null : item.getNom());
-                }
-            });
-        } catch (Exception e) {
-            System.out.println("Erreur lors du chargement des restaurants : " + e.getMessage());
-        }
-
-        // Animation fade + scale
-        FadeTransition fade = new FadeTransition(Duration.seconds(1), rootPane);
-        fade.setFromValue(0);
-        fade.setToValue(1);
-        fade.play();
-
-        ScaleTransition scale = new ScaleTransition(Duration.seconds(0.8), rootPane);
-        scale.setFromX(0.9);
-        scale.setFromY(0.9);
-        scale.setToX(1.0);
-        scale.setToY(1.0);
-        scale.play();
     }
-
     @FXML
-    private void ajouter() {
-        if (TFname.getText().trim().isEmpty()) {
-            showAlert(Alert.AlertType.WARNING, "Attention", "Nom du plat est obligatoire !");
-            return;
-        }
-        if (TFprix.getText().trim().isEmpty()) {
-            showAlert(Alert.AlertType.WARNING, "Attention", "Prix du plat est obligatoire !");
-            return;
-        }
-        if (TFdesc.getText().trim().isEmpty()) {
-            showAlert(Alert.AlertType.WARNING, "Attention", "Description du plat est obligatoire !");
+    private void ajouter(ActionEvent event) {
+        String nomPlat = TFname.getText();
+        String prixText = TFprix.getText();
+        String description = TFdesc.getText();
+        Restaurant restaurant = TFnomresto.getValue();
+
+        if (nomPlat.isEmpty() || prixText.isEmpty() || description.isEmpty() || restaurant == null) {
+            showAlert("Veuillez remplir tous les champs !");
             return;
         }
 
-
-        Restaurant selectedRestaurant = TFnomresto.getSelectionModel().getSelectedItem();
-        if (selectedRestaurant == null) {
-            showAlert(Alert.AlertType.WARNING, "Attention", "Veuillez sélectionner un restaurant !");
-            return;
-        }
-
-
-        Menu menu = new Menu();
-        menu.setName(TFname.getText());
+        double prix;
         try {
-            int prix = Integer.parseInt(TFprix.getText());
-            menu.setPrix(prix);
+            prix = Double.parseDouble(prixText);
         } catch (NumberFormatException e) {
-            showAlert(Alert.AlertType.WARNING, "Attention", "Prix doit être un nombre valide !");
+            showAlert("Le prix doit être un nombre valide !");
             return;
         }
-        menu.setDescription(TFdesc.getText());
-        menu.setRestaurant(selectedRestaurant);
 
-        try {
-            menuService.add(menu);
-            showAlert(Alert.AlertType.INFORMATION, "Succès", "Menu ajouté avec succès !");
-        } catch (Exception e) {
-            showAlert(Alert.AlertType.ERROR, "Erreur", "Erreur lors de l'ajout du menu : " + e.getMessage());
-        }
-    }
-
-    private void showAlert(Alert.AlertType alertType, String title, String message) {
-        Alert alert = new Alert(alertType);
-        alert.setTitle(title);
-        alert.setContentText(message);
-        alert.showAndWait();
+        Menu menu = new Menu(restaurant, nomPlat, (int) prix, description);
+        menuService.add(menu);
+        showAlert("Menu ajouté avec succès !");
+        //fermerFenetre();
+        clearFields();
     }
 
     @FXML
@@ -149,4 +202,27 @@ public class AjouterMenu {
             e.printStackTrace();
         }
     }
+
+    @FXML
+    void addresto(ActionEvent event) {
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/AjouterRestaurant.fxml"));
+            TFname.getScene().setRoot(root);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void showAlert(String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Information");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
+   /* private void fermerFenetre() {
+        Stage stage = (Stage) TFprix.getScene().getWindow();
+        stage.close();
+    }*/
 }

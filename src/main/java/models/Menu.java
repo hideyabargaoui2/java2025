@@ -3,11 +3,18 @@ package models;
 public class Menu {
     private int id;
     private String name;
-    private int prix;  // Prix modifié pour être de type int
+    private int prix;
     private String description;
-    private Restaurant restaurant; // Association avec Restaurant
+    private Restaurant restaurant;
 
     public Menu() {
+    }
+
+    public Menu(Restaurant restaurant, String name, int prix, String description) {
+        this.restaurant = restaurant;
+        this.name = name;
+        this.prix = prix;
+        this.description = description;
     }
 
     public Menu(int id, String name, int prix, String description, Restaurant restaurant) {
@@ -18,7 +25,6 @@ public class Menu {
         this.restaurant = restaurant;
     }
 
-    // + Getter & Setter pour restaurant
     public Restaurant getRestaurant() {
         return restaurant;
     }
@@ -27,7 +33,6 @@ public class Menu {
         this.restaurant = restaurant;
     }
 
-    // Getters et Setters existants
     public int getId() {
         return id;
     }
@@ -52,7 +57,6 @@ public class Menu {
         this.prix = prix;
     }
 
-
     public String getDescription() {
         return description;
     }
@@ -66,7 +70,7 @@ public class Menu {
         return "Menu{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", prix=" + prix +  // Affichage du prix en tant qu'int
+                ", prix=" + prix +
                 ", description='" + description + '\'' +
                 ", restaurant=" + (restaurant != null ? restaurant.getNom() : "null") +
                 '}';

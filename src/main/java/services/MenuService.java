@@ -36,7 +36,7 @@ public class MenuService {
         try (PreparedStatement pstmt = cnx.prepareStatement(sql)) {
             pstmt.setString(1, menu.getName());
             pstmt.setString(2, menu.getDescription());
-            pstmt.setDouble(3, menu.getPrix());
+            pstmt.setInt(3, menu.getPrix());
             pstmt.setInt(4, menu.getRestaurant().getId());
             pstmt.setInt(5, menu.getId());
             pstmt.executeUpdate();
@@ -56,6 +56,13 @@ public class MenuService {
                     restaurant = new Restaurant();
                     restaurant.setId(rs.getInt("id"));
                     restaurant.setNom(rs.getString("nom"));
+                    restaurant.setAdresse(rs.getString("adresse"));
+                    restaurant.setType(rs.getString("type"));
+                    restaurant.setHeure_ouv(rs.getTime("heure_ouv"));
+                    restaurant.setHeure_ferm(rs.getTime("heure_ferm"));
+                    restaurant.setClassement(rs.getInt("classement"));
+                    restaurant.setLatitude(rs.getDouble("latitude"));
+                    restaurant.setLongitude(rs.getDouble("longitude"));
                 }
             }
         } catch (SQLException e) {
@@ -71,15 +78,17 @@ public class MenuService {
         try (Statement stmt = cnx.createStatement();
              ResultSet rs = stmt.executeQuery(query)) {
             while (rs.next()) {
-                Menu menu = new Menu();
-                menu.setId(rs.getInt("id"));
-                menu.setName(rs.getString("nom"));
-                menu.setPrix(rs.getInt("prix"));
-                menu.setDescription(rs.getString("description"));
-
+                int id = rs.getInt("id");
+                String name = rs.getString("nom");
+                int prix = rs.getInt("prix");
+                String description = rs.getString("description");
                 int restaurantId = rs.getInt("restaurant_id");
+
                 Restaurant restaurant = getRestaurantById(restaurantId);
-                menu.setRestaurant(restaurant);
+
+                // Correction ici : instantiation du Menu avec les bonnes valeurs
+                Menu menu = new Menu(restaurant, name, prix, description);
+                menu.setId(id);
 
                 menus.add(menu);
             }
