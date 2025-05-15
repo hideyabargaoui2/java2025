@@ -47,6 +47,7 @@ public class AjouterRestaurant {
             service.add(r);
             showAlert(Alert.AlertType.INFORMATION, "Succès", "Restaurant ajouté avec succès.");
             clearFields();
+
         } catch (NumberFormatException e) {
             showAlert(Alert.AlertType.ERROR, "Erreur de saisie", "Le classement doit être un entier.");
         } catch (Exception e) {

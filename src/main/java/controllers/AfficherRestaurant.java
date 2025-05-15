@@ -42,6 +42,11 @@ public class AfficherRestaurant implements Initializable {
     private TextField searchField;
     @FXML
     private Pagination pagination;
+    @FXML
+    private TextField prixmax;
+
+    @FXML
+    private TextField prixmin;
 
     private final RestaurantServices service = new RestaurantServices();
     private final ObservableList<Restaurant> masterData = FXCollections.observableArrayList();
@@ -84,7 +89,7 @@ public class AfficherRestaurant implements Initializable {
             private final Button btn = new Button("Supprimer");
 
             {
-                btn.setStyle("-fx-background-color: #f44336; -fx-text-fill: white;");
+                btn.setStyle("-fx-background-color: #3E8E41; -fx-text-fill: white;");
                 btn.setOnAction(event -> {
                     Restaurant r = getTableView().getItems().get(getIndex());
                     supprimerRestaurant(r);
@@ -102,7 +107,7 @@ public class AfficherRestaurant implements Initializable {
             private final Button btn = new Button("📍");
 
             {
-                btn.setStyle("-fx-background-color: #3498db; -fx-text-fill: white;");
+                btn.setStyle("-fx-background-color: #3E8E41; -fx-text-fill: white;");
                 btn.setOnAction(event -> {
                     Restaurant r = getTableView().getItems().get(getIndex());
                     String adresse = r.getAdresse();
